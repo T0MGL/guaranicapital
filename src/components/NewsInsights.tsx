@@ -1,0 +1,208 @@
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+
+const newsArticles = [
+  {
+    description: 'Standard & Poor\'s otorga a Paraguay su segundo Grado de Inversión, elevando la calificación a BBB- por su credibilidad monetaria y control de inflación.',
+    url: 'https://www.forbes.com.py/macroeconomia/paraguay-logra-su-segundo-grado-inversion-n83509',
+    image: 'https://statics.forbes.com.py/2025/12/crop/694317fc3b312__980x549.webp',
+  },
+  {
+    description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5-8%, proyectando US$ 1.900 millones en transacciones para 2025.',
+    url: 'https://www.forbes.com.py/macroeconomia/paraguay-plena-construccion-real-estate-ha-convertido-nueva-fuerza-economica-pais-n82470',
+    image: 'https://statics.forbes.com.py/2025/11/crop/69285acb7a69c__1366x766.webp',
+  },
+  {
+    description: 'The rise of foreigners in Paraguay: what real estate solutions are they seeking? Investment opportunities in premium furnished apartments.',
+    url: 'https://www.elinmobiliario.com.py/en/post/the-rise-of-foreigners-in-paraguay-what-real-estate-solutions-are-they-seeking',
+    image: 'https://static.wixstatic.com/media/66d91e_fc73fb6e59564b66b328f767b187f49c~mv2.jpg/v1/fill/w_970,h_646,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/66d91e_fc73fb6e59564b66b328f767b187f49c~mv2.jpg',
+  },
+];
+
+export const NewsInsights = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+  return (
+    <section id="news" className="news-insights">
+      <div className="news-container">
+        <motion.div
+          ref={ref}
+          className="news-header"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="section-label">Noticias del Mercado</div>
+          <h2 className="section-title">
+            Paraguay: El momento es ahora
+          </h2>
+        </motion.div>
+
+        <div className="news-articles">
+          {newsArticles.map((article, index) => (
+            <ArticleEmbed key={index} article={article} index={index} isInView={isInView} />
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        .news-insights {
+          padding: var(--space-3xl) var(--space-lg);
+          background: var(--color-base-white);
+        }
+
+        .news-container {
+          max-width: 1600px;
+          margin: 0 auto;
+        }
+
+        .news-header {
+          text-align: center;
+          max-width: 800px;
+          margin: 0 auto var(--space-2xl);
+        }
+
+        .news-articles {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: var(--space-lg);
+        }
+
+        @media (max-width: 1200px) {
+          .news-articles {
+            grid-template-columns: 1fr;
+            gap: var(--space-2xl);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .news-insights {
+            padding: var(--space-2xl) var(--space-md);
+          }
+
+          .news-header {
+            margin-bottom: var(--space-xl);
+          }
+        }
+      `}</style>
+    </section>
+  );
+};
+
+const ArticleEmbed = ({
+  article,
+  index,
+  isInView,
+}: {
+  article: typeof newsArticles[0];
+  index: number;
+  isInView: boolean;
+}) => {
+  return (
+    <motion.a
+      href={article.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="article-card"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.1,
+      }}
+    >
+      <div className="article-image">
+        <img src={article.image} alt="Article preview" />
+      </div>
+      <div className="card-content">
+        <p className="article-description">{article.description}</p>
+        <div className="read-more">
+          Leer artículo completo
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M7.5 5L12.5 10L7.5 15"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <style>{`
+        .article-card {
+          display: flex;
+          flex-direction: column;
+          background: var(--color-surface);
+          border: 2px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          text-decoration: none;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          cursor: pointer;
+          overflow: hidden;
+        }
+
+        .article-card:hover {
+          border-color: var(--color-primary);
+          box-shadow: var(--shadow-md);
+        }
+
+        .article-image {
+          width: 100%;
+          height: 200px;
+          overflow: hidden;
+          background: var(--color-gray-50);
+        }
+
+        .article-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .card-content {
+          display: flex;
+          flex-direction: column;
+          padding: var(--space-xl);
+          flex: 1;
+        }
+
+        .article-description {
+          font-size: 1rem;
+          line-height: 1.6;
+          color: var(--color-text-secondary);
+          margin-bottom: auto;
+          flex: 1;
+        }
+
+        .read-more {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-sm);
+          margin-top: var(--space-lg);
+          padding-top: var(--space-md);
+          font-size: 0.9375rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          border-top: 1px solid var(--color-border);
+        }
+
+        @media (max-width: 768px) {
+          .article-image {
+            height: 180px;
+          }
+
+          .card-content {
+            padding: var(--space-lg);
+          }
+
+          .article-description {
+            font-size: 0.9375rem;
+          }
+        }
+      `}</style>
+    </motion.a>
+  );
+};
