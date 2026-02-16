@@ -425,7 +425,12 @@ export const FormStep = ({
 
         @media (max-width: 768px) {
           .form-step {
-            padding: var(--space-lg) var(--space-md);
+            padding: var(--space-xl) var(--space-md);
+            min-height: auto; /* Remove fixed height on mobile */
+          }
+
+          .step-content {
+            padding: var(--space-md) 0;
           }
 
           .step-question {
@@ -438,11 +443,36 @@ export const FormStep = ({
 
           .form-input,
           .form-select {
-            font-size: 1rem;
+            font-size: 16px; /* Prevents zoom on iOS */
+            padding: var(--space-md);
+            min-height: 48px; /* Better touch target */
           }
 
           .choice-button {
             font-size: 1rem;
+            padding: var(--space-md) var(--space-lg);
+            min-height: 56px; /* Better touch target */
+          }
+
+          .button-back,
+          .button-next {
+            min-height: 48px;
+            padding: var(--space-md) var(--space-lg);
+          }
+
+          .step-hint {
+            display: none; /* Hide keyboard hint on mobile */
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .form-step {
+            padding: var(--space-md) var(--space-sm);
+          }
+
+          .step-question {
+            font-size: 1.5rem;
           }
         }
       `}</style>

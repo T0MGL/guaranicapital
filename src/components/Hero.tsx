@@ -41,7 +41,7 @@ export const Hero = () => {
           muted
           loop
           playsInline
-          poster=""
+          poster="https://images.pexels.com/videos/11554614/pexels-photo-11554614.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=720&w=1280"
         >
           <source
             src="https://videos.pexels.com/video-files/11554614/11554614-hd_1280_720_24fps.mp4"
@@ -72,7 +72,7 @@ export const Hero = () => {
           >
             {t.hero.title.line1}
             <br />
-            <span className="title-light">{t.hero.title.line2}</span>
+            <span className="title-light shimmer-text">{t.hero.title.line2}</span>
             <br />
             {t.hero.title.line3}
           </motion.h1>
@@ -371,6 +371,14 @@ export const Hero = () => {
         }
 
         @media (max-width: 768px) {
+          .hero {
+            min-height: 100svh; /* Use svh for better mobile support */
+          }
+
+          .hero-container {
+            padding: 0 var(--space-md);
+          }
+
           .hero-eyebrow {
             font-size: 0.7rem;
             gap: 0.6rem;
@@ -398,6 +406,7 @@ export const Hero = () => {
 
           .hero-cta {
             flex-direction: column;
+            gap: 0.75rem;
             margin-bottom: 2.5rem;
           }
 
@@ -405,6 +414,8 @@ export const Hero = () => {
           .cta-ghost {
             width: 100%;
             justify-content: center;
+            min-height: 48px; /* Better touch target */
+            padding: 1rem 2rem;
           }
 
           .hero-stats {
@@ -417,11 +428,43 @@ export const Hero = () => {
           }
 
           .stat-label {
-            font-size: 0.65rem;
+            font-size: 0.7rem; /* Increased from 0.65rem for better readability */
           }
 
           .stat-divider {
             height: 28px;
+          }
+
+          .scroll-indicator {
+            bottom: 1.5rem;
+          }
+        }
+
+        /* Extra small devices (320px - 375px) */
+        @media (max-width: 375px) {
+          .hero-container {
+            padding: 0 var(--space-sm);
+          }
+
+          .hero-title {
+            font-size: 1.75rem;
+          }
+
+          .hero-subtitle {
+            font-size: 0.875rem;
+          }
+
+          .hero-stats {
+            gap: 0.75rem;
+            flex-wrap: wrap;
+          }
+
+          .stat-item {
+            flex: 0 0 auto;
+          }
+
+          .stat-number {
+            font-size: 1.1rem;
           }
         }
       `}</style>

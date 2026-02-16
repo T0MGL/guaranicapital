@@ -338,6 +338,29 @@ export const Navbar = () => {
           .logo-accent {
             font-size: 1.25rem;
           }
+
+          .mobile-menu-toggle {
+            padding: 0.75rem; /* Larger touch target */
+            min-width: 48px;
+            min-height: 48px;
+          }
+
+          .mobile-nav-link {
+            padding: var(--space-lg);
+            font-size: 1.0625rem;
+            min-height: 56px; /* Better touch target */
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .navbar-container {
+            padding: 0.4rem var(--space-sm);
+          }
+
+          .navbar.scrolled .navbar-container {
+            padding: 0.25rem var(--space-sm);
+          }
         }
       `}</style>
     </motion.nav>

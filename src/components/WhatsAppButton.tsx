@@ -88,7 +88,7 @@ export const WhatsAppButton = () => {
         @media (max-width: 768px) {
           .whatsapp-button {
             bottom: var(--space-lg);
-            right: var(--space-lg);
+            right: var(--space-md);
             width: 56px;
             height: 56px;
           }
@@ -96,6 +96,21 @@ export const WhatsAppButton = () => {
           .whatsapp-button svg {
             width: 28px;
             height: 28px;
+          }
+        }
+
+        /* Extra small devices - adjust position to avoid overlap */
+        @media (max-width: 375px) {
+          .whatsapp-button {
+            bottom: var(--space-md);
+            right: var(--space-sm);
+            width: 52px;
+            height: 52px;
+          }
+
+          .whatsapp-button svg {
+            width: 26px;
+            height: 26px;
           }
         }
       `}</style>

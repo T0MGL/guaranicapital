@@ -215,7 +215,7 @@ export const GuaraniForm = () => {
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
                 <h1 className="selection-title">
-                  Schedule a free consultation
+                  <span className="shimmer-text">Schedule a free consultation</span>
                 </h1>
                 <p className="selection-subtitle">
                   Tell us about your case and we'll send you a simulation at no cost.
@@ -561,18 +561,27 @@ export const GuaraniForm = () => {
         }
 
         @media (max-width: 768px) {
+          .guarani-form {
+            padding: var(--space-2xl) 0;
+          }
+
           .selection-screen {
-            padding: var(--space-lg) var(--space-md);
+            padding: var(--space-xl) var(--space-md);
           }
 
           .selection-header {
             margin-bottom: var(--space-xl);
           }
 
+          .selection-title {
+            font-size: 2rem;
+          }
+
           .selection-button {
             flex-direction: column;
             text-align: center;
             padding: var(--space-lg);
+            min-height: auto;
           }
 
           .button-icon {
@@ -580,8 +589,35 @@ export const GuaraniForm = () => {
             height: 56px;
           }
 
+          .button-title {
+            font-size: 1.25rem;
+          }
+
+          .button-description {
+            font-size: 0.9375rem;
+          }
+
           .button-arrow {
             display: none;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .selection-screen {
+            padding: var(--space-md);
+          }
+
+          .selection-title {
+            font-size: 1.75rem;
+          }
+
+          .selection-subtitle {
+            font-size: 1rem;
+          }
+
+          .selection-question {
+            font-size: 1.25rem;
           }
         }
       `}</style>

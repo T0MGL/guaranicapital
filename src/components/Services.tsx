@@ -50,7 +50,7 @@ export const Services = () => {
           <h2 className="section-title">
             {t.services.title.line1}
             <br />
-            {t.services.title.line2}
+            <span className="shimmer-text">{t.services.title.line2}</span>
           </h2>
           <p className="section-subtitle">
             {t.services.subtitle}
@@ -228,6 +228,7 @@ export const Services = () => {
           .brochure-download {
             font-size: 0.875rem;
             padding: var(--space-sm) var(--space-md);
+            min-height: 44px; /* Better touch target */
           }
 
           .services-grid {
@@ -243,6 +244,18 @@ export const Services = () => {
           .cta-button {
             width: 100%;
             justify-content: center;
+            min-height: 48px; /* Better touch target */
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .services {
+            padding: var(--space-xl) var(--space-sm);
+          }
+
+          .services-cta {
+            padding: var(--space-lg) var(--space-md);
           }
         }
       `}</style>
@@ -359,6 +372,29 @@ const ServiceCard = ({
 
           .service-title {
             font-size: 1.25rem;
+          }
+
+          .service-description {
+            font-size: 0.9375rem;
+          }
+
+          .service-feature {
+            font-size: 0.875rem;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .service-card {
+            padding: var(--space-md);
+          }
+
+          .service-number {
+            font-size: 2rem;
+          }
+
+          .service-title {
+            font-size: 1.125rem;
           }
         }
       `}</style>

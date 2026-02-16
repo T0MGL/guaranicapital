@@ -174,7 +174,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               className="developed-by"
             >
-              {t.footer.developedBy}
+              <span className="shimmer-text">{t.footer.developedBy}</span>
             </a>
           </div>
           <div className="footer-legal">
@@ -397,10 +397,28 @@ export const Footer = () => {
             gap: var(--space-lg);
           }
 
+          .footer-link {
+            font-size: 0.9375rem;
+            padding: 0.25rem 0; /* Better touch spacing */
+          }
+
+          .footer-text {
+            font-size: 0.9375rem;
+          }
+
           .footer-bottom {
             flex-direction: column;
             text-align: center;
             gap: var(--space-sm);
+          }
+
+          .footer-copyright {
+            font-size: 0.8125rem;
+          }
+
+          .developed-by,
+          .legal-link {
+            font-size: 0.8125rem;
           }
 
           .footer-legal {
@@ -410,6 +428,26 @@ export const Footer = () => {
 
           .divider {
             display: none;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .footer {
+            padding: var(--space-xl) var(--space-sm) var(--space-md);
+          }
+
+          .footer-main {
+            gap: var(--space-xl);
+          }
+
+          .link-title {
+            font-size: 0.8125rem;
+          }
+
+          .social-link {
+            width: 40px;
+            height: 40px;
           }
         }
       `}</style>

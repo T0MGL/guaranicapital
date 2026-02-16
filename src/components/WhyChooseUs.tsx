@@ -154,7 +154,7 @@ export const WhyChooseUs = () => {
           <h2 className="section-title">
             {t.whyChooseUs.title.line1}
             <br />
-            {t.whyChooseUs.title.line2}
+            <span className="shimmer-text">{t.whyChooseUs.title.line2}</span>
           </h2>
           <p className="section-subtitle">
             {t.whyChooseUs.subtitle}
@@ -295,6 +295,14 @@ export const WhyChooseUs = () => {
             margin-bottom: var(--space-2xl);
           }
 
+          .section-label {
+            font-size: 0.8125rem;
+          }
+
+          .section-subtitle {
+            font-size: 1.125rem;
+          }
+
           .features-grid {
             grid-template-columns: 1fr;
             gap: var(--space-lg);
@@ -318,8 +326,35 @@ export const WhyChooseUs = () => {
             font-size: 1.5rem;
           }
 
+          .feature-description {
+            font-size: 1rem;
+          }
+
           .stat-value {
             font-size: 2rem;
+          }
+
+          .stat-label {
+            font-size: 0.8125rem;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .why-choose-us {
+            padding: var(--space-xl) var(--space-sm);
+          }
+
+          .feature-card {
+            padding: var(--space-md);
+          }
+
+          .feature-title {
+            font-size: 1.375rem;
+          }
+
+          .stat-value {
+            font-size: 1.75rem;
           }
         }
       `}</style>

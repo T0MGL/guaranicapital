@@ -35,7 +35,7 @@ export const NewsInsights = () => {
         >
           <div className="section-label">Noticias del Mercado</div>
           <h2 className="section-title">
-            Paraguay: El momento es ahora
+            <span className="shimmer-text">Paraguay: El momento es ahora</span>
           </h2>
         </motion.div>
 
@@ -83,6 +83,25 @@ export const NewsInsights = () => {
 
           .news-header {
             margin-bottom: var(--space-xl);
+          }
+
+          .section-label {
+            font-size: 0.8125rem;
+          }
+
+          .section-title {
+            font-size: 2rem;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .news-insights {
+            padding: var(--space-xl) var(--space-sm);
+          }
+
+          .section-title {
+            font-size: 1.75rem;
           }
         }
       `}</style>
@@ -200,6 +219,31 @@ const ArticleEmbed = ({
 
           .article-description {
             font-size: 0.9375rem;
+            line-height: 1.65;
+          }
+
+          .read-more {
+            font-size: 0.875rem;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .article-image {
+            height: 160px;
+          }
+
+          .card-content {
+            padding: var(--space-md);
+          }
+
+          .article-description {
+            font-size: 0.875rem;
+          }
+
+          .read-more {
+            margin-top: var(--space-md);
+            padding-top: var(--space-sm);
           }
         }
       `}</style>
