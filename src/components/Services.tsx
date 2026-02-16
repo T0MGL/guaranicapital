@@ -57,8 +57,9 @@ export const Services = () => {
           </p>
 
           <motion.a
-            href="/guarani-brochure.pdf"
-            download
+            href="https://drive.google.com/uc?export=download&id=1xvGb-AnXObHB2K492LVYCZzGp0N9Wkle"
+            target="_blank"
+            rel="noopener noreferrer"
             className="brochure-download"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
