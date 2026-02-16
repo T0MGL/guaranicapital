@@ -363,6 +363,25 @@ export const GuaraniForm = () => {
 
         {formState === 'form' && currentStep && (
           <>
+            <motion.button
+              className="reset-selection-button"
+              onClick={handleReset}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              whileHover={{ x: -4 }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M10 12L6 8L10 4"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Cambiar selección
+            </motion.button>
             <ProgressBar
               current={currentStepIndex + 1}
               total={steps.length}
@@ -505,6 +524,40 @@ export const GuaraniForm = () => {
           padding: var(--space-md);
           background: var(--color-gray-50);
           border-radius: var(--radius-md);
+        }
+
+        .reset-selection-button {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-xs);
+          padding: var(--space-sm) var(--space-md);
+          margin: var(--space-lg) auto 0;
+          font-family: var(--font-body);
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--color-text-secondary);
+          background: transparent;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-full);
+          cursor: pointer;
+          transition: all var(--transition-base);
+          position: relative;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .reset-selection-button:hover {
+          color: var(--color-text-primary);
+          border-color: var(--color-primary);
+          background: var(--color-gray-50);
+        }
+
+        .reset-selection-button svg {
+          transition: transform var(--transition-base);
+        }
+
+        .reset-selection-button:hover svg {
+          transform: translateX(-2px);
         }
 
         @media (max-width: 768px) {
