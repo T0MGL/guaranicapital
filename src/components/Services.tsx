@@ -50,7 +50,7 @@ export const Services = () => {
           <h2 className="section-title">
             {t.services.title.line1}
             <br />
-            <span className="shimmer-text">{t.services.title.line2}</span>
+            {t.services.title.line2}
           </h2>
           <p className="section-subtitle">
             {t.services.subtitle}

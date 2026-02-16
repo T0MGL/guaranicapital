@@ -215,7 +215,7 @@ export const GuaraniForm = () => {
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
                 <h1 className="selection-title">
-                  <span className="shimmer-text">Schedule a free consultation</span>
+                  Schedule a free consultation
                 </h1>
                 <p className="selection-subtitle">
                   Tell us about your case and we'll send you a simulation at no cost.

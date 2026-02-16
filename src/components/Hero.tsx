@@ -72,7 +72,7 @@ export const Hero = () => {
           >
             {t.hero.title.line1}
             <br />
-            <span className="title-light shimmer-text">{t.hero.title.line2}</span>
+            <span className="title-light">{t.hero.title.line2}</span>
             <br />
             {t.hero.title.line3}
           </motion.h1>

@@ -154,7 +154,7 @@ export const WhyChooseUs = () => {
           <h2 className="section-title">
             {t.whyChooseUs.title.line1}
             <br />
-            <span className="shimmer-text">{t.whyChooseUs.title.line2}</span>
+            {t.whyChooseUs.title.line2}
           </h2>
           <p className="section-subtitle">
             {t.whyChooseUs.subtitle}

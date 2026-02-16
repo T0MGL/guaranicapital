@@ -35,7 +35,7 @@ export const NewsInsights = () => {
         >
           <div className="section-label">Noticias del Mercado</div>
           <h2 className="section-title">
-            <span className="shimmer-text">Paraguay: El momento es ahora</span>
+            Paraguay: El momento es ahora
           </h2>
         </motion.div>
 
