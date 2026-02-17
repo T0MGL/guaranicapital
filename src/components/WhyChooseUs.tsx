@@ -345,12 +345,26 @@ export const WhyChooseUs = () => {
             padding: var(--space-xl) var(--space-sm);
           }
 
+          .why-header {
+            margin-bottom: var(--space-xl);
+          }
+
           .feature-card {
             padding: var(--space-md);
+            text-align: center;
+          }
+
+          .feature-icon {
+            margin-left: auto;
+            margin-right: auto;
           }
 
           .feature-title {
             font-size: 1.375rem;
+          }
+
+          .feature-description {
+            text-align: center;
           }
 
           .stat-value {

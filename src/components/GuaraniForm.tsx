@@ -579,14 +579,23 @@ export const GuaraniForm = () => {
 
           .selection-button {
             flex-direction: column;
+            align-items: center;
             text-align: center;
             padding: var(--space-lg);
             min-height: auto;
+            gap: var(--space-md);
           }
 
           .button-icon {
             width: 56px;
             height: 56px;
+          }
+
+          .button-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
           }
 
           .button-title {
@@ -595,6 +604,7 @@ export const GuaraniForm = () => {
 
           .button-description {
             font-size: 0.9375rem;
+            text-align: center;
           }
 
           .button-arrow {

@@ -457,14 +457,22 @@ export const Hero = () => {
           .hero-stats {
             gap: 0.75rem;
             flex-wrap: wrap;
+            justify-content: center;
+            max-width: 100%;
           }
 
           .stat-item {
             flex: 0 0 auto;
+            text-align: center;
+            min-width: 80px;
           }
 
           .stat-number {
             font-size: 1.1rem;
+          }
+
+          .stat-divider {
+            display: none;
           }
         }
       `}</style>

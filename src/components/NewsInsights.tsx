@@ -63,6 +63,10 @@ export const NewsInsights = () => {
           margin: 0 auto var(--space-2xl);
         }
 
+        .section-title {
+          white-space: nowrap;
+        }
+
         .news-articles {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -91,6 +95,7 @@ export const NewsInsights = () => {
 
           .section-title {
             font-size: 2rem;
+            white-space: normal;
           }
         }
 
@@ -100,8 +105,18 @@ export const NewsInsights = () => {
             padding: var(--space-xl) var(--space-sm);
           }
 
+          .news-header {
+            margin-bottom: var(--space-lg);
+          }
+
           .section-title {
             font-size: 1.75rem;
+            white-space: normal;
+            text-align: center;
+          }
+
+          .news-articles {
+            gap: var(--space-lg);
           }
         }
       `}</style>

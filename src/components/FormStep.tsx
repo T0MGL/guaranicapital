@@ -427,18 +427,30 @@ export const FormStep = ({
           .form-step {
             padding: var(--space-xl) var(--space-md);
             min-height: auto; /* Remove fixed height on mobile */
+            align-items: flex-start;
+            padding-top: calc(var(--space-3xl) + 60px); /* Account for fixed progress bar */
           }
 
           .step-content {
             padding: var(--space-md) 0;
           }
 
+          .step-number {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            width: 100%;
+          }
+
           .step-question {
             font-size: 1.75rem;
+            text-align: center;
           }
 
           .step-subtitle {
             font-size: 1rem;
+            text-align: center;
           }
 
           .form-input,
@@ -452,10 +464,18 @@ export const FormStep = ({
             font-size: 1rem;
             padding: var(--space-md) var(--space-lg);
             min-height: 56px; /* Better touch target */
+            text-align: center;
+          }
+
+          .step-actions {
+            flex-direction: column-reverse;
+            width: 100%;
           }
 
           .button-back,
           .button-next {
+            width: 100%;
+            justify-content: center;
             min-height: 48px;
             padding: var(--space-md) var(--space-lg);
           }
@@ -469,10 +489,16 @@ export const FormStep = ({
         @media (max-width: 375px) {
           .form-step {
             padding: var(--space-md) var(--space-sm);
+            padding-top: calc(var(--space-2xl) + 60px);
           }
 
           .step-question {
             font-size: 1.5rem;
+          }
+
+          .choice-button {
+            font-size: 0.9375rem;
+            padding: var(--space-md);
           }
         }
       `}</style>

@@ -73,6 +73,25 @@ export const ProgressBar = ({ current, total }: ProgressBarProps) => {
           .progress-container {
             padding: var(--space-sm) var(--space-md);
           }
+
+          .progress-text {
+            font-size: 0.8125rem;
+          }
+
+          .progress-track {
+            height: 4px; /* Slightly thicker for better visibility on mobile */
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+          .progress-container {
+            padding: var(--space-xs) var(--space-sm);
+          }
+
+          .progress-text {
+            font-size: 0.75rem;
+          }
         }
       `}</style>
     </div>

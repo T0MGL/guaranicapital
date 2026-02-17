@@ -75,6 +75,18 @@ export const translations = {
       },
     },
 
+    // Property Portfolio
+    portfolio: {
+      label: 'Our Properties',
+      title: {
+        line1: 'Featured Properties',
+        line2: 'Currently managed',
+      },
+      subtitle: 'Discover some of our premium properties generating exceptional returns on Airbnb',
+      viewButton: 'View on Airbnb',
+      profileButton: 'View Our Airbnb Profile & Reviews',
+    },
+
     // Services
     services: {
       label: 'Our Services',
@@ -237,6 +249,18 @@ export const translations = {
           },
         },
       },
+    },
+
+    // Property Portfolio
+    portfolio: {
+      label: 'Nuestras Propiedades',
+      title: {
+        line1: 'Propiedades Destacadas',
+        line2: 'Actualmente gestionadas',
+      },
+      subtitle: 'Descubrí algunas de nuestras propiedades premium generando retornos excepcionales en Airbnb',
+      viewButton: 'Ver en Airbnb',
+      profileButton: 'Ver Nuestro Perfil y Reviews de Airbnb',
     },
 
     // Services
@@ -403,6 +427,18 @@ export const translations = {
       },
     },
 
+    // Property Portfolio
+    portfolio: {
+      label: 'Nossas Propriedades',
+      title: {
+        line1: 'Propriedades em Destaque',
+        line2: 'Atualmente gerenciadas',
+      },
+      subtitle: 'Descubra algumas de nossas propriedades premium gerando retornos excepcionais no Airbnb',
+      viewButton: 'Ver no Airbnb',
+      profileButton: 'Ver Nosso Perfil e Avaliações no Airbnb',
+    },
+
     // Services
     services: {
       label: 'Nossos Serviços',
@@ -565,6 +601,18 @@ export const translations = {
           },
         },
       },
+    },
+
+    // Property Portfolio
+    portfolio: {
+      label: 'Unsere Immobilien',
+      title: {
+        line1: 'Ausgewählte Immobilien',
+        line2: 'Derzeit verwaltet',
+      },
+      subtitle: 'Entdecken Sie einige unserer Premium-Immobilien, die außergewöhnliche Renditen auf Airbnb erzielen',
+      viewButton: 'Auf Airbnb ansehen',
+      profileButton: 'Unser Airbnb-Profil & Bewertungen ansehen',
     },
 
     // Services

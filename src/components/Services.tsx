@@ -254,8 +254,20 @@ export const Services = () => {
             padding: var(--space-xl) var(--space-sm);
           }
 
+          .services-header {
+            margin-bottom: var(--space-xl);
+          }
+
           .services-cta {
             padding: var(--space-lg) var(--space-md);
+          }
+
+          .cta-title {
+            font-size: 1.5rem;
+          }
+
+          .cta-text {
+            font-size: 1rem;
           }
         }
       `}</style>

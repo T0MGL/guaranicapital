@@ -408,8 +408,15 @@ export const Footer = () => {
 
           .footer-bottom {
             flex-direction: column;
+            align-items: center;
             text-align: center;
-            gap: var(--space-sm);
+            gap: var(--space-md);
+          }
+
+          .footer-copyright-group {
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
           }
 
           .footer-copyright {
@@ -423,6 +430,7 @@ export const Footer = () => {
 
           .footer-legal {
             flex-direction: column;
+            align-items: center;
             gap: var(--space-xs);
           }
 

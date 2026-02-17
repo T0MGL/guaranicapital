@@ -1,6 +1,7 @@
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { WhyChooseUs } from './components/WhyChooseUs';
+import { PropertyPortfolio } from './components/PropertyPortfolio';
 import { Services } from './components/Services';
 import { NewsInsights } from './components/NewsInsights';
 import { ContactSection } from './components/ContactSection';
@@ -19,6 +20,7 @@ function App() {
         <Navbar />
         <Hero />
         <WhyChooseUs />
+        <PropertyPortfolio />
         <Services />
         <NewsInsights />
         <ContactSection />

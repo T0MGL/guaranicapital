@@ -356,10 +356,15 @@ export const Navbar = () => {
         @media (max-width: 375px) {
           .navbar-container {
             padding: 0.4rem var(--space-sm);
+            gap: var(--space-sm);
           }
 
           .navbar.scrolled .navbar-container {
             padding: 0.25rem var(--space-sm);
+          }
+
+          .navbar-actions {
+            gap: var(--space-sm);
           }
         }
       `}</style>
