@@ -376,13 +376,17 @@ export const Hero = () => {
           }
 
           .hero-container {
-            padding: 0 var(--space-md);
+            padding: 0 var(--space-lg);
+          }
+
+          .hero-content {
+            padding: var(--space-lg) 0;
           }
 
           .hero-eyebrow {
             font-size: 0.7rem;
             gap: 0.6rem;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
           }
 
           .eyebrow-line {
@@ -390,14 +394,17 @@ export const Hero = () => {
           }
 
           .hero-title {
-            font-size: 2rem;
-            line-height: 1.22;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            line-height: 1.35;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
           }
 
           .hero-subtitle {
-            font-size: 0.9rem;
-            margin-bottom: 1.8rem;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            padding: 0 var(--space-sm);
           }
 
           .desktop-br {
@@ -406,33 +413,40 @@ export const Hero = () => {
 
           .hero-cta {
             flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
+            gap: 1rem;
+            margin-bottom: 3rem;
           }
 
           .cta-primary,
           .cta-ghost {
             width: 100%;
             justify-content: center;
-            min-height: 48px; /* Better touch target */
+            min-height: 52px; /* Better touch target */
             padding: 1rem 2rem;
+            font-size: 1rem;
           }
 
           .hero-stats {
-            gap: 1rem;
-            padding-top: 1.5rem;
+            gap: 1.5rem;
+            padding-top: 2rem;
+            flex-wrap: wrap;
+          }
+
+          .stat-item {
+            min-width: 90px;
           }
 
           .stat-number {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
           }
 
           .stat-label {
-            font-size: 0.7rem; /* Increased from 0.65rem for better readability */
+            font-size: 0.7rem;
+            line-height: 1.3;
           }
 
           .stat-divider {
-            height: 28px;
+            height: 32px;
           }
 
           .scroll-indicator {
@@ -443,32 +457,61 @@ export const Hero = () => {
         /* Extra small devices (320px - 375px) */
         @media (max-width: 375px) {
           .hero-container {
-            padding: 0 var(--space-sm);
+            padding: 0 var(--space-md);
+          }
+
+          .hero-content {
+            padding: var(--space-md) 0;
+          }
+
+          .hero-eyebrow {
+            font-size: 0.65rem;
+            margin-bottom: 1.2rem;
           }
 
           .hero-title {
-            font-size: 1.75rem;
+            font-size: 1.85rem;
+            line-height: 1.4;
+            margin-bottom: 1.25rem;
           }
 
           .hero-subtitle {
-            font-size: 0.875rem;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 1.75rem;
+            padding: 0;
+          }
+
+          .hero-cta {
+            gap: 0.875rem;
+            margin-bottom: 2.5rem;
+          }
+
+          .cta-primary,
+          .cta-ghost {
+            min-height: 50px;
+            font-size: 0.95rem;
           }
 
           .hero-stats {
-            gap: 0.75rem;
-            flex-wrap: wrap;
+            gap: 1.25rem;
+            padding-top: 1.75rem;
             justify-content: center;
-            max-width: 100%;
           }
 
           .stat-item {
             flex: 0 0 auto;
             text-align: center;
-            min-width: 80px;
+            min-width: 85px;
           }
 
           .stat-number {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+          }
+
+          .stat-label {
+            font-size: 0.65rem;
+            line-height: 1.4;
           }
 
           .stat-divider {
