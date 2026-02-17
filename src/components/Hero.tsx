@@ -1,5 +1,17 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
+import { useCountUpStat } from '../hooks/useCountUp';
+
+const StatItem = ({ number, label }: { number: string; label: string }) => {
+  const { ref, value } = useCountUpStat(number, 2000);
+
+  return (
+    <div className="stat-item" ref={ref}>
+      <span className="stat-number">{value}</span>
+      <span className="stat-label">{label}</span>
+    </div>
+  );
+};
 
 export const Hero = () => {
   const { t } = useLanguage();
@@ -125,20 +137,20 @@ export const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4, duration: 1 }}
           >
-            <div className="stat-item">
-              <span className="stat-number">{t.hero.stats.properties.number}</span>
-              <span className="stat-label">{t.hero.stats.properties.label}</span>
-            </div>
+            <StatItem
+              number={t.hero.stats.properties.number}
+              label={t.hero.stats.properties.label}
+            />
             <div className="stat-divider"></div>
-            <div className="stat-item">
-              <span className="stat-number">{t.hero.stats.support.number}</span>
-              <span className="stat-label">{t.hero.stats.support.label}</span>
-            </div>
+            <StatItem
+              number={t.hero.stats.support.number}
+              label={t.hero.stats.support.label}
+            />
             <div className="stat-divider"></div>
-            <div className="stat-item">
-              <span className="stat-number">{t.hero.stats.experience.number}</span>
-              <span className="stat-label">{t.hero.stats.experience.label}</span>
-            </div>
+            <StatItem
+              number={t.hero.stats.experience.number}
+              label={t.hero.stats.experience.label}
+            />
           </motion.div>
         </div>
       </div>

@@ -174,7 +174,8 @@ export const Footer = () => {
               rel="noopener noreferrer"
               className="developed-by"
             >
-              <span className="shimmer-text">{t.footer.developedBy}</span>
+              {t.footer.developedBy.split('Bright Idea')[0]}
+              <span className="shimmer-text">Bright Idea</span>
             </a>
           </div>
           <div className="footer-legal">
@@ -345,10 +346,17 @@ export const Footer = () => {
           color: rgba(255, 255, 255, 0.5);
           text-decoration: none;
           transition: color var(--transition-base);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
         }
 
         .developed-by:hover {
-          color: var(--color-primary);
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        .developed-by:hover .shimmer-text {
+          animation-duration: 1.5s;
         }
 
         .footer-legal {

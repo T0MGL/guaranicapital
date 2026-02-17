@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useCountUpStat } from '../hooks/useCountUp';
 
 interface PillarData {
   id: string;
@@ -81,6 +82,8 @@ const supportIcon = (
 );
 
 const FeatureCard = ({ pillar, index, isInView }: { pillar: PillarData; index: number; isInView: boolean }) => {
+  const { ref: statRef, value: animatedValue } = useCountUpStat(pillar.stats.value, 2500);
+
   return (
     <motion.div
       className="feature-card"
@@ -94,8 +97,8 @@ const FeatureCard = ({ pillar, index, isInView }: { pillar: PillarData; index: n
       <div className="feature-icon">{pillar.icon}</div>
       <h3 className="feature-title">{pillar.title}</h3>
       <p className="feature-description">{pillar.description}</p>
-      <div className="feature-stats">
-        <div className="stat-value">{pillar.stats.value}</div>
+      <div className="feature-stats" ref={statRef}>
+        <div className="stat-value">{animatedValue}</div>
         <div className="stat-label">{pillar.stats.label}</div>
       </div>
     </motion.div>
