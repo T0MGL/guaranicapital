@@ -257,25 +257,18 @@ export const PropertyPortfolio = () => {
             rel="noopener noreferrer"
             className="profile-button"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {t.portfolio.profileButton}
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <span className="profile-button-label">{t.portfolio.profileButton}</span>
+            <div className="profile-button-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 17L17 7M17 7H7M17 7v10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
           </a>
         </motion.div>
       </div>
@@ -478,34 +471,54 @@ export const PropertyPortfolio = () => {
         .profile-button {
           display: inline-flex;
           align-items: center;
-          gap: var(--space-md);
-          padding: var(--space-md) var(--space-xl);
+          gap: var(--space-sm);
+          padding: var(--space-md) var(--space-lg);
           font-family: var(--font-body);
-          font-size: 1.0625rem;
-          font-weight: 600;
-          color: white;
-          background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-          border: none;
+          font-size: 0.9375rem;
+          font-weight: 500;
+          color: var(--color-text-primary);
+          background: white;
+          border: 1.5px solid var(--color-border);
           border-radius: var(--radius-full);
           text-decoration: none;
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: var(--shadow-lg);
+          transition: all 0.25s ease;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
         .profile-button:hover {
-          transform: translateY(-3px);
-          box-shadow: var(--shadow-xl);
+          border-color: var(--color-primary);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          transform: translateY(-1px);
         }
 
-        .profile-button svg:first-child {
-          width: 22px;
-          height: 22px;
+        .profile-button-label {
+          letter-spacing: -0.01em;
         }
 
-        .profile-button svg:last-child {
-          width: 18px;
-          height: 18px;
+        .profile-button-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          background: var(--color-gray-100);
+          border-radius: 50%;
+          transition: all 0.25s ease;
+        }
+
+        .profile-button-icon svg {
+          color: var(--color-text-secondary);
+          transition: color 0.25s ease;
+        }
+
+        .profile-button:hover .profile-button-icon {
+          background: var(--color-primary);
+          transform: rotate(45deg);
+        }
+
+        .profile-button:hover .profile-button-icon svg {
+          color: white;
         }
 
         @media (max-width: 1024px) {
@@ -557,9 +570,18 @@ export const PropertyPortfolio = () => {
           }
 
           .profile-button {
-            font-size: 1rem;
-            padding: var(--space-md) var(--space-lg);
-            gap: var(--space-sm);
+            font-size: 0.875rem;
+            padding: var(--space-sm) var(--space-md);
+          }
+
+          .profile-button-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .profile-button-icon svg {
+            width: 16px;
+            height: 16px;
           }
         }
 
@@ -591,21 +613,21 @@ export const PropertyPortfolio = () => {
           }
 
           .profile-button {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             padding: var(--space-sm) var(--space-md);
             width: 100%;
             max-width: 100%;
             justify-content: center;
           }
 
-          .profile-button svg:first-child {
+          .profile-button-icon {
             width: 20px;
             height: 20px;
           }
 
-          .profile-button svg:last-child {
-            width: 16px;
-            height: 16px;
+          .profile-button-icon svg {
+            width: 14px;
+            height: 14px;
           }
         }
       `}</style>

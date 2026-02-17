@@ -84,7 +84,7 @@ export const translations = {
       },
       subtitle: 'Discover some of our premium properties generating exceptional returns on Airbnb',
       viewButton: 'View on Airbnb',
-      profileButton: 'View Our Airbnb Profile & Reviews',
+      profileButton: 'See all reviews on Airbnb',
     },
 
     // Services
@@ -142,6 +142,7 @@ export const translations = {
         title: 'How much could your property be earning right now?',
         text: '100% comprehensive management that lets you maximize profits without the operational headaches. Prime properties in Asunción are generating exceptional returns.',
         button: 'Get your free revenue projection',
+        buttonSubtext: 'Takes less than 2 minutes',
       },
     },
 
@@ -260,7 +261,7 @@ export const translations = {
       },
       subtitle: 'Descubrí algunas de nuestras propiedades premium generando retornos excepcionales en Airbnb',
       viewButton: 'Ver en Airbnb',
-      profileButton: 'Ver Nuestro Perfil y Reviews de Airbnb',
+      profileButton: 'Ver todas las reseñas en Airbnb',
     },
 
     // Services
@@ -318,6 +319,7 @@ export const translations = {
         title: '¿Cuánto podría estar ganando tu propiedad ahora mismo?',
         text: 'Gestión 100% integral que te permite maximizar ganancias sin los dolores de cabeza operativos. Propiedades en zonas prime de Asunción están generando retornos excepcionales.',
         button: 'Obtené tu proyección de ingresos gratis',
+        buttonSubtext: 'Toma menos de 2 minutos',
       },
     },
 
@@ -436,7 +438,7 @@ export const translations = {
       },
       subtitle: 'Descubra algumas de nossas propriedades premium gerando retornos excepcionais no Airbnb',
       viewButton: 'Ver no Airbnb',
-      profileButton: 'Ver Nosso Perfil e Avaliações no Airbnb',
+      profileButton: 'Ver todas as avaliações no Airbnb',
     },
 
     // Services
@@ -494,6 +496,7 @@ export const translations = {
         title: 'Quanto sua propriedade poderia estar ganhando agora mesmo?',
         text: 'Gestão 100% integral que permite maximizar lucros sem as dores de cabeça operacionais. Propriedades em áreas nobres de Assunção estão gerando retornos excepcionais.',
         button: 'Obtenha sua projeção de receita grátis',
+        buttonSubtext: 'Leva menos de 2 minutos',
       },
     },
 
@@ -612,7 +615,7 @@ export const translations = {
       },
       subtitle: 'Entdecken Sie einige unserer Premium-Immobilien, die außergewöhnliche Renditen auf Airbnb erzielen',
       viewButton: 'Auf Airbnb ansehen',
-      profileButton: 'Unser Airbnb-Profil & Bewertungen ansehen',
+      profileButton: 'Alle Bewertungen auf Airbnb ansehen',
     },
 
     // Services
@@ -670,6 +673,7 @@ export const translations = {
         title: 'Wie viel könnte Ihre Immobilie gerade jetzt verdienen?',
         text: '100% umfassende Verwaltung, die es Ihnen ermöglicht, Gewinne zu maximieren, ohne betriebliche Kopfschmerzen. Erstklassige Immobilien in Asunción erzielen außergewöhnliche Renditen.',
         button: 'Kostenlose Umsatzprognose erhalten',
+        buttonSubtext: 'Dauert weniger als 2 Minuten',
       },
     },
 
