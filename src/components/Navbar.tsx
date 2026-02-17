@@ -61,6 +61,7 @@ export const Navbar = () => {
               }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               style={{ display: 'flex', alignItems: 'center' }}
+              className="navbar-logo-wrapper"
             >
               <Logo width={100} height={32} />
             </motion.div>
@@ -327,11 +328,19 @@ export const Navbar = () => {
 
         @media (max-width: 767px) {
           .navbar-container {
-            padding: 0.4rem var(--space-md);
+            padding: 0.35rem var(--space-md);
           }
 
           .navbar.scrolled .navbar-container {
-            padding: 0.25rem var(--space-md);
+            padding: 0.2rem var(--space-md);
+          }
+
+          .navbar-logo-wrapper {
+            transform: scale(0.8) !important;
+          }
+
+          .navbar.scrolled .navbar-logo-wrapper {
+            transform: scale(0.65) !important;
           }
 
           .logo-text,
@@ -355,12 +364,20 @@ export const Navbar = () => {
         /* Extra small devices */
         @media (max-width: 375px) {
           .navbar-container {
-            padding: 0.4rem var(--space-sm);
+            padding: 0.3rem var(--space-sm);
             gap: var(--space-sm);
           }
 
           .navbar.scrolled .navbar-container {
-            padding: 0.25rem var(--space-sm);
+            padding: 0.15rem var(--space-sm);
+          }
+
+          .navbar-logo-wrapper {
+            transform: scale(0.7) !important;
+          }
+
+          .navbar.scrolled .navbar-logo-wrapper {
+            transform: scale(0.55) !important;
           }
 
           .navbar-actions {
