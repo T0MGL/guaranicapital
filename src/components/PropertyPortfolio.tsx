@@ -1,4 +1,4 @@
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -14,10 +14,8 @@ export const PropertyPortfolio = () => {
   const { t } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const touchStartX = useRef<number>(0);
-  const touchEndX = useRef<number>(0);
+  const [offset, setOffset] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   const properties: Property[] = [
     {
@@ -57,63 +55,26 @@ export const PropertyPortfolio = () => {
     },
   ];
 
-  // Auto-rotate carousel
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDirection(1);
-      setCurrentIndex((prev) => (prev + 1) % properties.length);
-    }, 5000); // Rotate every 5 seconds
+    const update = () => {
+      if (window.innerWidth < 640) setVisibleCount(1);
+      else if (window.innerWidth < 1024) setVisibleCount(2);
+      else setVisibleCount(3);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [properties.length]);
+  const N = properties.length;
+  const maxOffset = Math.max(0, N - visibleCount);
 
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % properties.length);
-  };
+  useEffect(() => {
+    setOffset((prev) => Math.min(prev, maxOffset));
+  }, [maxOffset]);
 
-  const handlePrev = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + properties.length) % properties.length);
-  };
-
-  const handleDotClick = (index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-  };
-
-  // Touch handlers for mobile swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStartX.current - touchEndX.current > 50) {
-      handleNext();
-    }
-    if (touchStartX.current - touchEndX.current < -50) {
-      handlePrev();
-    }
-  };
-
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
-  };
+  const handleNext = () => setOffset((prev) => Math.min(prev + 1, maxOffset));
+  const handlePrev = () => setOffset((prev) => Math.max(prev - 1, 0));
 
   return (
     <section id="portfolio" className="portfolio">
@@ -121,9 +82,9 @@ export const PropertyPortfolio = () => {
         <motion.div
           ref={ref}
           className="portfolio-header"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7 }}
         >
           <div className="section-label">{t.portfolio.label}</div>
           <h2 className="section-title">
@@ -134,115 +95,109 @@ export const PropertyPortfolio = () => {
           <p className="section-subtitle">{t.portfolio.subtitle}</p>
         </motion.div>
 
-        <div
-          className="carousel-wrapper"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+        <motion.div
+          className="gallery-section"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
         >
-          <button className="carousel-button carousel-button-prev" onClick={handlePrev} aria-label="Previous property">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M15 18l-6-6 6-6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
-          <div className="carousel-container">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 },
-                }}
-                className="property-card"
-              >
-                <div className="property-image-wrapper">
-                  <img
-                    src={properties[currentIndex].image}
-                    alt={properties[currentIndex].name}
-                    className="property-image"
-                  />
-                  <div className="property-overlay" />
-                </div>
-                <div className="property-content">
-                  <div className="property-info">
-                    <h3 className="property-name">{properties[currentIndex].name}</h3>
-                    <p className="property-location">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <div className="gallery-viewport">
+            <motion.div
+              className="gallery-track"
+              animate={{ x: `${-offset * (100 / N)}%` }}
+              transition={{ type: 'spring', stiffness: 320, damping: 38, mass: 0.9 }}
+              style={{ width: `${(N / visibleCount) * 100}%` }}
+            >
+              {properties.map((prop) => (
+                <a
+                  key={prop.id}
+                  href={prop.airbnbUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gallery-card"
+                  style={{ width: `${100 / N}%` }}
+                >
+                  <div className="card-image-box">
+                    <img
+                      src={prop.image}
+                      alt={prop.name}
+                      className="card-img"
+                      loading="lazy"
+                    />
+                    <div className="card-hover-icon">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
                         <path
-                          d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                          d="M7 17L17 7M17 7H7M17 7v10"
                           stroke="currentColor"
-                          strokeWidth="2"
+                          strokeWidth="1.75"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
-                        <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" />
                       </svg>
-                      {properties[currentIndex].location}
-                    </p>
+                    </div>
                   </div>
-                  <a
-                    href={properties[currentIndex].airbnbUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="airbnb-button"
-                  >
-                    {t.portfolio.viewButton}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M7 17L17 7M17 7H7M17 7v10"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                  <div className="card-footer">
+                    <p className="card-name">{prop.name}</p>
+                    <p className="card-location">{prop.location}</p>
+                  </div>
+                </a>
+              ))}
+            </motion.div>
           </div>
 
-          <button className="carousel-button carousel-button-next" onClick={handleNext} aria-label="Next property">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M9 18l6-6-6-6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div className="carousel-dots">
-          {properties.map((_, index) => (
-            <button
-              key={index}
-              className={`dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => handleDotClick(index)}
-              aria-label={`Go to property ${index + 1}`}
-            />
-          ))}
-        </div>
+          <div className="gallery-nav">
+            <div className="nav-progress">
+              {Array.from({ length: maxOffset + 1 }).map((_, i) => (
+                <button
+                  key={i}
+                  className={`progress-pip ${i === offset ? 'active' : ''}`}
+                  onClick={() => setOffset(i)}
+                  aria-label={`Go to position ${i + 1}`}
+                />
+              ))}
+            </div>
+            <div className="nav-arrows">
+              <button
+                className="nav-arrow"
+                onClick={handlePrev}
+                disabled={offset === 0}
+                aria-label="Previous"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M19 12H5M5 12l7 7M5 12l7-7"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <button
+                className="nav-arrow"
+                onClick={handleNext}
+                disabled={offset === maxOffset}
+                aria-label="Next"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M5 12h14M13 5l7 7-7 7"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </motion.div>
 
         <motion.div
           className="profile-cta"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
         >
           <a
             href="https://www.airbnb.co.uk/users/profile/1463908670640126740?previous_page_name=PdpHomeMarketplace"
@@ -284,178 +239,162 @@ export const PropertyPortfolio = () => {
           margin: 0 auto var(--space-3xl);
         }
 
-        .carousel-wrapper {
-          position: relative;
-          max-width: 1000px;
-          margin: 0 auto var(--space-xl);
+        /* Gallery */
+        .gallery-section {
+          margin-bottom: var(--space-xl);
         }
 
-        .carousel-container {
-          position: relative;
-          width: 100%;
-          height: 600px;
-          overflow: hidden;
-          border-radius: var(--radius-lg);
-        }
-
-        .property-card {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          border-radius: var(--radius-lg);
-          overflow: hidden;
-          box-shadow: var(--shadow-xl);
-          background: var(--color-surface);
-        }
-
-        .property-image-wrapper {
-          position: relative;
-          width: 100%;
-          height: 70%;
+        .gallery-viewport {
           overflow: hidden;
         }
 
-        .property-image {
+        .gallery-track {
+          display: flex;
+        }
+
+        .gallery-card {
+          flex: none;
+          padding: 0 10px;
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          cursor: pointer;
+        }
+
+        .card-image-box {
+          aspect-ratio: 4 / 3;
+          overflow: hidden;
+          border-radius: 6px;
+          background: var(--color-gray-100);
+          position: relative;
+        }
+
+        .card-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.3s ease;
+          display: block;
+          transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .property-card:hover .property-image {
-          transform: scale(1.05);
+        .gallery-card:hover .card-img {
+          transform: scale(1.045);
         }
 
-        .property-overlay {
+        .card-hover-icon {
           position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 50%;
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-        }
-
-        .property-content {
-          position: relative;
-          padding: var(--space-xl);
-          height: 30%;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: var(--space-md);
-        }
-
-        .property-info {
-          flex: 1;
-        }
-
-        .property-name {
-          font-family: var(--font-display);
-          font-size: 1.75rem;
-          font-weight: 600;
-          color: var(--color-text-primary);
-          margin-bottom: var(--space-sm);
-          line-height: 1.2;
-        }
-
-        .property-location {
-          display: flex;
-          align-items: center;
-          gap: var(--space-xs);
-          font-size: 1rem;
-          color: var(--color-text-secondary);
-        }
-
-        .property-location svg {
-          color: var(--color-primary);
-        }
-
-        .airbnb-button {
-          display: inline-flex;
-          align-items: center;
-          gap: var(--space-sm);
-          padding: var(--space-md) var(--space-lg);
-          font-family: var(--font-body);
-          font-size: 1rem;
-          font-weight: 600;
-          color: white;
-          background: var(--color-primary);
-          border: none;
-          border-radius: var(--radius-full);
-          text-decoration: none;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          white-space: nowrap;
-        }
-
-        .airbnb-button:hover {
-          background: var(--color-primary-dark);
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-lg);
-        }
-
-        .carousel-button {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: white;
-          border: none;
+          bottom: 12px;
+          right: 12px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
-          cursor: pointer;
-          box-shadow: var(--shadow-md);
-          transition: all 0.3s ease;
-          z-index: 10;
-          color: var(--color-text-primary);
-        }
-
-        .carousel-button:hover {
-          background: var(--color-primary);
-          color: white;
-          transform: translateY(-50%) scale(1.1);
-        }
-
-        .carousel-button-prev {
-          left: -24px;
-        }
-
-        .carousel-button-next {
-          right: -24px;
-        }
-
-        .carousel-dots {
+          background: rgba(255, 255, 255, 0.92);
+          backdrop-filter: blur(4px);
           display: flex;
+          align-items: center;
           justify-content: center;
-          gap: var(--space-sm);
-          margin-top: var(--space-xl);
+          color: #111;
+          opacity: 0;
+          transform: scale(0.8);
+          transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
-        .dot {
-          width: 12px;
-          height: 12px;
+        .gallery-card:hover .card-hover-icon {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .card-footer {
+          padding: 12px 2px 0;
+        }
+
+        .card-name {
+          font-family: var(--font-body);
+          font-size: 0.8125rem;
+          font-weight: 500;
+          color: var(--color-text-primary);
+          margin: 0 0 3px;
+          line-height: 1.4;
+          letter-spacing: -0.01em;
+        }
+
+        .card-location {
+          font-family: var(--font-body);
+          font-size: 0.725rem;
+          color: var(--color-text-secondary);
+          margin: 0;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+
+        /* Navigation */
+        .gallery-nav {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 16px;
+          margin-top: 24px;
+        }
+
+        .nav-progress {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .progress-pip {
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
           background: var(--color-gray-300);
           border: none;
+          padding: 0;
           cursor: pointer;
           transition: all 0.3s ease;
+        }
+
+        .progress-pip.active {
+          width: 18px;
+          border-radius: 3px;
+          background: var(--color-text-primary);
+        }
+
+        .progress-pip:hover:not(.active) {
+          background: var(--color-gray-400);
+        }
+
+        .nav-arrows {
+          display: flex;
+          gap: 8px;
+        }
+
+        .nav-arrow {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid var(--color-border);
+          background: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: var(--color-text-primary);
+          transition: all 0.2s ease;
           padding: 0;
         }
 
-        .dot:hover {
-          background: var(--color-gray-400);
-          transform: scale(1.2);
+        .nav-arrow:hover:not(:disabled) {
+          border-color: var(--color-text-primary);
+          background: var(--color-text-primary);
+          color: white;
         }
 
-        .dot.active {
-          background: var(--color-primary);
-          width: 32px;
-          border-radius: 6px;
+        .nav-arrow:disabled {
+          opacity: 0.22;
+          cursor: not-allowed;
         }
 
+        /* Profile CTA */
         .profile-cta {
           text-align: center;
           margin-top: var(--space-2xl);
@@ -514,113 +453,29 @@ export const PropertyPortfolio = () => {
           color: white;
         }
 
-        @media (max-width: 1024px) {
-          .carousel-button-prev {
-            left: 8px;
-          }
-
-          .carousel-button-next {
-            right: 8px;
-          }
-        }
-
         @media (max-width: 768px) {
           .portfolio {
             padding: var(--space-2xl) var(--space-md);
           }
 
-          .carousel-container {
-            height: 500px;
+          .gallery-card {
+            padding: 0 6px;
           }
 
-          .property-content {
-            padding: var(--space-lg);
-            flex-direction: column;
-            align-items: stretch;
-          }
-
-          .property-name {
-            font-size: 1.375rem;
-          }
-
-          .airbnb-button {
-            width: 100%;
+          .gallery-nav {
             justify-content: center;
-            min-height: 48px;
-          }
-
-          .carousel-button {
-            width: 40px;
-            height: 40px;
-          }
-
-          .carousel-button-prev {
-            left: 4px;
-          }
-
-          .carousel-button-next {
-            right: 4px;
           }
 
           .profile-button {
             font-size: 0.875rem;
-            padding: var(--space-sm) var(--space-md);
-          }
-
-          .profile-button-icon {
-            width: 22px;
-            height: 22px;
-          }
-
-          .profile-button-icon svg {
-            width: 16px;
-            height: 16px;
           }
         }
 
         @media (max-width: 480px) {
-          .carousel-container {
-            height: 450px;
-          }
-
-          .property-image-wrapper {
-            height: 65%;
-          }
-
-          .property-content {
-            height: 35%;
-            padding: var(--space-md);
-          }
-
-          .property-name {
-            font-size: 1.25rem;
-          }
-
-          .property-location {
-            font-size: 0.875rem;
-          }
-
-          .airbnb-button {
-            font-size: 0.9375rem;
-            padding: var(--space-sm) var(--space-md);
-          }
-
           .profile-button {
-            font-size: 0.875rem;
-            padding: var(--space-sm) var(--space-md);
             width: 100%;
             max-width: 100%;
             justify-content: center;
-          }
-
-          .profile-button-icon {
-            width: 20px;
-            height: 20px;
-          }
-
-          .profile-button-icon svg {
-            width: 14px;
-            height: 14px;
           }
         }
       `}</style>
