@@ -138,19 +138,19 @@ export function CRM() {
                         <div className="stat-icon-wrapper"><Users size={20} /></div>
                         <h3>Total Leads</h3>
                         <div className="value">{stats.total}</div>
-                        <div className="trend" style={{ color: '#D4AF37' }}>Leads generados vía web</div>
+                        <div className="trend" style={{ color: 'var(--crm-accent)' }}>Pipeline total</div>
                     </div>
                     <div className="crm-stat-card">
-                        <div className="stat-icon-wrapper" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}><ArrowUpRight size={20} /></div>
+                        <div className="stat-icon-wrapper" style={{ background: 'rgba(39, 174, 96, 0.1)', color: 'var(--crm-success)' }}><ArrowUpRight size={20} /></div>
                         <h3>Conversión</h3>
                         <div className="value">{stats.conversionRate}%</div>
-                        <div className="trend" style={{ color: '#10b981' }}>{stats.converted} leads cerrados</div>
+                        <div className="trend" style={{ color: 'var(--crm-success)' }}>{stats.converted} cerrados</div>
                     </div>
                     <div className="crm-stat-card">
-                        <div className="stat-icon-wrapper" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}><Phone size={20} /></div>
+                        <div className="stat-icon-wrapper" style={{ background: 'rgba(212, 175, 55, 0.1)', color: 'var(--crm-accent)' }}><Phone size={20} /></div>
                         <h3>Contactados</h3>
                         <div className="value">{stats.contacted}</div>
-                        <div className="trend" style={{ color: '#f59e0b' }}>{((stats.contacted / stats.total) * 100 || 0).toFixed(0)}% del pipeline</div>
+                        <div className="trend" style={{ color: 'var(--crm-accent)' }}>{((stats.contacted / stats.total) * 100 || 0).toFixed(0)}% contactado</div>
                     </div>
                 </section>
 
@@ -223,14 +223,14 @@ export function CRM() {
                                         </td>
                                         <td>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                                <span style={{ fontSize: '0.85rem', color: lead.Motivacion === 'INVERSION' ? '#D4AF37' : '#8b5cf6' }}>
-                                                    {lead.Motivacion === 'INVERSION' ? 'Invirtiendo' : 'Gestión Airbnb'}
+                                                <span style={{ fontSize: '0.85rem', color: lead.Motivacion === 'INVERSION' ? 'var(--crm-accent)' : '#a5b4fc' }}>
+                                                    {lead.Motivacion === 'INVERSION' ? 'Inversión' : 'Gestión Airbnb'}
                                                 </span>
-                                                <small style={{ color: '#666' }}><MapPin size={10} style={{ marginRight: '4px' }} />{lead.Procedimiento || lead.Ubicacion}</small>
+                                                <small style={{ color: 'var(--crm-text-muted)' }}><MapPin size={10} style={{ marginRight: '4px' }} />{lead.Procedimiento || lead.Ubicacion}</small>
                                             </div>
                                         </td>
                                         <td>
-                                            <span style={{ fontSize: '0.85rem', fontWeight: '500' }}>{lead.Presupuesto || '-'}</span>
+                                            <span style={{ fontSize: '0.85rem', fontWeight: '500', color: lead.Presupuesto ? 'var(--crm-text)' : 'var(--crm-text-muted)' }}>{lead.Presupuesto || '-'}</span>
                                         </td>
                                         <td>
                                             <span className={`status-badge ${String(lead.converted) === 'true' ? 'converted' : String(lead.lost) === 'true' ? 'lost' : String(lead.contacted) === 'true' ? 'contacted' : 'new'}`}>
