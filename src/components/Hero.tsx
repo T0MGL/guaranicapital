@@ -173,6 +173,7 @@ export const Hero = () => {
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          background: #0a0a0a;
         }
 
         .hero-video-wrapper {
