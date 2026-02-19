@@ -182,8 +182,31 @@ export const GuaraniForm = () => {
 
     console.log('Form submitted:', submitData);
 
-    // Aquí iría la lógica de envío real (email, CRM, etc.)
-    // Por ahora solo simulamos el envío
+    try {
+      const { createLead } = await import('../lib/api');
+
+      // Map formData to Lead fields logically:
+      const mappedLead = {
+        id: crypto.randomUUID(),
+        Fecha: new Date().toLocaleString('es-PY'),
+        Nombre: formData.fullName || '',
+        Whatsapp: formData.phone || '',
+        Email: formData.email || '',
+        Ubicacion: formData.country || formData.zone || '',
+        Procedimiento: formData.propertyType || formData.rentalType || '',
+        Presupuesto: formData.budget || '',
+        Fuente: 'Landing Page Form',
+        Motivacion: leadType || '',
+        Estado: 'new',
+        contacted: false,
+        converted: false,
+        lost: false
+      };
+
+      await createLead(mappedLead);
+    } catch (e) {
+      console.error('Failed to submit lead to CRM:', e);
+    }
 
     setFormState('success');
   };

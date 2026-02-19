@@ -1,13 +1,7 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { CRM } from './pages/CRM';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { WhyChooseUs } from './components/WhyChooseUs';
-import { PropertyPortfolio } from './components/PropertyPortfolio';
-import { Services } from './components/Services';
-import { NewsInsights } from './components/NewsInsights';
-import { ContactSection } from './components/ContactSection';
-import { Footer } from './components/Footer';
-import { WhatsAppButton } from './components/WhatsAppButton';
-import { FormStateProvider } from './context/FormStateContext';
 import { useLenis } from './hooks/useLenis';
 import './styles/global.css';
 
@@ -15,19 +9,19 @@ function App() {
   useLenis();
 
   return (
-    <FormStateProvider>
+    <Router>
       <div className="app">
-        <Navbar />
-        <Hero />
-        <WhyChooseUs />
-        <PropertyPortfolio />
-        <Services />
-        <NewsInsights />
-        <ContactSection />
-        <Footer />
-        <WhatsAppButton />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <Navbar />
+              <Home />
+            </>
+          } />
+          <Route path="/crm" element={<CRM />} />
+        </Routes>
       </div>
-    </FormStateProvider>
+    </Router>
   );
 }
 
