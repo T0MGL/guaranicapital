@@ -89,7 +89,7 @@ export function CRM() {
         if (filterStatus === 'new') statusMatch = String(lead.contacted) !== 'true' && String(lead.converted) !== 'true' && String(lead.lost) !== 'true';
 
         let typeMatch = true;
-        if (filterType !== 'all') typeMatch = lead.Motivacion === filterType;
+        if (filterType !== 'all') typeMatch = lead.Interes === filterType;
 
         return searchMatch && statusMatch && typeMatch;
     }).sort((a, b) => new Date(b.Fecha).getTime() - new Date(a.Fecha).getTime());
@@ -186,7 +186,7 @@ export function CRM() {
                                 onChange={e => setFilterType(e.target.value)}
                                 style={{ background: 'transparent', color: 'var(--crm-text)', border: 'none', outline: 'none', fontSize: '0.875rem', fontWeight: '500', cursor: 'pointer' }}
                             >
-                                <option value="all">Todas las Motivaciones</option>
+                                <option value="all">Todos los Intereses</option>
                                 <option value="INVERSION">Inversión</option>
                                 <option value="ADMINISTRACION">Administración Airbnb</option>
                             </select>
@@ -239,8 +239,8 @@ export function CRM() {
                                             </td>
                                             <td>
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                    <span style={{ fontSize: '0.875rem', fontWeight: '500', color: lead.Motivacion === 'INVERSION' ? 'var(--crm-primary)' : '#6366f1' }}>
-                                                        {lead.Motivacion === 'INVERSION' ? 'Inversión' : 'Administración'}
+                                                    <span style={{ fontSize: '0.875rem', fontWeight: '500', color: lead.Interes === 'INVERSION' ? 'var(--crm-primary)' : '#6366f1' }}>
+                                                        {lead.Interes === 'INVERSION' ? 'Inversión' : 'Administración'}
                                                     </span>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--crm-text-muted)', fontSize: '0.8125rem' }}>
                                                         <MapPin size={12} />

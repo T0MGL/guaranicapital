@@ -195,10 +195,10 @@ export const GuaraniForm = () => {
         Nombre: formData.fullName || '',
         Whatsapp: formData.phone || '',
         Email: formData.email || '',
-        Motivacion: leadType || '',
         Ubicacion: formData.country || formData.zone || '',
-        Procedimiento: formData.propertyType || formData.rentalType || '',
         Presupuesto: formData.budget || '',
+        Procedimiento: formData.propertyType || formData.rentalType || '',
+        Interes: leadType || '',
         Fuente: 'Landing Page Form',
         Detalles: [
           formData.timeframe ? `Plazo: ${formData.timeframe}` : '',
