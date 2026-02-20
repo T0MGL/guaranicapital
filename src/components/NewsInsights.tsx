@@ -33,9 +33,15 @@ export const NewsInsights = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="section-label">{t.news.label}</div>
-          <h2 className="section-title">
-            {t.news.title}
+          <h2 className="news-country-title">
+            <span className="news-country-word">
+              {t.news.titleCountry}
+              <svg className="country-underline" viewBox="0 0 260 14" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M4 9 Q65 3 130 9 Q195 15 256 9" stroke="currentColor" strokeWidth="4.5" fill="none" strokeLinecap="round"/>
+              </svg>
+            </span>
           </h2>
+          <p className="news-tagline">{t.news.titleTagline}</p>
         </motion.div>
 
         <div className="news-articles">
@@ -70,8 +76,37 @@ export const NewsInsights = () => {
           margin: 0 auto var(--space-2xl);
         }
 
-        .section-title {
-          white-space: nowrap;
+        .news-country-title {
+          font-family: var(--font-display);
+          font-size: clamp(3.5rem, 10vw, 7rem);
+          font-weight: 700;
+          color: var(--color-text-primary);
+          line-height: 1;
+          margin-bottom: var(--space-md);
+        }
+
+        .news-country-word {
+          position: relative;
+          display: inline-block;
+        }
+
+        .country-underline {
+          position: absolute;
+          bottom: -0.15em;
+          left: -2%;
+          width: 104%;
+          height: auto;
+          color: var(--color-primary);
+          pointer-events: none;
+        }
+
+        .news-tagline {
+          font-family: var(--font-display);
+          font-size: clamp(1.375rem, 3.5vw, 2.25rem);
+          font-weight: 500;
+          color: var(--color-text-secondary);
+          line-height: 1.3;
+          margin-top: var(--space-lg);
         }
 
         .news-articles {
@@ -100,9 +135,8 @@ export const NewsInsights = () => {
             font-size: 0.8125rem;
           }
 
-          .section-title {
-            font-size: 2rem;
-            white-space: normal;
+          .news-tagline {
+            margin-top: var(--space-md);
           }
         }
 
@@ -114,12 +148,6 @@ export const NewsInsights = () => {
 
           .news-header {
             margin-bottom: var(--space-lg);
-          }
-
-          .section-title {
-            font-size: 1.75rem;
-            white-space: normal;
-            text-align: center;
           }
 
           .news-articles {

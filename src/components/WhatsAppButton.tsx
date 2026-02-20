@@ -34,24 +34,24 @@ export const WhatsAppButton = () => {
       whileTap={{ scale: 0.9 }}
       transition={{
         type: 'spring',
-        stiffness: 260,
-        damping: 20,
+        stiffness: 200,
+        damping: 25,
       }}
       aria-label={t.whatsapp.ariaLabel}
     >
       {isVisible && (
         <motion.div
           className="whatsapp-ripple"
-          initial={{ scale: 1, opacity: 0.5 }}
+          initial={{ scale: 1, opacity: 0.35 }}
           animate={{
-            scale: 1.5,
+            scale: 1.6,
             opacity: 0,
           }}
           transition={{
-            duration: 2,
+            duration: 1.8,
             repeat: Infinity,
             ease: 'easeOut',
-            repeatDelay: 0,
+            repeatDelay: 1.2,
           }}
         />
       )}

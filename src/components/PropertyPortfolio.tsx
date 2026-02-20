@@ -82,8 +82,8 @@ export const PropertyPortfolio = () => {
         >
           <div className="section-label">{t.portfolio.label}</div>
           <h2 className="section-title">
-            {t.portfolio.title.line1}
-            <br />
+            {t.portfolio.title.line1}{' '}
+            <span className="title-br"><br /></span>
             {t.portfolio.title.line2}
           </h2>
           <p className="section-subtitle">{t.portfolio.subtitle}</p>
@@ -450,6 +450,10 @@ export const PropertyPortfolio = () => {
         @media (max-width: 768px) {
           .portfolio {
             padding: var(--space-2xl) var(--space-md);
+          }
+
+          .portfolio-header {
+            margin-bottom: var(--space-2xl);
           }
 
           .gallery-card {

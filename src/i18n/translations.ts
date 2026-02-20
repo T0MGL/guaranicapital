@@ -189,7 +189,8 @@ export const translations = {
     // News
     news: {
       label: 'Market Insights',
-      title: 'Paraguay: The Time is Now',
+      titleCountry: 'Paraguay',
+      titleTagline: 'The Time is Now',
       readMore: 'Read full article',
       articles: [
         { description: "Standard & Poor's grants Paraguay its second Investment Grade, raising the rating to BBB- for its monetary credibility and inflation control." },
@@ -439,7 +440,8 @@ export const translations = {
     // News
     news: {
       label: 'Noticias del Mercado',
-      title: 'Paraguay: El momento es ahora',
+      titleCountry: 'Paraguay',
+      titleTagline: 'El momento es ahora',
       readMore: 'Leer artículo completo',
       articles: [
         { description: "Standard & Poor's otorga a Paraguay su segundo Grado de Inversión, elevando la calificación a BBB- por su credibilidad monetaria y control de inflación." },
@@ -689,7 +691,8 @@ export const translations = {
     // News
     news: {
       label: 'Notícias do Mercado',
-      title: 'Paraguai: O Momento é Agora',
+      titleCountry: 'Paraguai',
+      titleTagline: 'O Momento é Agora',
       readMore: 'Ler artigo completo',
       articles: [
         { description: "A Standard & Poor's concede ao Paraguai seu segundo Grau de Investimento, elevando a classificação para BBB- pela credibilidade monetária e controle de inflação." },
@@ -771,7 +774,7 @@ export const translations = {
       subtitle: '100% umfassende Airbnb- und Booking.com-Verwaltung mit europäischer Erfahrung und nachgewiesenen Ergebnissen in über 50 Immobilien in Paraguay',
       cta: {
         primary: 'Jetzt starten',
-        secondary: 'Unsere Dienstleistungen entdecken',
+        secondary: 'Unsere Leistungen entdecken',
       },
       stats: {
         properties: {
@@ -939,7 +942,8 @@ export const translations = {
     // News
     news: {
       label: 'Marktnachrichten',
-      title: 'Paraguay: Die Zeit ist Jetzt',
+      titleCountry: 'Paraguay',
+      titleTagline: 'Die Zeit ist Jetzt',
       readMore: 'Vollständigen Artikel lesen',
       articles: [
         { description: "Standard & Poor's verleiht Paraguay sein zweites Investment-Grade-Rating und hebt die Bewertung auf BBB- für seine monetäre Glaubwürdigkeit und Inflationskontrolle an." },
