@@ -209,18 +209,18 @@ html.lenis {
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    #ffffff 0%,
-    #ffffff 35%,
-    #ffd700 45%,
-    #fffde0 50%,
-    #ffd700 55%,
-    #ffffff 65%,
-    #ffffff 100%
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.5) 35%,
+    rgba(100, 160, 220, 0.95) 46%,
+    rgba(150, 200, 255, 1.0) 50%,
+    rgba(100, 160, 220, 0.95) 54%,
+    rgba(255, 255, 255, 0.5) 65%,
+    rgba(255, 255, 255, 0.5) 100%
   );
   background-size: 200% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 3s ease-in-out infinite;
-  font-weight: 600;
+  font-weight: 500;
 }
