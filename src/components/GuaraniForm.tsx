@@ -22,7 +22,7 @@ export const GuaraniForm = () => {
       question: '¿Cuál es tu nombre completo?',
       type: 'text',
       required: true,
-      placeholder: 'Juan Pérez',
+      placeholder: 'Alex Smith',
     },
     {
       id: 'email',
@@ -84,7 +84,7 @@ export const GuaraniForm = () => {
       question: '¿Cuál es tu nombre completo?',
       type: 'text',
       required: true,
-      placeholder: 'Juan Pérez',
+      placeholder: 'Alex Smith',
     },
     {
       id: 'email',
