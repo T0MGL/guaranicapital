@@ -123,11 +123,11 @@ export function CRM() {
             <div className="crm-container">
                 <header className="crm-top-header">
                     <div className="crm-brand">
-                        <div style={{ marginBottom: '1rem' }}>
-                            <Logo width={120} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
+                            <Logo width={40} height={40} />
+                            <h1 style={{ fontSize: '1.25rem', fontWeight: '700', letterSpacing: '-0.01em', margin: 0 }}>Guaraní Capital</h1>
                         </div>
-                        <h1>Panel de Control</h1>
-                        <p>Gestión Estratégica de Leads</p>
+                        <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--crm-text-muted)', fontWeight: '500' }}>Panel de Control de Leads</p>
                     </div>
                     {error && <div style={{ color: 'var(--crm-danger)', background: '#fee2e2', padding: '0.75rem 1.5rem', borderRadius: '12px', fontSize: '0.875rem', fontWeight: '500' }}>{error}</div>}
                     <div className="crm-header-actions">
@@ -195,95 +195,106 @@ export function CRM() {
                 </div>
 
                 <div className="crm-table-wrapper">
-                    <table className="crm-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre del Lead</th>
-                                <th>Propiedad / Interés</th>
-                                <th>Presupuesto</th>
-                                <th>Estado</th>
-                                <th style={{ textAlign: 'right' }}>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <AnimatePresence>
-                                {filteredLeads.map(lead => (
-                                    <motion.tr
-                                        key={lead.id}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <td>
-                                            <div className="lead-name-cell">
-                                                <span>{lead.Nombre}</span>
-                                                <div style={{ display: 'flex', gap: '10px', marginTop: '6px', alignItems: 'center' }}>
-                                                    <a href={`https://wa.me/${lead.Whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }} title="Chat WhatsApp"><Phone size={14} /></a>
-                                                    <small>{lead.Whatsapp}</small>
-                                                    <small style={{ opacity: 0.5 }}>•</small>
-                                                    <small>{lead.Email}</small>
-                                                </div>
-                                                <small style={{ marginTop: '4px', opacity: 0.6 }}><Calendar size={10} style={{ marginRight: '4px' }} />{lead.Fecha}</small>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                <span style={{ fontSize: '0.875rem', fontWeight: '500', color: lead.Motivacion === 'INVERSION' ? 'var(--crm-primary)' : '#6366f1' }}>
-                                                    {lead.Motivacion === 'INVERSION' ? 'Inversión' : 'Administración'}
-                                                </span>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--crm-text-muted)', fontSize: '0.8125rem' }}>
-                                                    <MapPin size={12} />
-                                                    {lead.Procedimiento || lead.Ubicacion}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span style={{ fontSize: '0.9375rem', fontWeight: '600', color: lead.Presupuesto ? 'var(--crm-text)' : 'var(--crm-text-muted)' }}>{lead.Presupuesto || 'N/A'}</span>
-                                        </td>
-                                        <td>
-                                            <span className={`status-badge ${String(lead.converted) === 'true' ? 'converted' : String(lead.lost) === 'true' ? 'lost' : String(lead.contacted) === 'true' ? 'contacted' : 'new'}`}>
-                                                {String(lead.converted) === 'true' ? 'Convertido' : String(lead.lost) === 'true' ? 'Perdido' : String(lead.contacted) === 'true' ? 'Contactado' : 'Nuevo Lead'}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div className="action-buttons" style={{ justifyContent: 'flex-end' }}>
-                                                <button
-                                                    onClick={() => handleStatusChange(lead.id, 'contacted', String(lead.contacted) !== 'true')}
-                                                    className={`icon-action-btn ${String(lead.contacted) === 'true' ? 'active-info' : ''}`}
-                                                    title="Marcar como Contactado"
-                                                >
-                                                    <Phone size={16} />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleStatusChange(lead.id, 'converted', String(lead.converted) !== 'true')}
-                                                    className={`icon-action-btn ${String(lead.converted) === 'true' ? 'active-success' : ''}`}
-                                                    title="Confirmar Conversión"
-                                                >
-                                                    <Check size={18} />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleStatusChange(lead.id, 'lost', String(lead.lost) !== 'true')}
-                                                    className={`icon-action-btn ${String(lead.lost) === 'true' ? 'active-danger' : ''}`}
-                                                    title="Marcar como Perdido"
-                                                >
-                                                    <X size={18} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </motion.tr>
-                                ))}
-                            </AnimatePresence>
-                            {filteredLeads.length === 0 && !loading && (
+                    {loading && leads.length === 0 ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '100px 0', gap: '16px' }}>
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                style={{ width: '32px', height: '32px', border: '2px solid var(--crm-border)', borderTopColor: 'var(--crm-primary)', borderRadius: '50%' }}
+                            />
+                            <p style={{ color: 'var(--crm-text-muted)', fontSize: '0.875rem', fontWeight: '500' }}>Cargando leads...</p>
+                        </div>
+                    ) : (
+                        <table className="crm-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan={5} style={{ textAlign: 'center', padding: '120px 0' }}>
-                                        <Users size={48} style={{ color: 'var(--crm-border)', marginBottom: '1.5rem' }} />
-                                        <p style={{ color: 'var(--crm-text-muted)', fontSize: '1rem' }}>No se encontraron leads en esta sección.</p>
-                                    </td>
+                                    <th>Nombre del Lead</th>
+                                    <th>Propiedad / Interés</th>
+                                    <th>Presupuesto</th>
+                                    <th>Estado</th>
+                                    <th style={{ textAlign: 'right' }}>Acciones</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <AnimatePresence>
+                                    {filteredLeads.map(lead => (
+                                        <motion.tr
+                                            key={lead.id}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <td>
+                                                <div className="lead-name-cell">
+                                                    <span>{lead.Nombre}</span>
+                                                    <div style={{ display: 'flex', gap: '10px', marginTop: '6px', alignItems: 'center' }}>
+                                                        <a href={`https://wa.me/${lead.Whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }} title="Chat WhatsApp"><Phone size={14} /></a>
+                                                        <small>{lead.Whatsapp}</small>
+                                                        <small style={{ opacity: 0.5 }}>•</small>
+                                                        <small>{lead.Email}</small>
+                                                    </div>
+                                                    <small style={{ marginTop: '4px', opacity: 0.6 }}><Calendar size={10} style={{ marginRight: '4px' }} />{lead.Fecha}</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                    <span style={{ fontSize: '0.875rem', fontWeight: '500', color: lead.Motivacion === 'INVERSION' ? 'var(--crm-primary)' : '#6366f1' }}>
+                                                        {lead.Motivacion === 'INVERSION' ? 'Inversión' : 'Administración'}
+                                                    </span>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--crm-text-muted)', fontSize: '0.8125rem' }}>
+                                                        <MapPin size={12} />
+                                                        {lead.Procedimiento || lead.Ubicacion}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span style={{ fontSize: '0.9375rem', fontWeight: '600', color: lead.Presupuesto ? 'var(--crm-text)' : 'var(--crm-text-muted)' }}>{lead.Presupuesto || 'N/A'}</span>
+                                            </td>
+                                            <td>
+                                                <span className={`status-badge ${String(lead.converted) === 'true' ? 'converted' : String(lead.lost) === 'true' ? 'lost' : String(lead.contacted) === 'true' ? 'contacted' : 'new'}`}>
+                                                    {String(lead.converted) === 'true' ? 'Convertido' : String(lead.lost) === 'true' ? 'Perdido' : String(lead.contacted) === 'true' ? 'Contactado' : 'Nuevo Lead'}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div className="action-buttons" style={{ justifyContent: 'flex-end' }}>
+                                                    <button
+                                                        onClick={() => handleStatusChange(lead.id, 'contacted', String(lead.contacted) !== 'true')}
+                                                        className={`icon-action-btn ${String(lead.contacted) === 'true' ? 'active-info' : ''}`}
+                                                        title="Marcar como Contactado"
+                                                    >
+                                                        <Phone size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleStatusChange(lead.id, 'converted', String(lead.converted) !== 'true')}
+                                                        className={`icon-action-btn ${String(lead.converted) === 'true' ? 'active-success' : ''}`}
+                                                        title="Confirmar Conversión"
+                                                    >
+                                                        <Check size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleStatusChange(lead.id, 'lost', String(lead.lost) !== 'true')}
+                                                        className={`icon-action-btn ${String(lead.lost) === 'true' ? 'active-danger' : ''}`}
+                                                        title="Marcar como Perdido"
+                                                    >
+                                                        <X size={18} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                </AnimatePresence>
+                                {filteredLeads.length === 0 && !loading && (
+                                    <tr>
+                                        <td colSpan={5} style={{ textAlign: 'center', padding: '120px 0' }}>
+                                            <Users size={48} style={{ color: 'var(--crm-border)', marginBottom: '1.5rem' }} />
+                                            <p style={{ color: 'var(--crm-text-muted)', fontSize: '1rem' }}>No se encontraron leads en esta sección.</p>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
         </div>
