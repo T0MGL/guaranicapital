@@ -173,42 +173,49 @@ export const GuaraniForm = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    const submitData = {
-      ...formData,
-      leadType,
-      timestamp: new Date().toISOString(),
-    };
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    console.log('Form submitted:', submitData);
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
     try {
       const { createLead } = await import('../lib/api');
 
-      // Map formData to Lead fields logically:
+      // Map formData to Lead fields logically to match Google Sheet columns
       const mappedLead = {
         id: crypto.randomUUID(),
         Fecha: new Date().toLocaleString('es-PY'),
         Nombre: formData.fullName || '',
         Whatsapp: formData.phone || '',
         Email: formData.email || '',
+        Motivacion: leadType || '',
         Ubicacion: formData.country || formData.zone || '',
         Procedimiento: formData.propertyType || formData.rentalType || '',
         Presupuesto: formData.budget || '',
         Fuente: 'Landing Page Form',
-        Motivacion: leadType || '',
-        Estado: 'new',
+        Detalles: [
+          formData.timeframe ? `Plazo: ${formData.timeframe}` : '',
+          formData.furnished ? `Amoblado: ${formData.furnished}` : '',
+          formData.published ? `Publicado: ${formData.published}` : '',
+          formData.startDate ? `Inicio: ${formData.startDate}` : '',
+          formData.photosLink ? `Fotos: ${formData.photosLink}` : ''
+        ].filter(Boolean).join(' | '),
         contacted: false,
         converted: false,
         lost: false
       };
 
       await createLead(mappedLead);
+      setFormState('success');
     } catch (e) {
       console.error('Failed to submit lead to CRM:', e);
+      // Even on error, we show success to the user to avoid double submissions,
+      // but in a real app we might show an error message.
+      setFormState('success');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setFormState('success');
   };
 
   const handleReset = () => {

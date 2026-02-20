@@ -246,6 +246,11 @@ export function CRM() {
                                                         <MapPin size={12} />
                                                         {lead.Procedimiento || lead.Ubicacion}
                                                     </div>
+                                                    {lead.Detalles && (
+                                                        <div style={{ marginTop: '4px', fontSize: '0.75rem', color: 'var(--crm-text-muted)', background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px', display: 'inline-block' }}>
+                                                            {lead.Detalles}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td>

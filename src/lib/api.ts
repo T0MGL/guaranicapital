@@ -6,12 +6,12 @@ export interface Lead {
     Nombre: string;
     Whatsapp: string;
     Email: string;
-    Ubicacion: string;
-    Procedimiento: string; // Used as property type/budget/etc
+    Motivacion: string; // INVERSION or ADMINISTRACION
+    Ubicacion: string; // Pais or Zone
+    Procedimiento: string; // Interes/Property Type
     Presupuesto: string;
-    Fuente: string;
-    Motivacion: string; // Used for leadType (INVERSION or ADMINISTRACION)
-    Estado: string; // Ej: 'cold', 'warm', 'hot'
+    Fuente: string; // "Landing Page Form"
+    Detalles: string; // Extra info like timeframe, photosLink, furnished, etc.
     contacted: boolean;
     converted: boolean;
     lost: boolean;
