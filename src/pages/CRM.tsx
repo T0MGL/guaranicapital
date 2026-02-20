@@ -1,11 +1,111 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter } from 'lucide-react';
+import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut } from 'lucide-react';
 import { getLeads, updateLead, Lead } from '../lib/api';
 import { Logo } from '../components/Logo';
 import '../styles/crm.css';
 
+const SESSION_KEY = 'crm_auth_ts';
+const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+function isSessionValid(): boolean {
+    const ts = localStorage.getItem(SESSION_KEY);
+    if (!ts) return false;
+    return Date.now() - Number(ts) < SESSION_DURATION;
+}
+
+function CRMLogin({ onSuccess }: { onSuccess: () => void }) {
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const correctPassword = (import.meta as any).env.VITE_CRM_PASSWORD;
+        if (password === correctPassword) {
+            localStorage.setItem(SESSION_KEY, String(Date.now()));
+            onSuccess();
+        } else {
+            setError(true);
+            setPassword('');
+            setTimeout(() => setError(false), 2000);
+        }
+    };
+
+    return (
+        <div className="crm-body">
+            <div className="crm-setup-screen">
+                <motion.div
+                    className="crm-setup-box"
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                >
+                    <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
+                        <Logo width={160} />
+                    </div>
+                    <h2>Guaraní CRM</h2>
+                    <p style={{ marginBottom: '2rem' }}>Ingresá tu contraseña para continuar</p>
+                    <form onSubmit={handleSubmit}>
+                        <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Contraseña"
+                                className="crm-input-elegant"
+                                style={{
+                                    marginBottom: 0,
+                                    borderColor: error ? 'var(--crm-danger)' : undefined,
+                                    paddingRight: '3.5rem',
+                                    transition: 'border-color 0.2s'
+                                }}
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                autoFocus
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(v => !v)}
+                                style={{
+                                    position: 'absolute', right: '1rem', top: '50%',
+                                    transform: 'translateY(-50%)', background: 'none',
+                                    border: 'none', cursor: 'pointer', color: 'var(--crm-text-muted)',
+                                    display: 'flex', alignItems: 'center', padding: 0
+                                }}
+                                tabIndex={-1}
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+                        {error && (
+                            <motion.p
+                                initial={{ opacity: 0, y: -4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                style={{ color: 'var(--crm-danger)', fontSize: '0.875rem', marginBottom: '1rem', fontWeight: 500 }}
+                            >
+                                Contraseña incorrecta
+                            </motion.p>
+                        )}
+                        <button type="submit" className="crm-btn-primary">
+                            Ingresar al Panel
+                        </button>
+                    </form>
+                </motion.div>
+            </div>
+        </div>
+    );
+}
+
 export function CRM() {
+    const [authenticated, setAuthenticated] = useState(isSessionValid());
+
+    if (!authenticated) {
+        return <CRMLogin onSuccess={() => setAuthenticated(true)} />;
+    }
+
+    return <CRMDashboard onLogout={() => { localStorage.removeItem(SESSION_KEY); setAuthenticated(false); }} />;
+}
+
+function CRMDashboard({ onLogout }: { onLogout: () => void }) {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -92,7 +192,18 @@ export function CRM() {
         if (filterType !== 'all') typeMatch = lead.Interes === filterType;
 
         return searchMatch && statusMatch && typeMatch;
-    }).sort((a, b) => new Date(b.Fecha).getTime() - new Date(a.Fecha).getTime());
+    }).sort((a, b) => {
+        const parseLocalDate = (str: string) => {
+            if (!str) return 0;
+            const iso = new Date(str);
+            if (!isNaN(iso.getTime())) return iso.getTime();
+            // Handle es-PY locale format: "19/2/2026, 10:30:00 a. m."
+            const match = str.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            if (match) return new Date(`${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}`).getTime();
+            return 0;
+        };
+        return parseLocalDate(b.Fecha) - parseLocalDate(a.Fecha);
+    });
 
     if (setupMode) {
         return (
@@ -135,7 +246,8 @@ export function CRM() {
                             <RefreshCw size={18} className={loading ? 'spin' : ''} />
                             {loading ? 'Sincronizando' : 'Actualizar'}
                         </button>
-                        <button className="icon-action-btn" onClick={() => setSetupMode(true)}><Settings size={20} /></button>
+                        <button className="icon-action-btn" onClick={() => setSetupMode(true)} title="Configuración"><Settings size={20} /></button>
+                        <button className="icon-action-btn" onClick={onLogout} title="Cerrar sesión"><LogOut size={20} /></button>
                     </div>
                 </header>
 
@@ -244,7 +356,7 @@ export function CRM() {
                                                     </span>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--crm-text-muted)', fontSize: '0.8125rem' }}>
                                                         <MapPin size={12} />
-                                                        {lead.Procedimiento || lead.Ubicacion}
+                                                        {lead.Tipo || lead.Ubicacion}
                                                     </div>
                                                     {lead.Detalles && (
                                                         <div style={{ marginTop: '4px', fontSize: '0.75rem', color: 'var(--crm-text-muted)', background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px', display: 'inline-block' }}>

@@ -197,7 +197,7 @@ export const GuaraniForm = () => {
         Email: formData.email || '',
         Ubicacion: formData.country || formData.zone || '',
         Presupuesto: formData.budget || '',
-        Procedimiento: formData.propertyType || formData.rentalType || '',
+        Tipo: formData.propertyType || formData.rentalType || '',
         Interes: leadType || '',
         Fuente: 'Landing Page Form',
         Detalles: [

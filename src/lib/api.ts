@@ -8,7 +8,7 @@ export interface Lead {
     Email: string;
     Ubicacion: string;
     Presupuesto: string;
-    Procedimiento: string;
+    Tipo: string;
     Interes: string; // INVERSION or ADMINISTRACION
     Fuente: string;
     Detalles: string;
