@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Phone, Mail, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter } from 'lucide-react';
+import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter } from 'lucide-react';
 import { getLeads, updateLead, Lead } from '../lib/api';
 import '../styles/crm.css';
 
@@ -97,18 +97,18 @@ export function CRM() {
         return (
             <div className="crm-body">
                 <div className="crm-setup-screen">
-                    <motion.div className="crm-setup-box" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                        <Settings className="setup-icon" size={48} style={{ color: '#D4AF37', marginBottom: '1.5rem' }} />
-                        <h2>Guaraní Capital CRM</h2>
-                        <p>Configura tu Google Sheets para empezar a gestionar tus leads de forma minimalista.</p>
+                    <motion.div className="crm-setup-box" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+                        <Settings className="setup-icon" size={64} style={{ color: 'var(--crm-primary)', marginBottom: '2rem', opacity: 0.1 }} />
+                        <h2>Guaraní CRM</h2>
+                        <p>Admin de Propiedades & Leads</p>
                         <input
                             type="url"
-                            placeholder="URL del Script de Google"
+                            placeholder="Web App URL de Google Apps Script"
                             className="crm-input-elegant"
                             value={appScriptUrl}
                             onChange={e => setAppScriptUrl(e.target.value)}
                         />
-                        <button className="crm-btn-primary" onClick={handleSaveSetup}>Conectar CRM</button>
+                        <button className="crm-btn-primary" onClick={handleSaveSetup}>Ingresar al Panel</button>
                     </motion.div>
                 </div>
             </div>
@@ -121,67 +121,68 @@ export function CRM() {
                 <header className="crm-top-header">
                     <div className="crm-brand">
                         <h1>Panel de Control</h1>
-                        <p>Guaraní Capital • CRM Leads</p>
+                        <p>Guaraní Capital • Gestión de Leads</p>
                     </div>
-                    {error && <div style={{ color: '#ef4444', fontSize: '0.8rem', background: 'rgba(239, 68, 68, 0.1)', padding: '0.5rem 1rem', borderRadius: '8px' }}>{error}</div>}
+                    {error && <div style={{ color: 'var(--crm-danger)', background: '#fee2e2', padding: '0.75rem 1.5rem', borderRadius: '12px', fontSize: '0.875rem', fontWeight: '500' }}>{error}</div>}
                     <div className="crm-header-actions">
                         <button className="crm-btn-refresh" onClick={fetchLeads} disabled={loading}>
-                            <RefreshCw size={16} className={loading ? 'spin' : ''} />
-                            {loading ? 'Sincronizando...' : 'Actualizar'}
+                            <RefreshCw size={18} className={loading ? 'spin' : ''} />
+                            {loading ? 'Sincronizando' : 'Actualizar'}
                         </button>
-                        <button className="icon-action-btn" onClick={() => setSetupMode(true)}><Settings size={18} /></button>
+                        <button className="icon-action-btn" onClick={() => setSetupMode(true)}><Settings size={20} /></button>
                     </div>
                 </header>
 
                 <section className="crm-stats-grid">
                     <div className="crm-stat-card">
-                        <div className="stat-icon-wrapper"><Users size={20} /></div>
-                        <h3>Total Leads</h3>
+                        <div className="stat-icon-wrapper"><Users size={24} /></div>
+                        <h3>Leads Totales</h3>
                         <div className="value">{stats.total}</div>
-                        <div className="trend" style={{ color: 'var(--crm-accent)' }}>Pipeline total</div>
+                        <div className="trend" style={{ color: 'var(--crm-text-muted)' }}>Registrados vía landing</div>
                     </div>
                     <div className="crm-stat-card">
-                        <div className="stat-icon-wrapper" style={{ background: 'rgba(39, 174, 96, 0.1)', color: 'var(--crm-success)' }}><ArrowUpRight size={20} /></div>
+                        <div className="stat-icon-wrapper" style={{ background: '#dcfce7', color: '#166534' }}><ArrowUpRight size={24} /></div>
                         <h3>Conversión</h3>
                         <div className="value">{stats.conversionRate}%</div>
-                        <div className="trend" style={{ color: 'var(--crm-success)' }}>{stats.converted} cerrados</div>
+                        <div className="trend" style={{ color: '#166534' }}>{stats.converted} cierres exitosos</div>
                     </div>
                     <div className="crm-stat-card">
-                        <div className="stat-icon-wrapper" style={{ background: 'rgba(212, 175, 55, 0.1)', color: 'var(--crm-accent)' }}><Phone size={20} /></div>
-                        <h3>Contactados</h3>
+                        <div className="stat-icon-wrapper" style={{ background: '#fef3c7', color: '#92400e' }}><Phone size={24} /></div>
+                        <h3>En Contacto</h3>
                         <div className="value">{stats.contacted}</div>
-                        <div className="trend" style={{ color: 'var(--crm-accent)' }}>{((stats.contacted / stats.total) * 100 || 0).toFixed(0)}% contactado</div>
+                        <div className="trend" style={{ color: '#92400e' }}>{((stats.contacted / stats.total) * 100 || 0).toFixed(0)}% del total</div>
                     </div>
                 </section>
 
                 <div className="crm-controls">
                     <div className="crm-filters">
                         <button onClick={() => setFilterStatus('all')} className={`filter-btn ${filterStatus === 'all' ? 'active' : ''}`}>Todos</button>
-                        <button onClick={() => setFilterStatus('new')} className={`filter-btn ${filterStatus === 'new' ? 'active' : ''}`}>Pendientes</button>
+                        <button onClick={() => setFilterStatus('new')} className={`filter-btn ${filterStatus === 'new' ? 'active' : ''}`}>Nuevos</button>
                         <button onClick={() => setFilterStatus('contacted')} className={`filter-btn ${filterStatus === 'contacted' ? 'active' : ''}`}>Contactados</button>
-                        <button onClick={() => setFilterStatus('converted')} className={`filter-btn ${filterStatus === 'converted' ? 'active' : ''}`}>Cerrados</button>
+                        <button onClick={() => setFilterStatus('converted')} className={`filter-btn ${filterStatus === 'converted' ? 'active' : ''}`}>Convertidos</button>
+                        <button onClick={() => setFilterStatus('lost')} className={`filter-btn ${filterStatus === 'lost' ? 'active' : ''}`}>Perdidos</button>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
                         <div className="crm-search-wrapper">
-                            <Search size={16} color="#666" />
+                            <Search size={18} color="#94a3b8" />
                             <input
                                 type="text"
-                                placeholder="Buscar lead..."
+                                placeholder="Buscar por nombre o celular..."
                                 value={searchTerm}
                                 onChange={e => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div className="filter-dropdown" style={{ background: 'transparent', border: '1px solid var(--crm-border)', padding: '0.4rem 0.8rem', borderRadius: '8px' }}>
-                            <Filter size={14} style={{ marginRight: '8px', color: '#666' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--crm-bg)', padding: '0.6rem 1rem', borderRadius: '10px', border: '1px solid var(--crm-border)' }}>
+                            <Filter size={16} color="#94a3b8" />
                             <select
                                 value={filterType}
                                 onChange={e => setFilterType(e.target.value)}
-                                style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', fontSize: '0.875rem' }}
+                                style={{ background: 'transparent', color: 'var(--crm-text)', border: 'none', outline: 'none', fontSize: '0.875rem', fontWeight: '500', cursor: 'pointer' }}
                             >
                                 <option value="all">Todas las Motivaciones</option>
-                                <option value="INVERSION">Inversión</option>
-                                <option value="ADMINISTRACION">Administración</option>
+                                <option value="INVERSION">Invisión / Compra</option>
+                                <option value="ADMINISTRACION">Administración Airbnb</option>
                             </select>
                         </div>
                     </div>
@@ -191,9 +192,8 @@ export function CRM() {
                     <table className="crm-table">
                         <thead>
                             <tr>
-                                <th>Fecha</th>
-                                <th>Nombre y Contacto</th>
-                                <th>Interés / Propiedad</th>
+                                <th>Nombre del Lead</th>
+                                <th>Propiedad / Interés</th>
                                 <th>Presupuesto</th>
                                 <th>Estado</th>
                                 <th style={{ textAlign: 'right' }}>Acciones</th>
@@ -207,34 +207,37 @@ export function CRM() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.2 }}
                                     >
-                                        <td style={{ fontSize: '0.8rem', color: '#666' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Calendar size={12} /> {lead.Fecha}</div>
-                                        </td>
                                         <td>
                                             <div className="lead-name-cell">
                                                 <span>{lead.Nombre}</span>
-                                                <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
-                                                    <a href={`https://wa.me/${lead.Whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#10b981' }}><Phone size={12} /></a>
-                                                    <a href={`mailto:${lead.Email}`} style={{ color: '#3b82f6' }}><Mail size={12} /></a>
+                                                <div style={{ display: 'flex', gap: '10px', marginTop: '6px', alignItems: 'center' }}>
+                                                    <a href={`https://wa.me/${lead.Whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }} title="Chat WhatsApp"><Phone size={14} /></a>
                                                     <small>{lead.Whatsapp}</small>
+                                                    <small style={{ opacity: 0.5 }}>•</small>
+                                                    <small>{lead.Email}</small>
+                                                </div>
+                                                <small style={{ marginTop: '4px', opacity: 0.6 }}><Calendar size={10} style={{ marginRight: '4px' }} />{lead.Fecha}</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                <span style={{ fontSize: '0.875rem', fontWeight: '500', color: lead.Motivacion === 'INVERSION' ? 'var(--crm-primary)' : '#6366f1' }}>
+                                                    {lead.Motivacion === 'INVERSION' ? 'Inversión' : 'Administración'}
+                                                </span>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--crm-text-muted)', fontSize: '0.8125rem' }}>
+                                                    <MapPin size={12} />
+                                                    {lead.Procedimiento || lead.Ubicacion}
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                                <span style={{ fontSize: '0.85rem', color: lead.Motivacion === 'INVERSION' ? 'var(--crm-accent)' : '#a5b4fc' }}>
-                                                    {lead.Motivacion === 'INVERSION' ? 'Inversión' : 'Gestión Airbnb'}
-                                                </span>
-                                                <small style={{ color: 'var(--crm-text-muted)' }}><MapPin size={10} style={{ marginRight: '4px' }} />{lead.Procedimiento || lead.Ubicacion}</small>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span style={{ fontSize: '0.85rem', fontWeight: '500', color: lead.Presupuesto ? 'var(--crm-text)' : 'var(--crm-text-muted)' }}>{lead.Presupuesto || '-'}</span>
+                                            <span style={{ fontSize: '0.9375rem', fontWeight: '600', color: lead.Presupuesto ? 'var(--crm-text)' : 'var(--crm-text-muted)' }}>{lead.Presupuesto || 'N/A'}</span>
                                         </td>
                                         <td>
                                             <span className={`status-badge ${String(lead.converted) === 'true' ? 'converted' : String(lead.lost) === 'true' ? 'lost' : String(lead.contacted) === 'true' ? 'contacted' : 'new'}`}>
-                                                {String(lead.converted) === 'true' ? 'Cerrado' : String(lead.lost) === 'true' ? 'Perdido' : String(lead.contacted) === 'true' ? 'En Contacto' : 'Nuevo'}
+                                                {String(lead.converted) === 'true' ? 'Convertido' : String(lead.lost) === 'true' ? 'Perdido' : String(lead.contacted) === 'true' ? 'Contactado' : 'Nuevo Lead'}
                                             </span>
                                         </td>
                                         <td>
@@ -242,23 +245,23 @@ export function CRM() {
                                                 <button
                                                     onClick={() => handleStatusChange(lead.id, 'contacted', String(lead.contacted) !== 'true')}
                                                     className={`icon-action-btn ${String(lead.contacted) === 'true' ? 'active-info' : ''}`}
-                                                    title="Contactado"
+                                                    title="Marcar como Contactado"
                                                 >
-                                                    <Phone size={14} />
+                                                    <Phone size={16} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleStatusChange(lead.id, 'converted', String(lead.converted) !== 'true')}
                                                     className={`icon-action-btn ${String(lead.converted) === 'true' ? 'active-success' : ''}`}
-                                                    title="Venta Cerrada"
+                                                    title="Confirmar Conversión"
                                                 >
-                                                    <Check size={14} />
+                                                    <Check size={18} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleStatusChange(lead.id, 'lost', String(lead.lost) !== 'true')}
                                                     className={`icon-action-btn ${String(lead.lost) === 'true' ? 'active-danger' : ''}`}
-                                                    title="Marcar Perdido"
+                                                    title="Marcar como Perdido"
                                                 >
-                                                    <X size={14} />
+                                                    <X size={18} />
                                                 </button>
                                             </div>
                                         </td>
@@ -267,8 +270,9 @@ export function CRM() {
                             </AnimatePresence>
                             {filteredLeads.length === 0 && !loading && (
                                 <tr>
-                                    <td colSpan={6} style={{ textAlign: 'center', padding: '100px 0', color: '#444' }}>
-                                        No hay registros en esta sección.
+                                    <td colSpan={5} style={{ textAlign: 'center', padding: '120px 0' }}>
+                                        <Users size={48} style={{ color: 'var(--crm-border)', marginBottom: '1.5rem' }} />
+                                        <p style={{ color: 'var(--crm-text-muted)', fontSize: '1rem' }}>No se encontraron leads en esta sección.</p>
                                     </td>
                                 </tr>
                             )}
