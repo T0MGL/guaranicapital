@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter } from 'lucide-react';
 import { getLeads, updateLead, Lead } from '../lib/api';
+import { Logo } from '../components/Logo';
 import '../styles/crm.css';
 
 export function CRM() {
@@ -98,7 +99,9 @@ export function CRM() {
             <div className="crm-body">
                 <div className="crm-setup-screen">
                     <motion.div className="crm-setup-box" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-                        <Settings className="setup-icon" size={64} style={{ color: 'var(--crm-primary)', marginBottom: '2rem', opacity: 0.1 }} />
+                        <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
+                            <Logo width={160} />
+                        </div>
                         <h2>Guaraní CRM</h2>
                         <p>Admin de Propiedades & Leads</p>
                         <input
@@ -120,8 +123,11 @@ export function CRM() {
             <div className="crm-container">
                 <header className="crm-top-header">
                     <div className="crm-brand">
+                        <div style={{ marginBottom: '1rem' }}>
+                            <Logo width={120} />
+                        </div>
                         <h1>Panel de Control</h1>
-                        <p>Guaraní Capital • Gestión de Leads</p>
+                        <p>Gestión Estratégica de Leads</p>
                     </div>
                     {error && <div style={{ color: 'var(--crm-danger)', background: '#fee2e2', padding: '0.75rem 1.5rem', borderRadius: '12px', fontSize: '0.875rem', fontWeight: '500' }}>{error}</div>}
                     <div className="crm-header-actions">
