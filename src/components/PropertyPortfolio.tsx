@@ -2,9 +2,8 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
-interface Property {
+interface PropertyMeta {
   id: number;
-  name: string;
   location: string;
   airbnbUrl: string;
   image: string;
@@ -17,38 +16,33 @@ export const PropertyPortfolio = () => {
   const [offset, setOffset] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const properties: Property[] = [
+  const propertiesMeta: PropertyMeta[] = [
     {
       id: 1,
-      name: 'Modern Luxury Apartment',
       location: 'Asunción',
       airbnbUrl: 'https://www.airbnb.co.uk/rooms/1510892348329587039?guests=1&adults=1&s=67&unique_share_id=af00503d-ccd9-408c-8fd8-92adc2e267ea',
       image: '/airbnb1.webp',
     },
     {
       id: 2,
-      name: 'Premium Downtown Suite',
       location: 'Asunción',
       airbnbUrl: 'https://www.airbnb.co.uk/rooms/1596370816314737099?guests=1&adults=1&s=67&unique_share_id=eaa45090-9abf-4aa1-abc8-14d2e65be82d',
       image: '/airbnb2.webp',
     },
     {
       id: 3,
-      name: 'Elegant City View',
       location: 'Asunción',
       airbnbUrl: 'https://www.airbnb.co.uk/rooms/1608807788126038473?guests=1&adults=1&s=67&unique_share_id=09e47746-0165-43cb-8222-e96c5457b426',
       image: '/airbnb3.webp',
     },
     {
       id: 4,
-      name: 'Stylish Urban Retreat',
       location: 'Asunción',
       airbnbUrl: 'https://www.airbnb.co.uk/rooms/1533698279104413114?guests=1&adults=1&s=67&unique_share_id=917c8005-2155-435e-a1be-67872c5ca045',
       image: '/airbnb4.webp',
     },
     {
       id: 5,
-      name: 'Executive Apartment',
       location: 'Asunción',
       airbnbUrl: 'https://www.airbnb.co.uk/rooms/1271130534389738919?guests=1&adults=1&s=67&unique_share_id=f947fd63-5272-4789-9197-26c6182536fe',
       image: '/airbnb5.webp',
@@ -66,7 +60,7 @@ export const PropertyPortfolio = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  const N = properties.length;
+  const N = propertiesMeta.length;
   const maxOffset = Math.max(0, N - visibleCount);
 
   useEffect(() => {
@@ -108,7 +102,7 @@ export const PropertyPortfolio = () => {
               transition={{ type: 'spring', stiffness: 320, damping: 38, mass: 0.9 }}
               style={{ width: `${(N / visibleCount) * 100}%` }}
             >
-              {properties.map((prop) => (
+              {propertiesMeta.map((prop, index) => (
                 <a
                   key={prop.id}
                   href={prop.airbnbUrl}
@@ -120,7 +114,7 @@ export const PropertyPortfolio = () => {
                   <div className="card-image-box">
                     <img
                       src={prop.image}
-                      alt={prop.name}
+                      alt={t.portfolio.properties[index].name}
                       className="card-img"
                       loading="lazy"
                     />
@@ -137,7 +131,7 @@ export const PropertyPortfolio = () => {
                     </div>
                   </div>
                   <div className="card-footer">
-                    <p className="card-name">{prop.name}</p>
+                    <p className="card-name">{t.portfolio.properties[index].name}</p>
                     <p className="card-location">{prop.location}</p>
                   </div>
                 </a>

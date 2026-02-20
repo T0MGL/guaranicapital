@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const WhatsAppButton = () => {
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ export const WhatsAppButton = () => {
 
   return (
     <motion.a
-      href="https://wa.me/595991899050?text=Hola!%20Me%20gustaría%20información%20sobre%20gestión%20de%20propiedades"
+      href={`https://wa.me/595991899050?text=${encodeURIComponent(t.whatsapp.waMessage)}`}
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-button"
@@ -35,7 +37,7 @@ export const WhatsAppButton = () => {
         stiffness: 260,
         damping: 20,
       }}
-      aria-label="Contactar por WhatsApp"
+      aria-label={t.whatsapp.ariaLabel}
     >
       {isVisible && (
         <motion.div

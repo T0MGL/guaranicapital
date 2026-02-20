@@ -155,8 +155,8 @@ export const WhyChooseUs = () => {
         >
           <div className="section-label">{t.whyChooseUs.label}</div>
           <h2 className="section-title">
-            {t.whyChooseUs.title.line1}
-            <br />
+            {t.whyChooseUs.title.line1}{' '}
+            <span className="title-br"><br /></span>
             {t.whyChooseUs.title.line2}
           </h2>
           <p className="section-subtitle">
@@ -290,6 +290,14 @@ export const WhyChooseUs = () => {
         }
 
         @media (max-width: 768px) {
+          .title-br {
+            display: none;
+          }
+
+          .section-title {
+            text-wrap: balance;
+          }
+
           .why-choose-us {
             padding: var(--space-2xl) var(--space-md);
           }

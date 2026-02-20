@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut } from 'lucide-react';
+import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut, House } from 'lucide-react';
 import { getLeads, updateLead, Lead } from '../lib/api';
 import { Logo } from '../components/Logo';
 import '../styles/crm.css';
@@ -248,6 +248,7 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                         </button>
                         <button className="icon-action-btn" onClick={() => setSetupMode(true)} title="Configuración"><Settings size={20} /></button>
                         <button className="icon-action-btn" onClick={onLogout} title="Cerrar sesión"><LogOut size={20} /></button>
+                        <a href="/" className="icon-action-btn" title="Volver al sitio"><House size={20} /></a>
                     </div>
                 </header>
 

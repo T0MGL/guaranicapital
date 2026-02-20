@@ -1,25 +1,24 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
-const newsArticles = [
+const newsArticlesMeta = [
   {
-    description: 'Standard & Poor\'s otorga a Paraguay su segundo Grado de Inversión, elevando la calificación a BBB- por su credibilidad monetaria y control de inflación.',
     url: 'https://www.forbes.com.py/macroeconomia/paraguay-logra-su-segundo-grado-inversion-n83509',
     image: 'https://statics.forbes.com.py/2025/12/crop/694317fc3b312__980x549.webp',
   },
   {
-    description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5-8%, proyectando US$ 1.900 millones en transacciones para 2025.',
     url: 'https://www.forbes.com.py/macroeconomia/paraguay-plena-construccion-real-estate-ha-convertido-nueva-fuerza-economica-pais-n82470',
     image: 'https://statics.forbes.com.py/2025/11/crop/69285acb7a69c__1366x766.webp',
   },
   {
-    description: 'The rise of foreigners in Paraguay: what real estate solutions are they seeking? Investment opportunities in premium furnished apartments.',
     url: 'https://www.elinmobiliario.com.py/en/post/the-rise-of-foreigners-in-paraguay-what-real-estate-solutions-are-they-seeking',
     image: 'https://static.wixstatic.com/media/66d91e_fc73fb6e59564b66b328f767b187f49c~mv2.jpg/v1/fill/w_970,h_646,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/66d91e_fc73fb6e59564b66b328f767b187f49c~mv2.jpg',
   },
 ];
 
 export const NewsInsights = () => {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -33,15 +32,23 @@ export const NewsInsights = () => {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="section-label">Noticias del Mercado</div>
+          <div className="section-label">{t.news.label}</div>
           <h2 className="section-title">
-            Paraguay: El momento es ahora
+            {t.news.title}
           </h2>
         </motion.div>
 
         <div className="news-articles">
-          {newsArticles.map((article, index) => (
-            <ArticleEmbed key={index} article={article} index={index} isInView={isInView} />
+          {newsArticlesMeta.map((meta, index) => (
+            <ArticleEmbed
+              key={index}
+              description={t.news.articles[index].description}
+              url={meta.url}
+              image={meta.image}
+              readMore={t.news.readMore}
+              index={index}
+              isInView={isInView}
+            />
           ))}
         </div>
       </div>
@@ -125,17 +132,23 @@ export const NewsInsights = () => {
 };
 
 const ArticleEmbed = ({
-  article,
+  description,
+  url,
+  image,
+  readMore,
   index,
   isInView,
 }: {
-  article: typeof newsArticles[0];
+  description: string;
+  url: string;
+  image: string;
+  readMore: string;
   index: number;
   isInView: boolean;
 }) => {
   return (
     <motion.a
-      href={article.url}
+      href={url}
       target="_blank"
       rel="noopener noreferrer"
       className="article-card"
@@ -147,12 +160,12 @@ const ArticleEmbed = ({
       }}
     >
       <div className="article-image">
-        <img src={article.image} alt="Article preview" />
+        <img src={image} alt="Article preview" />
       </div>
       <div className="card-content">
-        <p className="article-description">{article.description}</p>
+        <p className="article-description">{description}</p>
         <div className="read-more">
-          Leer artículo completo
+          {readMore}
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
               d="M7.5 5L12.5 10L7.5 15"

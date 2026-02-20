@@ -85,6 +85,13 @@ export const translations = {
       subtitle: 'Discover some of our premium properties generating exceptional returns on Airbnb',
       viewButton: 'View on Airbnb',
       profileButton: 'See all reviews on Airbnb',
+      properties: [
+        { name: 'Modern Luxury Apartment' },
+        { name: 'Premium Downtown Suite' },
+        { name: 'Elegant City View' },
+        { name: 'Stylish Urban Retreat' },
+        { name: 'Executive Apartment' },
+      ],
     },
 
     // Services
@@ -175,6 +182,20 @@ export const translations = {
     // WhatsApp Button
     whatsapp: {
       message: 'Chat with us',
+      ariaLabel: 'Contact via WhatsApp',
+      waMessage: "Hello! I'd like information about property management in Paraguay",
+    },
+
+    // News
+    news: {
+      label: 'Market Insights',
+      title: 'Paraguay: The Time is Now',
+      readMore: 'Read full article',
+      articles: [
+        { description: "Standard & Poor's grants Paraguay its second Investment Grade, raising the rating to BBB- for its monetary credibility and inflation control." },
+        { description: "The real estate sector represents 12% of Paraguay's GDP with returns of 5–8%, projecting US$ 1.9 billion in transactions for 2025." },
+        { description: 'The rise of foreigners in Paraguay: what real estate solutions are they seeking? Investment opportunities in premium furnished apartments.' },
+      ],
     },
 
     // Form
@@ -314,6 +335,13 @@ export const translations = {
       subtitle: 'Descubrí algunas de nuestras propiedades premium generando retornos excepcionales en Airbnb',
       viewButton: 'Ver en Airbnb',
       profileButton: 'Ver todas las reseñas en Airbnb',
+      properties: [
+        { name: 'Apartamento de Lujo Moderno' },
+        { name: 'Suite Premium en el Centro' },
+        { name: 'Vista Elegante a la Ciudad' },
+        { name: 'Retiro Urbano con Estilo' },
+        { name: 'Apartamento Ejecutivo' },
+      ],
     },
 
     // Services
@@ -404,6 +432,20 @@ export const translations = {
     // WhatsApp Button
     whatsapp: {
       message: 'Chateá con nosotros',
+      ariaLabel: 'Contactar por WhatsApp',
+      waMessage: '¡Hola! Me gustaría información sobre gestión de propiedades en Paraguay',
+    },
+
+    // News
+    news: {
+      label: 'Noticias del Mercado',
+      title: 'Paraguay: El momento es ahora',
+      readMore: 'Leer artículo completo',
+      articles: [
+        { description: "Standard & Poor's otorga a Paraguay su segundo Grado de Inversión, elevando la calificación a BBB- por su credibilidad monetaria y control de inflación." },
+        { description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5-8%, proyectando US$ 1.900 millones en transacciones para 2025.' },
+        { description: 'El auge de los extranjeros en Paraguay: ¿qué soluciones inmobiliarias buscan? Oportunidades de inversión en apartamentos premium amoblados.' },
+      ],
     },
 
     // Form
@@ -543,6 +585,13 @@ export const translations = {
       subtitle: 'Descubra algumas de nossas propriedades premium gerando retornos excepcionais no Airbnb',
       viewButton: 'Ver no Airbnb',
       profileButton: 'Ver todas as avaliações no Airbnb',
+      properties: [
+        { name: 'Apartamento de Luxo Moderno' },
+        { name: 'Suíte Premium no Centro' },
+        { name: 'Vista Elegante da Cidade' },
+        { name: 'Refúgio Urbano com Estilo' },
+        { name: 'Apartamento Executivo' },
+      ],
     },
 
     // Services
@@ -633,6 +682,20 @@ export const translations = {
     // WhatsApp Button
     whatsapp: {
       message: 'Converse conosco',
+      ariaLabel: 'Contatar via WhatsApp',
+      waMessage: 'Olá! Gostaria de informações sobre gestão de propriedades no Paraguai',
+    },
+
+    // News
+    news: {
+      label: 'Notícias do Mercado',
+      title: 'Paraguai: O Momento é Agora',
+      readMore: 'Ler artigo completo',
+      articles: [
+        { description: "A Standard & Poor's concede ao Paraguai seu segundo Grau de Investimento, elevando a classificação para BBB- pela credibilidade monetária e controle de inflação." },
+        { description: 'O setor imobiliário representa 12% do PIB paraguaio com retornos de 5-8%, projetando US$ 1,9 bilhão em transações para 2025.' },
+        { description: 'A ascensão dos estrangeiros no Paraguai: quais soluções imobiliárias eles buscam? Oportunidades de investimento em apartamentos mobiliados premium.' },
+      ],
     },
 
     // Form
@@ -772,6 +835,13 @@ export const translations = {
       subtitle: 'Entdecken Sie einige unserer Premium-Immobilien, die außergewöhnliche Renditen auf Airbnb erzielen',
       viewButton: 'Auf Airbnb ansehen',
       profileButton: 'Alle Bewertungen auf Airbnb ansehen',
+      properties: [
+        { name: 'Moderne Luxuswohnung' },
+        { name: 'Premium Downtown Suite' },
+        { name: 'Elegante Stadtaussicht' },
+        { name: 'Stilvolles Stadtrefugium' },
+        { name: 'Executive Apartment' },
+      ],
     },
 
     // Services
@@ -862,6 +932,20 @@ export const translations = {
     // WhatsApp Button
     whatsapp: {
       message: 'Chatten Sie mit uns',
+      ariaLabel: 'Über WhatsApp kontaktieren',
+      waMessage: 'Hallo! Ich hätte gerne Informationen über die Immobilienverwaltung in Paraguay',
+    },
+
+    // News
+    news: {
+      label: 'Marktnachrichten',
+      title: 'Paraguay: Die Zeit ist Jetzt',
+      readMore: 'Vollständigen Artikel lesen',
+      articles: [
+        { description: "Standard & Poor's verleiht Paraguay sein zweites Investment-Grade-Rating und hebt die Bewertung auf BBB- für seine monetäre Glaubwürdigkeit und Inflationskontrolle an." },
+        { description: 'Der Immobiliensektor repräsentiert 12% des paraguayischen BIP mit Renditen von 5-8% und prognostiziert US$ 1,9 Milliarden an Transaktionen für 2025.' },
+        { description: 'Der Aufstieg der Ausländer in Paraguay: Welche Immobilienlösungen suchen sie? Investitionsmöglichkeiten in Premium-Möbelwohnungen.' },
+      ],
     },
 
     // Form

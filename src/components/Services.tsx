@@ -48,8 +48,8 @@ export const Services = () => {
         >
           <div className="section-label">{t.services.label}</div>
           <h2 className="section-title">
-            {t.services.title.line1}
-            <br />
+            {t.services.title.line1}{' '}
+            <span className="title-br"><br /></span>
             {t.services.title.line2}
           </h2>
           <p className="section-subtitle">
