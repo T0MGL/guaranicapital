@@ -187,7 +187,7 @@ export function CRM() {
                                 style={{ background: 'transparent', color: 'var(--crm-text)', border: 'none', outline: 'none', fontSize: '0.875rem', fontWeight: '500', cursor: 'pointer' }}
                             >
                                 <option value="all">Todas las Motivaciones</option>
-                                <option value="INVERSION">Invisión / Compra</option>
+                                <option value="INVERSION">Inversión</option>
                                 <option value="ADMINISTRACION">Administración Airbnb</option>
                             </select>
                         </div>
