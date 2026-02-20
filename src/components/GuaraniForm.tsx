@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FormStep } from './FormStep';
 import { ProgressBar } from './ProgressBar';
@@ -12,6 +12,7 @@ const phoneRegex = /^[\d\s+()-]+$/;
 export const GuaraniForm = () => {
   const { formState, setFormState } = useFormState();
   const [leadType, setLeadType] = useState<LeadType | null>(null);
+  const formContainerRef = useRef<HTMLDivElement>(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, string>>({});
 
@@ -157,6 +158,11 @@ export const GuaraniForm = () => {
     setFormState('form');
     setCurrentStepIndex(0);
     setFormData({});
+
+    // Scroll to the top of the form container to avoid jumping to footer
+    setTimeout(() => {
+      formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const handleNext = () => {
@@ -226,7 +232,7 @@ export const GuaraniForm = () => {
   };
 
   return (
-    <div className="guarani-form">
+    <div className="guarani-form" ref={formContainerRef}>
       <AnimatePresence mode="wait">
         {formState === 'selection' && (
           <motion.div
