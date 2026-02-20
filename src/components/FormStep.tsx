@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { FormStep as FormStepType } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FormStepProps {
   step: FormStepType;
@@ -21,6 +22,8 @@ export const FormStep = ({
   showBack,
   stepNumber,
 }: FormStepProps) => {
+  const { t } = useLanguage();
+  const ui = t.form.ui;
   const [error, setError] = useState<string>('');
   const [touched, setTouched] = useState(false);
 
@@ -31,14 +34,16 @@ export const FormStep = ({
 
   const validateAndNext = () => {
     if (step.required && !value.trim()) {
-      setError('Este campo es requerido');
+      setError(ui.required);
+      setTouched(true);
       return;
     }
 
     if (step.validation) {
       const result = step.validation(value);
       if (result !== true) {
-        setError(typeof result === 'string' ? result : 'Valor inválido');
+        setError(typeof result === 'string' ? result : ui.invalid);
+        setTouched(true);
         return;
       }
     }
@@ -46,8 +51,8 @@ export const FormStep = ({
     onNext();
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && step.type !== 'text') {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
       e.preventDefault();
       validateAndNext();
     }
@@ -105,7 +110,7 @@ export const FormStep = ({
                   className={`choice-button ${value === option ? 'active' : ''}`}
                   onClick={() => {
                     onChange(option);
-                    setTimeout(() => validateAndNext(), 300);
+                    setTimeout(() => onNext(), 300);
                   }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -130,7 +135,7 @@ export const FormStep = ({
               onBlur={() => setTouched(true)}
               autoFocus
             >
-              <option value="">Seleccionar...</option>
+              <option value="">{ui.select}</option>
               {step.options.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -144,7 +149,7 @@ export const FormStep = ({
               value={value}
               onChange={(e) => onChange(e.target.value)}
               onBlur={() => setTouched(true)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder={step.placeholder}
               autoFocus
             />
@@ -182,7 +187,7 @@ export const FormStep = ({
                     strokeLinejoin="round"
                   />
                 </svg>
-                Atrás
+                {ui.back}
               </button>
             )}
             <button
@@ -190,7 +195,7 @@ export const FormStep = ({
               onClick={validateAndNext}
               disabled={!value.trim()}
             >
-              Continuar
+              {ui.continue}
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
                   d="M7.5 5L12.5 10L7.5 15"
@@ -210,7 +215,13 @@ export const FormStep = ({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          Presioná <kbd>Enter ↵</kbd> para continuar
+          {ui.hint.split('Enter ↵').map((part, i) =>
+            i === 0 ? (
+              <span key={i}>{part}<kbd>Enter ↵</kbd></span>
+            ) : (
+              <span key={i}>{part}</span>
+            )
+          )}
         </motion.p>
       </div>
 

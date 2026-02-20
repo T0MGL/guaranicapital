@@ -4,6 +4,7 @@ import { FormStep } from './FormStep';
 import { ProgressBar } from './ProgressBar';
 import { FormSuccess } from './FormSuccess';
 import { useFormState } from '../context/FormStateContext';
+import { useLanguage } from '../context/LanguageContext';
 import type { LeadType, FormStep as FormStepType } from '../types';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -11,6 +12,8 @@ const phoneRegex = /^[\d\s+()-]+$/;
 
 export const GuaraniForm = () => {
   const { formState, setFormState } = useFormState();
+  const { t } = useLanguage();
+  const f = t.form;
   const [leadType, setLeadType] = useState<LeadType | null>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -19,134 +22,130 @@ export const GuaraniForm = () => {
   const investmentSteps: FormStepType[] = [
     {
       id: 'fullName',
-      question: '¿Cuál es tu nombre completo?',
+      question: f.investment.fullName.question,
       type: 'text',
       required: true,
-      placeholder: 'Alex Smith',
+      placeholder: f.investment.fullName.placeholder,
     },
     {
       id: 'email',
-      question: '¿Cuál es tu email?',
+      question: f.investment.email.question,
       type: 'email',
       required: true,
-      placeholder: 'juan@ejemplo.com',
+      placeholder: f.investment.email.placeholder,
       validation: (value) =>
-        emailRegex.test(value) || 'Por favor ingresá un email válido',
+        emailRegex.test(value) || f.ui.emailInvalid,
     },
     {
       id: 'phone',
-      question: '¿Cuál es tu número de WhatsApp?',
-      subtitle: 'Incluí el código de país',
+      question: f.investment.phone.question,
+      subtitle: f.investment.phone.subtitle,
       type: 'tel',
       required: true,
-      placeholder: '+595 991 899050',
+      placeholder: f.investment.phone.placeholder,
       validation: (value) =>
-        phoneRegex.test(value) || 'Por favor ingresá un número válido',
+        phoneRegex.test(value) || f.ui.phoneInvalid,
     },
     {
       id: 'country',
-      question: '¿Desde qué país nos contactás?',
+      question: f.investment.country.question,
       type: 'text',
       required: true,
-      placeholder: 'Paraguay',
+      placeholder: f.investment.country.placeholder,
     },
     {
       id: 'budget',
-      question: '¿Cuál es tu presupuesto aproximado?',
+      question: f.investment.budget.question,
       type: 'choice',
       required: true,
-      options: [
-        'USD 30.000–50.000',
-        'USD 50.000–100.000',
-        'Más de USD 100.000',
-      ],
+      options: f.investment.budget.options,
     },
     {
       id: 'timeframe',
-      question: '¿Cuándo estás pensando invertir?',
+      question: f.investment.timeframe.question,
       type: 'choice',
       required: true,
-      options: ['De inmediato', 'Próximos 3 meses', 'Solo estoy evaluando'],
+      options: f.investment.timeframe.options,
     },
     {
       id: 'rentalType',
-      question: '¿Qué tipo de renta te interesa?',
-      subtitle: 'Este campo es opcional',
+      question: f.investment.rentalType.question,
+      subtitle: f.investment.rentalType.subtitle,
       type: 'choice',
       required: false,
-      options: ['Renta corta (Airbnb/Booking)', 'No estoy seguro/a'],
+      options: f.investment.rentalType.options,
     },
   ];
 
   const managementSteps: FormStepType[] = [
     {
       id: 'fullName',
-      question: '¿Cuál es tu nombre completo?',
+      question: f.management.fullName.question,
       type: 'text',
       required: true,
-      placeholder: 'Alex Smith',
+      placeholder: f.management.fullName.placeholder,
     },
     {
       id: 'email',
-      question: '¿Cuál es tu email?',
+      question: f.management.email.question,
       type: 'email',
       required: true,
-      placeholder: 'juan@ejemplo.com',
+      placeholder: f.management.email.placeholder,
       validation: (value) =>
-        emailRegex.test(value) || 'Por favor ingresá un email válido',
+        emailRegex.test(value) || f.ui.emailInvalid,
     },
     {
       id: 'phone',
-      question: '¿Cuál es tu número de WhatsApp?',
-      subtitle: 'Incluí el código de país',
+      question: f.management.phone.question,
+      subtitle: f.management.phone.subtitle,
       type: 'tel',
       required: true,
-      placeholder: '+595 991 899050',
+      placeholder: f.management.phone.placeholder,
       validation: (value) =>
-        phoneRegex.test(value) || 'Por favor ingresá un número válido',
+        phoneRegex.test(value) || f.ui.phoneInvalid,
     },
     {
       id: 'zone',
-      question: '¿En qué zona o edificio está tu propiedad?',
+      question: f.management.zone.question,
       type: 'text',
       required: true,
-      placeholder: 'Ej: Villa Morra, Torre Champagne',
+      placeholder: f.management.zone.placeholder,
     },
     {
       id: 'propertyType',
-      question: '¿Qué tipo de propiedad es?',
+      question: f.management.propertyType.question,
       type: 'choice',
       required: true,
-      options: ['Monoambiente', '1 dormitorio', '2 dormitorios', 'Otro'],
+      options: f.management.propertyType.options,
     },
     {
       id: 'furnished',
-      question: '¿Está amoblado?',
+      question: f.management.furnished.question,
       type: 'choice',
       required: true,
-      options: ['Sí', 'No', 'Parcialmente'],
+      options: f.management.furnished.options,
     },
     {
       id: 'published',
-      question: '¿Ya está publicado en Airbnb o Booking?',
+      question: f.management.published.question,
       type: 'choice',
       required: true,
-      options: ['Sí', 'No'],
+      options: f.management.published.options,
     },
     {
       id: 'startDate',
-      question: '¿Desde cuándo te gustaría empezar?',
+      question: f.management.startDate.question,
       type: 'choice',
       required: true,
-      options: ['Inmediato', 'Estoy evaluando'],
+      options: f.management.startDate.options,
     },
     {
       id: 'photosLink',
-      question: '¿Tenés fotos de la propiedad?',
-      subtitle: 'Podés compartir un link a Google Drive o similar (opcional)',
+      question: f.management.photosLink.question,
+      subtitle: f.management.photosLink.subtitle,
       type: 'text',
       required: false,
-      placeholder: 'https://drive.google.com/...',
+      placeholder: f.management.photosLink.placeholder,
     },
   ];
 
@@ -181,47 +180,52 @@ export const GuaraniForm = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    try {
-      const { createLead } = await import('../lib/api');
+    // Show success immediately — don't block UX on API response
+    setFormState('success');
 
-      // Map formData to Lead fields logically to match Google Sheet columns
-      const mappedLead = {
-        id: crypto.randomUUID(),
-        Fecha: new Date().toLocaleString('es-PY'),
-        Nombre: formData.fullName || '',
-        Whatsapp: formData.phone || '',
-        Email: formData.email || '',
-        Ubicacion: formData.country || formData.zone || '',
-        Presupuesto: formData.budget || '',
-        Tipo: formData.propertyType || formData.rentalType || '',
-        Interes: leadType || '',
-        Fuente: 'Landing Page Form',
-        Detalles: [
-          formData.timeframe ? `Plazo: ${formData.timeframe}` : '',
-          formData.furnished ? `Amoblado: ${formData.furnished}` : '',
-          formData.published ? `Publicado: ${formData.published}` : '',
-          formData.startDate ? `Inicio: ${formData.startDate}` : '',
-          formData.photosLink ? `Fotos: ${formData.photosLink}` : ''
-        ].filter(Boolean).join(' | '),
-        contacted: false,
-        converted: false,
-        lost: false
-      };
+    // Capture current data before any state reset
+    const snapshot = { ...formData };
+    const snapshotLeadType = leadType;
 
-      await createLead(mappedLead);
-      setFormState('success');
-    } catch (e) {
-      console.error('Failed to submit lead to CRM:', e);
-      // Even on error, we show success to the user to avoid double submissions,
-      // but in a real app we might show an error message.
-      setFormState('success');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Fire CRM submission in background
+    (async () => {
+      try {
+        const { createLead } = await import('../lib/api');
+
+        const mappedLead = {
+          id: crypto.randomUUID(),
+          Fecha: new Date().toLocaleString('es-PY'),
+          Nombre: snapshot.fullName || '',
+          Whatsapp: snapshot.phone || '',
+          Email: snapshot.email || '',
+          Ubicacion: snapshot.country || snapshot.zone || '',
+          Presupuesto: snapshot.budget || '',
+          Tipo: snapshot.propertyType || snapshot.rentalType || '',
+          Interes: snapshotLeadType || '',
+          Fuente: 'Landing Page Form',
+          Detalles: [
+            snapshot.timeframe ? `Plazo: ${snapshot.timeframe}` : '',
+            snapshot.furnished ? `Amoblado: ${snapshot.furnished}` : '',
+            snapshot.published ? `Publicado: ${snapshot.published}` : '',
+            snapshot.startDate ? `Inicio: ${snapshot.startDate}` : '',
+            snapshot.photosLink ? `Fotos: ${snapshot.photosLink}` : ''
+          ].filter(Boolean).join(' | '),
+          contacted: false,
+          converted: false,
+          lost: false
+        };
+
+        await createLead(mappedLead);
+      } catch (e) {
+        console.error('Failed to submit lead to CRM:', e);
+      } finally {
+        setIsSubmitting(false);
+      }
+    })();
   };
 
   const handleReset = () => {
@@ -251,10 +255,10 @@ export const GuaraniForm = () => {
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
                 <h1 className="selection-title">
-                  Schedule a free consultation
+                  {f.selection.title}
                 </h1>
                 <p className="selection-subtitle">
-                  Tell us about your case and we'll send you a simulation at no cost.
+                  {f.selection.subtitle}
                 </p>
               </motion.div>
 
@@ -264,7 +268,7 @@ export const GuaraniForm = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
               >
-                How can we help you?
+                {f.selection.question}
               </motion.div>
 
               <motion.div
@@ -310,9 +314,9 @@ export const GuaraniForm = () => {
                     </svg>
                   </div>
                   <div className="button-content">
-                    <h3 className="button-title">I want to invest</h3>
+                    <h3 className="button-title">{f.selection.investTitle}</h3>
                     <p className="button-description">
-                      You're looking to buy an apartment for Airbnb-style rental
+                      {f.selection.investDescription}
                     </p>
                   </div>
                   <div className="button-arrow">
@@ -366,9 +370,9 @@ export const GuaraniForm = () => {
                     </svg>
                   </div>
                   <div className="button-content">
-                    <h3 className="button-title">I want management</h3>
+                    <h3 className="button-title">{f.selection.managementTitle}</h3>
                     <p className="button-description">
-                      You already have an apartment and want us to manage it
+                      {f.selection.managementDescription}
                     </p>
                   </div>
                   <div className="button-arrow">
@@ -391,7 +395,7 @@ export const GuaraniForm = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
               >
-                We respond in less than 24 hours
+                {f.selection.footer}
               </motion.p>
             </div>
           </motion.div>
@@ -416,7 +420,7 @@ export const GuaraniForm = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              Cambiar selección
+              {f.selection.changeSelection}
             </motion.button>
             <ProgressBar
               current={currentStepIndex + 1}

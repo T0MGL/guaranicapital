@@ -176,6 +176,58 @@ export const translations = {
     whatsapp: {
       message: 'Chat with us',
     },
+
+    // Form
+    form: {
+      selection: {
+        title: 'Schedule a free consultation',
+        subtitle: "Tell us about your case and we'll send you a simulation at no cost.",
+        question: 'How can we help you?',
+        investTitle: 'I want to invest',
+        investDescription: "You're looking to buy an apartment for Airbnb-style rental",
+        managementTitle: 'I want management',
+        managementDescription: 'You already have an apartment and want us to manage it',
+        footer: 'We respond in less than 24 hours',
+        changeSelection: 'Change selection',
+      },
+      ui: {
+        back: 'Back',
+        continue: 'Continue',
+        required: 'This field is required',
+        invalid: 'Invalid value',
+        select: 'Select...',
+        hint: 'Press Enter ↵ to continue',
+        emailInvalid: 'Please enter a valid email',
+        phoneInvalid: 'Please enter a valid number',
+      },
+      investment: {
+        fullName: { question: "What's your full name?", placeholder: 'Alex Smith' },
+        email: { question: "What's your email?", placeholder: 'alex@example.com' },
+        phone: { question: "What's your WhatsApp number?", subtitle: 'Include country code', placeholder: '+595 991 899050' },
+        country: { question: 'Which country are you contacting us from?', placeholder: 'Paraguay' },
+        budget: { question: "What's your approximate budget?", options: ['USD 30,000–50,000', 'USD 50,000–100,000', 'Over USD 100,000'] },
+        timeframe: { question: 'When are you thinking of investing?', options: ['Immediately', 'Next 3 months', 'Just evaluating'] },
+        rentalType: { question: 'What type of rental are you interested in?', subtitle: 'This field is optional', options: ['Short-term rental (Airbnb/Booking)', "I'm not sure"] },
+      },
+      management: {
+        fullName: { question: "What's your full name?", placeholder: 'Alex Smith' },
+        email: { question: "What's your email?", placeholder: 'alex@example.com' },
+        phone: { question: "What's your WhatsApp number?", subtitle: 'Include country code', placeholder: '+595 991 899050' },
+        zone: { question: 'What area or building is your property in?', placeholder: 'e.g: Villa Morra, Torre Champagne' },
+        propertyType: { question: 'What type of property is it?', options: ['Studio', '1 bedroom', '2 bedrooms', 'Other'] },
+        furnished: { question: 'Is it furnished?', options: ['Yes', 'No', 'Partially'] },
+        published: { question: 'Is it already listed on Airbnb or Booking?', options: ['Yes', 'No'] },
+        startDate: { question: 'When would you like to start?', options: ['Immediately', 'Just evaluating'] },
+        photosLink: { question: 'Do you have photos of the property?', subtitle: 'You can share a link to Google Drive or similar (optional)', placeholder: 'https://drive.google.com/...' },
+      },
+      success: {
+        title: "Done! We'll contact you soon",
+        investLabel: 'investment',
+        managementLabel: 'management',
+        description: 'We received your {type} request. We respond in less than 24 hours.',
+        back: 'Back to start',
+      },
+    },
   },
 
   es: {
@@ -352,6 +404,58 @@ export const translations = {
     // WhatsApp Button
     whatsapp: {
       message: 'Chateá con nosotros',
+    },
+
+    // Form
+    form: {
+      selection: {
+        title: 'Agendá una consulta gratuita',
+        subtitle: 'Contanos tu caso y te enviamos una simulación sin costo.',
+        question: '¿Cómo podemos ayudarte?',
+        investTitle: 'Quiero invertir',
+        investDescription: 'Estás buscando comprar un departamento para rentar en Airbnb',
+        managementTitle: 'Quiero gestión',
+        managementDescription: 'Ya tenés un departamento y querés que lo gestionemos',
+        footer: 'Respondemos en menos de 24 horas',
+        changeSelection: 'Cambiar selección',
+      },
+      ui: {
+        back: 'Atrás',
+        continue: 'Continuar',
+        required: 'Este campo es requerido',
+        invalid: 'Valor inválido',
+        select: 'Seleccionar...',
+        hint: 'Presioná Enter ↵ para continuar',
+        emailInvalid: 'Por favor ingresá un email válido',
+        phoneInvalid: 'Por favor ingresá un número válido',
+      },
+      investment: {
+        fullName: { question: '¿Cuál es tu nombre completo?', placeholder: 'Alex Smith' },
+        email: { question: '¿Cuál es tu email?', placeholder: 'alex@example.com' },
+        phone: { question: '¿Cuál es tu número de WhatsApp?', subtitle: 'Incluí el código de país', placeholder: '+595 991 899050' },
+        country: { question: '¿Desde qué país nos contactás?', placeholder: 'Paraguay' },
+        budget: { question: '¿Cuál es tu presupuesto aproximado?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Más de USD 100.000'] },
+        timeframe: { question: '¿Cuándo estás pensando invertir?', options: ['De inmediato', 'Próximos 3 meses', 'Solo estoy evaluando'] },
+        rentalType: { question: '¿Qué tipo de renta te interesa?', subtitle: 'Este campo es opcional', options: ['Renta corta (Airbnb/Booking)', 'No estoy seguro/a'] },
+      },
+      management: {
+        fullName: { question: '¿Cuál es tu nombre completo?', placeholder: 'Alex Smith' },
+        email: { question: '¿Cuál es tu email?', placeholder: 'alex@example.com' },
+        phone: { question: '¿Cuál es tu número de WhatsApp?', subtitle: 'Incluí el código de país', placeholder: '+595 991 899050' },
+        zone: { question: '¿En qué zona o edificio está tu propiedad?', placeholder: 'Ej: Villa Morra, Torre Champagne' },
+        propertyType: { question: '¿Qué tipo de propiedad es?', options: ['Monoambiente', '1 dormitorio', '2 dormitorios', 'Otro'] },
+        furnished: { question: '¿Está amoblado?', options: ['Sí', 'No', 'Parcialmente'] },
+        published: { question: '¿Ya está publicado en Airbnb o Booking?', options: ['Sí', 'No'] },
+        startDate: { question: '¿Desde cuándo te gustaría empezar?', options: ['Inmediato', 'Estoy evaluando'] },
+        photosLink: { question: '¿Tenés fotos de la propiedad?', subtitle: 'Podés compartir un link a Google Drive o similar (opcional)', placeholder: 'https://drive.google.com/...' },
+      },
+      success: {
+        title: '¡Listo! Te contactamos pronto',
+        investLabel: 'inversión',
+        managementLabel: 'administración',
+        description: 'Recibimos tu solicitud de {type}. Respondemos en menos de 24 horas.',
+        back: 'Volver al inicio',
+      },
     },
   },
 
@@ -530,6 +634,58 @@ export const translations = {
     whatsapp: {
       message: 'Converse conosco',
     },
+
+    // Form
+    form: {
+      selection: {
+        title: 'Agende uma consulta gratuita',
+        subtitle: 'Conte-nos sobre seu caso e enviaremos uma simulação sem custo.',
+        question: 'Como podemos ajudá-lo?',
+        investTitle: 'Quero investir',
+        investDescription: 'Você está procurando comprar um apartamento para alugar no Airbnb',
+        managementTitle: 'Quero gestão',
+        managementDescription: 'Você já tem um apartamento e quer que o gerenciemos',
+        footer: 'Respondemos em menos de 24 horas',
+        changeSelection: 'Mudar seleção',
+      },
+      ui: {
+        back: 'Voltar',
+        continue: 'Continuar',
+        required: 'Este campo é obrigatório',
+        invalid: 'Valor inválido',
+        select: 'Selecionar...',
+        hint: 'Pressione Enter ↵ para continuar',
+        emailInvalid: 'Por favor insira um email válido',
+        phoneInvalid: 'Por favor insira um número válido',
+      },
+      investment: {
+        fullName: { question: 'Qual é o seu nome completo?', placeholder: 'Alex Smith' },
+        email: { question: 'Qual é o seu email?', placeholder: 'alex@example.com' },
+        phone: { question: 'Qual é o seu número de WhatsApp?', subtitle: 'Inclua o código do país', placeholder: '+595 991 899050' },
+        country: { question: 'De qual país você está nos contatando?', placeholder: 'Paraguai' },
+        budget: { question: 'Qual é o seu orçamento aproximado?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Mais de USD 100.000'] },
+        timeframe: { question: 'Quando você está pensando em investir?', options: ['Imediatamente', 'Próximos 3 meses', 'Só estou avaliando'] },
+        rentalType: { question: 'Que tipo de aluguel te interessa?', subtitle: 'Este campo é opcional', options: ['Aluguel de curta temporada (Airbnb/Booking)', 'Não tenho certeza'] },
+      },
+      management: {
+        fullName: { question: 'Qual é o seu nome completo?', placeholder: 'Alex Smith' },
+        email: { question: 'Qual é o seu email?', placeholder: 'alex@example.com' },
+        phone: { question: 'Qual é o seu número de WhatsApp?', subtitle: 'Inclua o código do país', placeholder: '+595 991 899050' },
+        zone: { question: 'Em qual área ou prédio está sua propriedade?', placeholder: 'Ex: Villa Morra, Torre Champagne' },
+        propertyType: { question: 'Que tipo de propriedade é?', options: ['Estúdio', '1 quarto', '2 quartos', 'Outro'] },
+        furnished: { question: 'É mobiliado?', options: ['Sim', 'Não', 'Parcialmente'] },
+        published: { question: 'Já está publicado no Airbnb ou Booking?', options: ['Sim', 'Não'] },
+        startDate: { question: 'Quando você gostaria de começar?', options: ['Imediatamente', 'Estou avaliando'] },
+        photosLink: { question: 'Você tem fotos da propriedade?', subtitle: 'Você pode compartilhar um link para o Google Drive ou similar (opcional)', placeholder: 'https://drive.google.com/...' },
+      },
+      success: {
+        title: 'Pronto! Entraremos em contato em breve',
+        investLabel: 'investimento',
+        managementLabel: 'gestão',
+        description: 'Recebemos sua solicitação de {type}. Respondemos em menos de 24 horas.',
+        back: 'Voltar ao início',
+      },
+    },
   },
 
   de: {
@@ -706,6 +862,58 @@ export const translations = {
     // WhatsApp Button
     whatsapp: {
       message: 'Chatten Sie mit uns',
+    },
+
+    // Form
+    form: {
+      selection: {
+        title: 'Kostenlose Beratung vereinbaren',
+        subtitle: 'Erzählen Sie uns von Ihrem Fall und wir senden Ihnen kostenlos eine Simulation.',
+        question: 'Wie können wir Ihnen helfen?',
+        investTitle: 'Ich möchte investieren',
+        investDescription: 'Sie suchen eine Wohnung zu kaufen, die über Airbnb vermietet werden soll',
+        managementTitle: 'Ich möchte Verwaltung',
+        managementDescription: 'Sie haben bereits eine Wohnung und möchten, dass wir sie verwalten',
+        footer: 'Wir antworten in weniger als 24 Stunden',
+        changeSelection: 'Auswahl ändern',
+      },
+      ui: {
+        back: 'Zurück',
+        continue: 'Weiter',
+        required: 'Dieses Feld ist erforderlich',
+        invalid: 'Ungültiger Wert',
+        select: 'Auswählen...',
+        hint: 'Drücken Sie Enter ↵ um fortzufahren',
+        emailInvalid: 'Bitte geben Sie eine gültige E-Mail ein',
+        phoneInvalid: 'Bitte geben Sie eine gültige Nummer ein',
+      },
+      investment: {
+        fullName: { question: 'Wie lautet Ihr vollständiger Name?', placeholder: 'Alex Smith' },
+        email: { question: 'Wie lautet Ihre E-Mail?', placeholder: 'alex@example.com' },
+        phone: { question: 'Wie lautet Ihre WhatsApp-Nummer?', subtitle: 'Landesvorwahl angeben', placeholder: '+595 991 899050' },
+        country: { question: 'Aus welchem Land kontaktieren Sie uns?', placeholder: 'Paraguay' },
+        budget: { question: 'Was ist Ihr ungefähres Budget?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Über USD 100.000'] },
+        timeframe: { question: 'Wann möchten Sie investieren?', options: ['Sofort', 'In den nächsten 3 Monaten', 'Ich evaluiere nur'] },
+        rentalType: { question: 'Welche Art von Mieteinnahmen interessiert Sie?', subtitle: 'Dieses Feld ist optional', options: ['Kurzzeitmiete (Airbnb/Booking)', 'Ich bin unsicher'] },
+      },
+      management: {
+        fullName: { question: 'Wie lautet Ihr vollständiger Name?', placeholder: 'Alex Smith' },
+        email: { question: 'Wie lautet Ihre E-Mail?', placeholder: 'alex@example.com' },
+        phone: { question: 'Wie lautet Ihre WhatsApp-Nummer?', subtitle: 'Landesvorwahl angeben', placeholder: '+595 991 899050' },
+        zone: { question: 'In welchem Gebiet oder Gebäude befindet sich Ihre Immobilie?', placeholder: 'z.B: Villa Morra, Torre Champagne' },
+        propertyType: { question: 'Um welchen Immobilientyp handelt es sich?', options: ['Studio', '1 Schlafzimmer', '2 Schlafzimmer', 'Sonstiges'] },
+        furnished: { question: 'Ist sie möbliert?', options: ['Ja', 'Nein', 'Teilweise'] },
+        published: { question: 'Ist sie bereits auf Airbnb oder Booking gelistet?', options: ['Ja', 'Nein'] },
+        startDate: { question: 'Ab wann möchten Sie beginnen?', options: ['Sofort', 'Ich evaluiere noch'] },
+        photosLink: { question: 'Haben Sie Fotos der Immobilie?', subtitle: 'Sie können einen Link zu Google Drive oder ähnlichem teilen (optional)', placeholder: 'https://drive.google.com/...' },
+      },
+      success: {
+        title: 'Fertig! Wir melden uns bald',
+        investLabel: 'Investition',
+        managementLabel: 'Verwaltung',
+        description: 'Wir haben Ihre {type}-Anfrage erhalten. Wir antworten in weniger als 24 Stunden.',
+        back: 'Zurück zum Anfang',
+      },
     },
   },
 };

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { LeadType } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FormSuccessProps {
   leadType: LeadType;
@@ -7,6 +8,11 @@ interface FormSuccessProps {
 }
 
 export const FormSuccess = ({ leadType, onReset }: FormSuccessProps) => {
+  const { t } = useLanguage();
+  const s = t.form.success;
+  const typeLabel = leadType === 'INVERSION' ? s.investLabel : s.managementLabel;
+  const description = s.description.replace('{type}', typeLabel);
+
   return (
     <motion.div
       className="success-container"
@@ -38,7 +44,7 @@ export const FormSuccess = ({ leadType, onReset }: FormSuccessProps) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
       >
-        ¡Listo! Te contactamos pronto
+        {s.title}
       </motion.h2>
 
       <motion.p
@@ -46,12 +52,8 @@ export const FormSuccess = ({ leadType, onReset }: FormSuccessProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
-      >
-        Recibimos tu solicitud de{' '}
-        <strong>{leadType === 'INVERSION' ? 'inversión' : 'administración'}</strong>.
-        <br />
-        Respondemos en menos de 24 horas.
-      </motion.p>
+        dangerouslySetInnerHTML={{ __html: description.replace(typeLabel, `<strong>${typeLabel}</strong>`) }}
+      />
 
       <motion.button
         className="success-button"
@@ -62,7 +64,7 @@ export const FormSuccess = ({ leadType, onReset }: FormSuccessProps) => {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        Volver al inicio
+        {s.back}
       </motion.button>
 
       <style>{`

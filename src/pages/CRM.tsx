@@ -341,7 +341,7 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                                                 <div className="lead-name-cell">
                                                     <span>{lead.Nombre}</span>
                                                     <div style={{ display: 'flex', gap: '10px', marginTop: '6px', alignItems: 'center' }}>
-                                                        <a href={`https://wa.me/${lead.Whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }} title="Chat WhatsApp"><Phone size={14} /></a>
+                                                        <a href={`https://wa.me/${String(lead.Whatsapp ?? '').replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }} title="Chat WhatsApp"><Phone size={14} /></a>
                                                         <small>{lead.Whatsapp}</small>
                                                         <small style={{ opacity: 0.5 }}>•</small>
                                                         <small>{lead.Email}</small>
