@@ -282,7 +282,7 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                         <button onClick={() => setFilterStatus('lost')} className={`filter-btn ${filterStatus === 'lost' ? 'active' : ''}`}>Perdidos</button>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+                    <div className="crm-search-filter-row" style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
                         <div className="crm-search-wrapper">
                             <Search size={18} color="#94a3b8" />
                             <input
