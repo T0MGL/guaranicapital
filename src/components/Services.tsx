@@ -57,7 +57,7 @@ export const Services = () => {
           </p>
 
           <motion.a
-            href="https://drive.google.com/uc?export=download&id=1xvGb-AnXObHB2K492LVYCZzGp0N9Wkle"
+            href="https://drive.google.com/uc?export=download&id=1VF4bghhyGIT4FvqX-vljvvuCn9krW0mv"
             target="_blank"
             rel="noopener noreferrer"
             className="brochure-download"
