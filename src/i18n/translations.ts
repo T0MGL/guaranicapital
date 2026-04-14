@@ -19,7 +19,7 @@ export const translations = {
         line2: 'be generating right now?',
         line3: 'We take care of everything.',
       },
-      subtitle: '100% comprehensive Airbnb and Booking.com management with European experience and proven results in +50 properties in Paraguay',
+      subtitle: '100% comprehensive Airbnb and Booking.com management with proven results in +50 properties in Paraguay',
       cta: {
         primary: 'Get Started',
         secondary: 'Discover our services',
@@ -44,14 +44,14 @@ export const translations = {
     whyChooseUs: {
       label: 'Why Guaraní Capital?',
       title: {
-        line1: 'European experience applied',
-        line2: 'to the Paraguayan market',
+        line1: 'Professional management',
+        line2: 'applied to every property',
       },
-      subtitle: 'We combine technology, international experience and local knowledge to make your property generate real passive income.',
+      subtitle: 'We combine technology, rigorous processes and local knowledge to make your property generate real passive income.',
       pillars: {
         revenue: {
           title: 'Maximized Revenue',
-          description: 'With almost 10 years of experience in competitive European markets, we master dynamic pricing strategies and occupancy management that maximize your income month after month.',
+          description: 'We run dynamic pricing strategies and occupancy management tuned to the Paraguayan market to maximize your income month after month.',
           stats: {
             value: '+40%',
             label: 'Average income vs. traditional management',
@@ -100,7 +100,7 @@ export const translations = {
         line1: 'The people behind',
         line2: 'Guaraní Capital',
       },
-      subtitle: 'Two founders, European experience, one clear objective: your property working at its full potential without you lifting a finger.',
+      subtitle: 'Two founders, one clear objective: your property working at its full potential without you lifting a finger.',
       founders: [
         {
           role: 'Founder · Operations Director',
@@ -112,9 +112,9 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Founding partners',
-        title: 'European standards, Paraguayan roots.',
-        body: 'Close to a decade managing properties in Europe before bringing those processes to Asunción. Every detail, every guest, every review matters.',
+        eyebrow: 'Founders',
+        title: 'One team. One operation.',
+        body: 'Clear processes, 24/7 support and a single point of contact. You just collect the income.',
         meta: 'Asunción · 2026',
       },
     },
@@ -151,7 +151,7 @@ export const translations = {
         },
         optimization: {
           title: 'Prices That Adjust Themselves. Revenue That Grows.',
-          description: 'European-proven dynamic pricing that maximizes your income based on real-time demand, seasonality, and market analysis.',
+          description: 'Dynamic pricing that maximizes your income based on real-time demand, seasonality and market analysis.',
           features: [
             'Dynamic pricing',
             'Market analysis',
@@ -180,7 +180,7 @@ export const translations = {
 
     // Footer
     footer: {
-      tagline: 'Professional Airbnb-style property management in Paraguay. European experience, local service.',
+      tagline: 'Professional Airbnb-style property management in Paraguay. Local service, 24/7 support.',
       navigation: 'Navigation',
       servicesTitle: 'Services',
       contactTitle: 'Contact',
@@ -295,7 +295,7 @@ export const translations = {
         line2: 'tu propiedad hoy?',
         line3: 'Nosotros lo manejamos todo.',
       },
-      subtitle: 'Gestión 100% integral de Airbnb y Booking.com con experiencia europea y resultados probados en +50 propiedades en Paraguay',
+      subtitle: 'Gestión 100% integral de Airbnb y Booking.com con resultados probados en +50 propiedades en Paraguay',
       cta: {
         primary: 'Empezá ahora',
         secondary: 'Conocé nuestros servicios',
@@ -320,14 +320,14 @@ export const translations = {
     whyChooseUs: {
       label: '¿Por qué Guaraní Capital?',
       title: {
-        line1: 'Experiencia europea aplicada',
+        line1: 'Gestión profesional aplicada',
         line2: 'al mercado paraguayo',
       },
-      subtitle: 'Combinamos tecnología, experiencia internacional y conocimiento local para que tu propiedad genere ingresos pasivos reales.',
+      subtitle: 'Combinamos tecnología, procesos rigurosos y conocimiento local para que tu propiedad genere ingresos pasivos reales.',
       pillars: {
         revenue: {
           title: 'Ingresos Maximizados',
-          description: 'Con casi 10 años de experiencia en mercados competitivos de Europa, dominamos las estrategias de precios dinámicos y gestión de ocupación que maximizan tus ingresos mes a mes.',
+          description: 'Aplicamos estrategias de precios dinámicos y gestión de ocupación ajustadas al mercado paraguayo para maximizar tus ingresos mes a mes.',
           stats: {
             value: '+40%',
             label: 'Ingresos promedio vs. gestión tradicional',
@@ -376,7 +376,7 @@ export const translations = {
         line1: 'Las personas detrás',
         line2: 'de Guaraní Capital',
       },
-      subtitle: 'Dos fundadores, experiencia europea, un objetivo claro: que tu propiedad trabaje al máximo sin que tengas que hacer nada.',
+      subtitle: 'Dos fundadores, un objetivo claro: que tu propiedad trabaje al máximo sin que tengas que hacer nada.',
       founders: [
         {
           role: 'Founder · Operations Director',
@@ -388,9 +388,9 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Founding partners',
-        title: 'Estándares europeos, raíces paraguayas.',
-        body: 'Casi una década gestionando propiedades en Europa antes de traer esos procesos a Asunción. Cada detalle, cada huésped, cada reseña importa.',
+        eyebrow: 'Fundadores',
+        title: 'Un equipo. Una operación.',
+        body: 'Procesos claros, soporte 24/7 y un único punto de contacto. Vos solo cobrás.',
         meta: 'Asunción · 2026',
       },
     },
@@ -427,7 +427,7 @@ export const translations = {
         },
         optimization: {
           title: 'Precios que se Ajustan Solos. Ingresos que Crecen.',
-          description: 'Estrategia de precios dinámicos probada en Europa que maximiza tus ingresos basándose en demanda real, estacionalidad y análisis de mercado.',
+          description: 'Precios dinámicos que maximizan tus ingresos basándose en demanda real, estacionalidad y análisis de mercado.',
           features: [
             'Dynamic pricing',
             'Análisis de mercado',
@@ -456,7 +456,7 @@ export const translations = {
 
     // Footer
     footer: {
-      tagline: 'Gestión profesional de propiedades tipo Airbnb en Paraguay. Experiencia europea, servicio local.',
+      tagline: 'Gestión profesional de propiedades tipo Airbnb en Paraguay. Servicio local, soporte 24/7.',
       navigation: 'Navegación',
       servicesTitle: 'Servicios',
       contactTitle: 'Contacto',
@@ -571,7 +571,7 @@ export const translations = {
         line2: 'sua propriedade hoje?',
         line3: 'Cuidamos de tudo.',
       },
-      subtitle: 'Gestão 100% integral do Airbnb e Booking.com com experiência europeia e resultados comprovados em +50 propriedades no Paraguai',
+      subtitle: 'Gestão 100% integral do Airbnb e Booking.com com resultados comprovados em +50 propriedades no Paraguai',
       cta: {
         primary: 'Comece agora',
         secondary: 'Conheça nossos serviços',
@@ -596,14 +596,14 @@ export const translations = {
     whyChooseUs: {
       label: 'Por que Guaraní Capital?',
       title: {
-        line1: 'Experiência europeia aplicada',
+        line1: 'Gestão profissional aplicada',
         line2: 'ao mercado paraguaio',
       },
-      subtitle: 'Combinamos tecnologia, experiência internacional e conhecimento local para que sua propriedade gere renda passiva real.',
+      subtitle: 'Combinamos tecnologia, processos rigorosos e conhecimento local para que sua propriedade gere renda passiva real.',
       pillars: {
         revenue: {
           title: 'Receita Maximizada',
-          description: 'Com quase 10 anos de experiência em mercados europeus competitivos, dominamos as estratégias de precificação dinâmica e gestão de ocupação que maximizam sua renda mês a mês.',
+          description: 'Aplicamos estratégias de precificação dinâmica e gestão de ocupação ajustadas ao mercado paraguaio para maximizar sua renda mês a mês.',
           stats: {
             value: '+40%',
             label: 'Receita média vs. gestão tradicional',
@@ -652,7 +652,7 @@ export const translations = {
         line1: 'As pessoas por trás',
         line2: 'da Guaraní Capital',
       },
-      subtitle: 'Dois fundadores, experiência europeia, um objetivo claro: sua propriedade trabalhando ao máximo sem que você precise fazer nada.',
+      subtitle: 'Dois fundadores, um objetivo claro: sua propriedade trabalhando ao máximo sem que você precise fazer nada.',
       founders: [
         {
           role: 'Founder · Operations Director',
@@ -664,9 +664,9 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Founding partners',
-        title: 'Padrões europeus, raízes paraguaias.',
-        body: 'Quase uma década gerenciando propriedades na Europa antes de trazer esses processos para Assunção. Cada detalhe, cada hóspede, cada avaliação importa.',
+        eyebrow: 'Fundadores',
+        title: 'Uma equipe. Uma operação.',
+        body: 'Processos claros, suporte 24/7 e um único ponto de contato. Você só recebe a renda.',
         meta: 'Assunção · 2026',
       },
     },
@@ -703,7 +703,7 @@ export const translations = {
         },
         optimization: {
           title: 'Preços que se Ajustam Sozinhos. Receita que Cresce.',
-          description: 'Estratégia de preços dinâmicos comprovada na Europa que maximiza sua renda baseando-se em demanda real, sazonalidade e análise de mercado.',
+          description: 'Preços dinâmicos que maximizam sua renda baseando-se em demanda real, sazonalidade e análise de mercado.',
           features: [
             'Preços dinâmicos',
             'Análise de mercado',
@@ -732,7 +732,7 @@ export const translations = {
 
     // Footer
     footer: {
-      tagline: 'Gestão profissional de propriedades tipo Airbnb no Paraguai. Experiência europeia, serviço local.',
+      tagline: 'Gestão profissional de propriedades tipo Airbnb no Paraguai. Serviço local, suporte 24/7.',
       navigation: 'Navegação',
       servicesTitle: 'Serviços',
       contactTitle: 'Contato',
@@ -847,7 +847,7 @@ export const translations = {
         line2: 'gerade jetzt generieren?',
         line3: 'Wir kümmern uns um alles.',
       },
-      subtitle: '100% umfassende Airbnb- und Booking.com-Verwaltung mit europäischer Erfahrung und nachgewiesenen Ergebnissen in über 50 Immobilien in Paraguay',
+      subtitle: '100% umfassende Airbnb- und Booking.com-Verwaltung mit nachgewiesenen Ergebnissen in über 50 Immobilien in Paraguay',
       cta: {
         primary: 'Jetzt starten',
         secondary: 'Unsere Leistungen entdecken',
@@ -872,14 +872,14 @@ export const translations = {
     whyChooseUs: {
       label: 'Warum Guaraní Capital?',
       title: {
-        line1: 'Europäische Erfahrung angewendet',
-        line2: 'auf den paraguayischen Markt',
+        line1: 'Professionelles Management',
+        line2: 'für den paraguayischen Markt',
       },
-      subtitle: 'Wir kombinieren Technologie, internationale Erfahrung und lokales Wissen, damit Ihre Immobilie echtes passives Einkommen generiert.',
+      subtitle: 'Wir kombinieren Technologie, strukturierte Prozesse und lokales Wissen, damit Ihre Immobilie echtes passives Einkommen generiert.',
       pillars: {
         revenue: {
           title: 'Maximierte Einnahmen',
-          description: 'Mit fast 10 Jahren Erfahrung in wettbewerbsintensiven europäischen Märkten beherrschen wir dynamische Preisstrategien und Belegungsmanagement, die Ihre Einnahmen Monat für Monat maximieren.',
+          description: 'Dynamische Preisstrategien und Belegungsmanagement, abgestimmt auf den paraguayischen Markt, die Ihre Einnahmen Monat für Monat maximieren.',
           stats: {
             value: '+40%',
             label: 'Durchschnittliches Einkommen vs. traditionelle Verwaltung',
@@ -928,7 +928,7 @@ export const translations = {
         line1: 'Die Menschen hinter',
         line2: 'Guaraní Capital',
       },
-      subtitle: 'Zwei Gründer, europäische Erfahrung, ein klares Ziel: Ihre Immobilie arbeitet auf Höchstniveau, ohne dass Sie sich um etwas kümmern müssen.',
+      subtitle: 'Zwei Gründer, ein klares Ziel: Ihre Immobilie arbeitet auf Höchstniveau, ohne dass Sie sich um etwas kümmern müssen.',
       founders: [
         {
           role: 'Founder · Operations Director',
@@ -940,9 +940,9 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Founding partners',
-        title: 'Europäische Standards, paraguayische Wurzeln.',
-        body: 'Fast ein Jahrzehnt Erfahrung mit Immobilien in Europa, bevor diese Prozesse nach Asunción gebracht wurden. Jedes Detail, jeder Gast, jede Bewertung zählt.',
+        eyebrow: 'Gründer',
+        title: 'Ein Team. Ein Ablauf.',
+        body: 'Klare Prozesse, 24/7-Support und ein einziger Ansprechpartner. Sie kassieren einfach die Einnahmen.',
         meta: 'Asunción · 2026',
       },
     },
@@ -979,7 +979,7 @@ export const translations = {
         },
         optimization: {
           title: 'Preise, die sich selbst anpassen. Einnahmen, die wachsen.',
-          description: 'In Europa bewährte dynamische Preisgestaltung, die Ihre Einnahmen basierend auf Echtzeit-Nachfrage, Saisonalität und Marktanalyse maximiert.',
+          description: 'Dynamische Preisgestaltung, die Ihre Einnahmen basierend auf Echtzeit-Nachfrage, Saisonalität und Marktanalyse maximiert.',
           features: [
             'Dynamische Preisgestaltung',
             'Marktanalyse',
@@ -1008,7 +1008,7 @@ export const translations = {
 
     // Footer
     footer: {
-      tagline: 'Professionelle Airbnb-ähnliche Immobilienverwaltung in Paraguay. Europäische Erfahrung, lokaler Service.',
+      tagline: 'Professionelle Airbnb-ähnliche Immobilienverwaltung in Paraguay. Lokaler Service, 24/7-Support.',
       navigation: 'Navigation',
       servicesTitle: 'Dienstleistungen',
       contactTitle: 'Kontakt',
