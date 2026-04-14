@@ -116,9 +116,11 @@ export const TeamSection = () => {
 
         .founders-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: clamp(2rem, 4vw, 4rem);
           margin-bottom: var(--space-3xl);
+          max-width: 880px;
+          margin-inline: auto;
         }
 
         .founder-card {
@@ -129,7 +131,7 @@ export const TeamSection = () => {
 
         .founder-image-wrapper {
           position: relative;
-          aspect-ratio: 3 / 4;
+          aspect-ratio: 2 / 3;
           overflow: hidden;
           border-radius: var(--radius-md);
           background: var(--color-gray-100);
@@ -285,6 +287,7 @@ export const TeamSection = () => {
           .founders-grid {
             grid-template-columns: 1fr;
             gap: var(--space-2xl);
+            max-width: 420px;
           }
 
           .team-statement {
