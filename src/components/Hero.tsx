@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import { useCountUpStat } from '../hooks/useCountUp';
+import { scrollToSection } from '../hooks/useLenis';
 
 const StatItem = ({ number, label }: { number: string; label: string }) => {
   const { ref, value } = useCountUpStat(number, 2000);
@@ -15,32 +16,20 @@ const StatItem = ({ number, label }: { number: string; label: string }) => {
 
 export const Hero = () => {
   const { t } = useLanguage();
-  const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
+  const scrollToContact = () => {
+    const form = document.getElementById('contact-form');
+    const fallback = document.getElementById('contact');
+    const target = form ?? fallback;
+    if (!target) return;
+    // Center the selection cards in the viewport instead of landing on the heading.
+    const rect = target.getBoundingClientRect();
+    const centerOffset = Math.round((window.innerHeight - rect.height) / 2) * -1;
+    scrollToSection(target, centerOffset);
   };
 
   const scrollToServices = () => {
-    const element = document.getElementById('services');
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
+    scrollToSection('services', -80);
   };
 
   return (

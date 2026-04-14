@@ -4,6 +4,7 @@ import { Logo } from './Logo';
 import { LanguageSelector } from './LanguageSelector';
 import { useLanguage } from '../context/LanguageContext';
 import { useFormState } from '../context/FormStateContext';
+import { scrollToSection as scrollToSectionLenis } from '../hooks/useLenis';
 
 export const Navbar = () => {
   const { t } = useLanguage();
@@ -24,18 +25,8 @@ export const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 50;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-      setIsMobileMenuOpen(false);
-    }
+    scrollToSectionLenis(id, -50);
+    setIsMobileMenuOpen(false);
   };
 
   const menuItems = [

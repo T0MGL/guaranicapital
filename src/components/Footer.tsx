@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Logo } from './Logo';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToSection as scrollToSectionLenis } from '../hooks/useLenis';
 
 export const Footer = () => {
   const { t } = useLanguage();
@@ -54,17 +55,7 @@ export const Footer = () => {
   ];
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
+    scrollToSectionLenis(id, -80);
   };
 
   return (

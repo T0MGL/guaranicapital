@@ -6,6 +6,7 @@ import { FormSuccess } from './FormSuccess';
 import { useFormState } from '../context/FormStateContext';
 import { useLanguage } from '../context/LanguageContext';
 import { createLead } from '../lib/api';
+import { scrollToSection } from '../hooks/useLenis';
 import type { LeadType, FormStep as FormStepType } from '../types';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -161,7 +162,9 @@ export const GuaraniForm = () => {
 
     // Scroll to the top of the form container to avoid jumping to footer
     setTimeout(() => {
-      formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (formContainerRef.current) {
+        scrollToSection(formContainerRef.current, -80);
+      }
     }, 100);
   };
 
@@ -271,6 +274,7 @@ export const GuaraniForm = () => {
               </motion.div>
 
               <motion.div
+                id="contact-form"
                 className="selection-buttons"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
