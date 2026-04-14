@@ -5,6 +5,7 @@ import { ProgressBar } from './ProgressBar';
 import { FormSuccess } from './FormSuccess';
 import { useFormState } from '../context/FormStateContext';
 import { useLanguage } from '../context/LanguageContext';
+import { createLead } from '../lib/api';
 import type { LeadType, FormStep as FormStepType } from '../types';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -194,8 +195,6 @@ export const GuaraniForm = () => {
     // Fire CRM submission in background
     (async () => {
       try {
-        const { createLead } = await import('../lib/api');
-
         const mappedLead = {
           id: crypto.randomUUID(),
           Fecha: new Date().toLocaleString('es-PY'),

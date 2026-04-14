@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { FormStep as FormStepType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -26,10 +26,20 @@ export const FormStep = ({
   const ui = t.form.ui;
   const [error, setError] = useState<string>('');
   const [touched, setTouched] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const selectRef = useRef<HTMLSelectElement | null>(null);
 
   useEffect(() => {
     setError('');
     setTouched(false);
+
+    // Focus the input without triggering browser auto-scroll.
+    // Native autoFocus + AnimatePresence slide + Lenis caused scroll jumps on step change.
+    const t = window.setTimeout(() => {
+      inputRef.current?.focus({ preventScroll: true });
+      selectRef.current?.focus({ preventScroll: true });
+    }, 420);
+    return () => window.clearTimeout(t);
   }, [step.id]);
 
   const validateAndNext = () => {
@@ -129,11 +139,11 @@ export const FormStep = ({
             </div>
           ) : step.type === 'select' && step.options ? (
             <select
+              ref={selectRef}
               className="form-select"
               value={value}
               onChange={(e) => onChange(e.target.value)}
               onBlur={() => setTouched(true)}
-              autoFocus
             >
               <option value="">{ui.select}</option>
               {step.options.map((option) => (
@@ -144,6 +154,7 @@ export const FormStep = ({
             </select>
           ) : (
             <input
+              ref={inputRef}
               type={step.type}
               className="form-input"
               value={value}
@@ -151,7 +162,6 @@ export const FormStep = ({
               onBlur={() => setTouched(true)}
               onKeyDown={handleKeyDown}
               placeholder={step.placeholder}
-              autoFocus
             />
           )}
 

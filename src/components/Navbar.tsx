@@ -42,6 +42,7 @@ export const Navbar = () => {
     { label: t.navbar.home, id: 'home' },
     { label: t.navbar.about, id: 'about' },
     { label: t.navbar.services, id: 'services' },
+    { label: t.navbar.team, id: 'team' },
     { label: t.navbar.contact, id: 'contact' },
   ];
 

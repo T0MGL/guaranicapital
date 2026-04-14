@@ -7,6 +7,7 @@ export const translations = {
       home: 'Home',
       about: 'About',
       services: 'Services',
+      team: 'Team',
       contact: 'Contact',
     },
 
@@ -89,9 +90,33 @@ export const translations = {
         { name: 'Modern Luxury Apartment' },
         { name: 'Premium Downtown Suite' },
         { name: 'Elegant City View' },
-        { name: 'Stylish Urban Retreat' },
-        { name: 'Executive Apartment' },
       ],
+    },
+
+    // Team
+    team: {
+      label: 'Founders',
+      title: {
+        line1: 'The people behind',
+        line2: 'Guaraní Capital',
+      },
+      subtitle: 'Two founders, European experience, one clear objective: your property working at its full potential without you lifting a finger.',
+      founders: [
+        {
+          role: 'Founder · Operations Director',
+          bio: 'Designs the operational processes that sustain quality across every property. Leads the field team, cleaning standards, check-in flow, and the guest experience 24/7.',
+        },
+        {
+          role: 'Co-Founder · Business Director',
+          bio: 'Leads commercial strategy and the relationship with property owners. Responsible for portfolio growth and making sure every unit performs at its maximum.',
+        },
+      ],
+      statement: {
+        eyebrow: 'Founding partners',
+        title: 'European standards, Paraguayan roots.',
+        body: 'Close to a decade managing properties in Europe before bringing those processes to Asunción. Every detail, every guest, every review matters.',
+        meta: 'Asunción · 2026',
+      },
     },
 
     // Services
@@ -258,6 +283,7 @@ export const translations = {
       home: 'Inicio',
       about: 'Nosotros',
       services: 'Servicios',
+      team: 'Equipo',
       contact: 'Contacto',
     },
 
@@ -340,9 +366,33 @@ export const translations = {
         { name: 'Apartamento de Lujo Moderno' },
         { name: 'Suite Premium en el Centro' },
         { name: 'Vista Elegante a la Ciudad' },
-        { name: 'Retiro Urbano con Estilo' },
-        { name: 'Apartamento Ejecutivo' },
       ],
+    },
+
+    // Team
+    team: {
+      label: 'Fundadores',
+      title: {
+        line1: 'Las personas detrás',
+        line2: 'de Guaraní Capital',
+      },
+      subtitle: 'Dos fundadores, experiencia europea, un objetivo claro: que tu propiedad trabaje al máximo sin que tengas que hacer nada.',
+      founders: [
+        {
+          role: 'Founder · Operations Director',
+          bio: 'Diseña los procesos operativos que sostienen la calidad en cada propiedad. Lidera el equipo de campo, los estándares de limpieza, el check-in y la experiencia del huésped 24/7.',
+        },
+        {
+          role: 'Co-Founder · Business Director',
+          bio: 'Dirige la estrategia comercial y la relación con los propietarios. Responsable del crecimiento del portfolio y de asegurar que cada unidad rinda al máximo posible.',
+        },
+      ],
+      statement: {
+        eyebrow: 'Founding partners',
+        title: 'Estándares europeos, raíces paraguayas.',
+        body: 'Casi una década gestionando propiedades en Europa antes de traer esos procesos a Asunción. Cada detalle, cada huésped, cada reseña importa.',
+        meta: 'Asunción · 2026',
+      },
     },
 
     // Services
@@ -509,6 +559,7 @@ export const translations = {
       home: 'Início',
       about: 'Sobre',
       services: 'Serviços',
+      team: 'Equipe',
       contact: 'Contato',
     },
 
@@ -591,9 +642,33 @@ export const translations = {
         { name: 'Apartamento de Luxo Moderno' },
         { name: 'Suíte Premium no Centro' },
         { name: 'Vista Elegante da Cidade' },
-        { name: 'Refúgio Urbano com Estilo' },
-        { name: 'Apartamento Executivo' },
       ],
+    },
+
+    // Team
+    team: {
+      label: 'Fundadores',
+      title: {
+        line1: 'As pessoas por trás',
+        line2: 'da Guaraní Capital',
+      },
+      subtitle: 'Dois fundadores, experiência europeia, um objetivo claro: sua propriedade trabalhando ao máximo sem que você precise fazer nada.',
+      founders: [
+        {
+          role: 'Founder · Operations Director',
+          bio: 'Desenha os processos operacionais que sustentam a qualidade em cada propriedade. Lidera a equipe de campo, os padrões de limpeza, check-in e a experiência do hóspede 24/7.',
+        },
+        {
+          role: 'Co-Founder · Business Director',
+          bio: 'Dirige a estratégia comercial e o relacionamento com os proprietários. Responsável pelo crescimento do portfólio e por garantir que cada unidade renda o máximo possível.',
+        },
+      ],
+      statement: {
+        eyebrow: 'Founding partners',
+        title: 'Padrões europeus, raízes paraguaias.',
+        body: 'Quase uma década gerenciando propriedades na Europa antes de trazer esses processos para Assunção. Cada detalhe, cada hóspede, cada avaliação importa.',
+        meta: 'Assunção · 2026',
+      },
     },
 
     // Services
@@ -760,6 +835,7 @@ export const translations = {
       home: 'Startseite',
       about: 'Über uns',
       services: 'Dienstleistungen',
+      team: 'Team',
       contact: 'Kontakt',
     },
 
@@ -842,9 +918,33 @@ export const translations = {
         { name: 'Moderne Luxuswohnung' },
         { name: 'Premium Downtown Suite' },
         { name: 'Elegante Stadtaussicht' },
-        { name: 'Stilvolles Stadtrefugium' },
-        { name: 'Executive Apartment' },
       ],
+    },
+
+    // Team
+    team: {
+      label: 'Gründer',
+      title: {
+        line1: 'Die Menschen hinter',
+        line2: 'Guaraní Capital',
+      },
+      subtitle: 'Zwei Gründer, europäische Erfahrung, ein klares Ziel: Ihre Immobilie arbeitet auf Höchstniveau, ohne dass Sie sich um etwas kümmern müssen.',
+      founders: [
+        {
+          role: 'Founder · Operations Director',
+          bio: 'Gestaltet die operativen Prozesse, die in jeder Immobilie für Qualität sorgen. Leitet das Team vor Ort, die Reinigungsstandards, den Check-in und die Gästeerfahrung rund um die Uhr.',
+        },
+        {
+          role: 'Co-Founder · Business Director',
+          bio: 'Verantwortlich für die Geschäftsstrategie und die Beziehung zu den Eigentümern. Treibt das Portfoliowachstum voran und stellt sicher, dass jede Einheit ihr Maximum leistet.',
+        },
+      ],
+      statement: {
+        eyebrow: 'Founding partners',
+        title: 'Europäische Standards, paraguayische Wurzeln.',
+        body: 'Fast ein Jahrzehnt Erfahrung mit Immobilien in Europa, bevor diese Prozesse nach Asunción gebracht wurden. Jedes Detail, jeder Gast, jede Bewertung zählt.',
+        meta: 'Asunción · 2026',
+      },
     },
 
     // Services

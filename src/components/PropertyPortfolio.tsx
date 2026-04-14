@@ -1,13 +1,119 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect, MouseEvent } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface PropertyMeta {
   id: number;
   location: string;
   airbnbUrl: string;
-  image: string;
+  images: string[];
 }
+
+interface PropertyCardProps {
+  prop: PropertyMeta;
+  name: string;
+  widthPercent: number;
+}
+
+const PropertyCard = ({ prop, name, widthPercent }: PropertyCardProps) => {
+  const [imgIndex, setImgIndex] = useState(0);
+  const total = prop.images.length;
+  const hasMultiple = total > 1;
+
+  const stop = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const goPrev = (e: MouseEvent) => {
+    stop(e);
+    setImgIndex((prev) => (prev - 1 + total) % total);
+  };
+
+  const goNext = (e: MouseEvent) => {
+    stop(e);
+    setImgIndex((prev) => (prev + 1) % total);
+  };
+
+  return (
+    <a
+      href={prop.airbnbUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="gallery-card"
+      style={{ width: `${widthPercent}%` }}
+    >
+      <div className="card-image-box">
+        <AnimatePresence initial={false} mode="popLayout">
+          <motion.img
+            key={imgIndex}
+            src={prop.images[imgIndex]}
+            alt={`${name} ${imgIndex + 1}/${total}`}
+            className="card-img"
+            loading={imgIndex === 0 ? 'lazy' : 'eager'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+          />
+        </AnimatePresence>
+
+        {hasMultiple && (
+          <>
+            <button
+              type="button"
+              aria-label="Previous photo"
+              className="card-arrow card-arrow-left"
+              onClick={goPrev}
+              onMouseDown={stop}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              aria-label="Next photo"
+              className="card-arrow card-arrow-right"
+              onClick={goNext}
+              onMouseDown={stop}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            <div className="card-dots">
+              {prop.images.map((_, i) => (
+                <span
+                  key={i}
+                  className={`card-dot ${i === imgIndex ? 'active' : ''}`}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className="card-hover-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M7 17L17 7M17 7H7M17 7v10"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+      <div className="card-footer">
+        <p className="card-name">{name}</p>
+        <p className="card-location">{prop.location}</p>
+      </div>
+    </a>
+  );
+};
 
 export const PropertyPortfolio = () => {
   const { t } = useLanguage();
@@ -20,32 +126,32 @@ export const PropertyPortfolio = () => {
     {
       id: 1,
       location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.co.uk/rooms/1510892348329587039?guests=1&adults=1&s=67&unique_share_id=af00503d-ccd9-408c-8fd8-92adc2e267ea',
-      image: '/airbnb1.webp',
+      airbnbUrl: 'https://www.airbnb.com/rooms/1417165514634453334?guests=1&adults=1&s=67&unique_share_id=deaa0f70-ad23-4e7e-af37-961dfa40a9b4',
+      images: [
+        '/properties/1/1.webp',
+        '/properties/1/2.webp',
+        '/properties/1/3.webp',
+      ],
     },
     {
       id: 2,
       location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.co.uk/rooms/1596370816314737099?guests=1&adults=1&s=67&unique_share_id=eaa45090-9abf-4aa1-abc8-14d2e65be82d',
-      image: '/airbnb2.webp',
+      airbnbUrl: 'https://www.airbnb.com/rooms/1629236974528724403?guests=1&adults=1&s=67&unique_share_id=06aef2a2-874c-4019-8630-fbe794fee849',
+      images: [
+        '/properties/2/1.webp',
+        '/properties/2/2.webp',
+        '/properties/2/3.webp',
+      ],
     },
     {
       id: 3,
       location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.co.uk/rooms/1608807788126038473?guests=1&adults=1&s=67&unique_share_id=09e47746-0165-43cb-8222-e96c5457b426',
-      image: '/airbnb3.webp',
-    },
-    {
-      id: 4,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.co.uk/rooms/1533698279104413114?guests=1&adults=1&s=67&unique_share_id=917c8005-2155-435e-a1be-67872c5ca045',
-      image: '/airbnb4.webp',
-    },
-    {
-      id: 5,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.co.uk/rooms/1271130534389738919?guests=1&adults=1&s=67&unique_share_id=f947fd63-5272-4789-9197-26c6182536fe',
-      image: '/airbnb5.webp',
+      airbnbUrl: 'https://www.airbnb.com/rooms/1271130534389738919?guests=1&adults=1&s=67&unique_share_id=3344b8c8-9375-4cde-8a1b-af4a39a35f61',
+      images: [
+        '/properties/3/1.webp',
+        '/properties/3/2.webp',
+        '/properties/3/3.webp',
+      ],
     },
   ];
 
@@ -103,38 +209,12 @@ export const PropertyPortfolio = () => {
               style={{ width: `${(N / visibleCount) * 100}%` }}
             >
               {propertiesMeta.map((prop, index) => (
-                <a
+                <PropertyCard
                   key={prop.id}
-                  href={prop.airbnbUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="gallery-card"
-                  style={{ width: `${100 / N}%` }}
-                >
-                  <div className="card-image-box">
-                    <img
-                      src={prop.image}
-                      alt={t.portfolio.properties[index].name}
-                      className="card-img"
-                      loading="lazy"
-                    />
-                    <div className="card-hover-icon">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M7 17L17 7M17 7H7M17 7v10"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="card-footer">
-                    <p className="card-name">{t.portfolio.properties[index].name}</p>
-                    <p className="card-location">{prop.location}</p>
-                  </div>
-                </a>
+                  prop={prop}
+                  name={t.portfolio.properties[index].name}
+                  widthPercent={100 / N}
+                />
               ))}
             </motion.div>
           </div>
@@ -268,11 +348,90 @@ export const PropertyPortfolio = () => {
           height: 100%;
           object-fit: cover;
           display: block;
+          position: absolute;
+          inset: 0;
           transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .gallery-card:hover .card-img {
           transform: scale(1.045);
+        }
+
+        .card-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(255, 255, 255, 0.94);
+          backdrop-filter: blur(6px);
+          color: #111;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          padding: 0;
+          opacity: 0;
+          transition: opacity 0.22s ease, background 0.2s ease, transform 0.22s ease;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+          z-index: 2;
+        }
+
+        .card-arrow-left {
+          left: 12px;
+        }
+
+        .card-arrow-right {
+          right: 12px;
+        }
+
+        .gallery-card:hover .card-arrow {
+          opacity: 1;
+        }
+
+        .card-arrow:hover {
+          background: #fff;
+          transform: translateY(-50%) scale(1.06);
+        }
+
+        .card-arrow:active {
+          transform: translateY(-50%) scale(0.94);
+        }
+
+        .card-dots {
+          position: absolute;
+          bottom: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          gap: 5px;
+          padding: 5px 8px;
+          border-radius: 999px;
+          background: rgba(0, 0, 0, 0.18);
+          backdrop-filter: blur(4px);
+          z-index: 2;
+        }
+
+        .card-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.55);
+          transition: background 0.22s ease, transform 0.22s ease;
+        }
+
+        .card-dot.active {
+          background: #fff;
+          transform: scale(1.15);
+        }
+
+        @media (hover: none) {
+          .card-arrow {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.88);
+          }
         }
 
         .card-hover-icon {

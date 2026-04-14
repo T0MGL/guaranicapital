@@ -108,6 +108,9 @@ export const Footer = () => {
               <button onClick={() => scrollToSection('services')} className="footer-link">
                 {t.footer.links.services}
               </button>
+              <button onClick={() => scrollToSection('team')} className="footer-link">
+                {t.navbar.team}
+              </button>
               <button onClick={() => scrollToSection('contact')} className="footer-link">
                 {t.footer.links.contact}
               </button>
