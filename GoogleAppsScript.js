@@ -2,8 +2,21 @@
 // Nombre de la hoja en tu Google Sheet donde se guardarán los leads (ajustar si la llamaste distinto, por ej: "Leads")
 const SHEET_NAME = "Leads";
 
+// Solo el proxy de Vercel conoce este token. Definir API_TOKEN en
+// Project Settings > Script Properties antes de desplegar. Sin token válido, se rechaza.
+function isAuthorized(e) {
+    const expected = PropertiesService.getScriptProperties().getProperty('API_TOKEN');
+    return Boolean(expected) && e && e.parameter && e.parameter.token === expected;
+}
+
+function unauthorized() {
+    return ContentService.createTextOutput(JSON.stringify({ error: "unauthorized" }))
+        .setMimeType(ContentService.MimeType.JSON);
+}
+
 // Esta función permite que el frontend lea los leads del Google Sheet
 function doGet(e) {
+    if (!isAuthorized(e)) return unauthorized();
     try {
         const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
         if (!sheet) {
@@ -63,6 +76,7 @@ function initializeHeaders(sheet) {
 
 // Esta función recibe los datos del frontend (cuando se crea o se actualiza un lead)
 function doPost(e) {
+    if (!isAuthorized(e)) return unauthorized();
     try {
         const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
         if (!sheet) {

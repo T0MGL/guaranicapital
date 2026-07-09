@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Settings, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut, House } from 'lucide-react';
+import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut, House } from 'lucide-react';
 import { getLeads, updateLead, Lead } from '../lib/api';
 import { Logo } from '../components/Logo';
 import '../styles/crm.css';
@@ -19,17 +19,26 @@ function CRMLogin({ onSuccess }: { onSuccess: () => void }) {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const correctPassword = (import.meta as any).env.VITE_CRM_PASSWORD;
-        if (password === correctPassword) {
-            localStorage.setItem(SESSION_KEY, String(Date.now()));
-            onSuccess();
-        } else {
-            setError(true);
-            setPassword('');
-            setTimeout(() => setError(false), 2000);
+        try {
+            const r = await fetch('/api/auth', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ password }),
+            });
+            if (r.ok) {
+                localStorage.setItem(SESSION_KEY, String(Date.now()));
+                onSuccess();
+                return;
+            }
+        } catch {
+            // fall through to the error state below
         }
+        setError(true);
+        setPassword('');
+        setTimeout(() => setError(false), 2000);
     };
 
     return (
@@ -114,17 +123,17 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
     const [filterStatus, setFilterStatus] = useState<'all' | 'contacted' | 'converted' | 'lost' | 'new'>('all');
     const [filterType, setFilterType] = useState<string>('all');
 
-    const [setupMode, setSetupMode] = useState(!localStorage.getItem('APPS_SCRIPT_URL') && !(import.meta as any).env.VITE_APPS_SCRIPT_URL);
-    const [appScriptUrl, setAppScriptUrl] = useState(localStorage.getItem('APPS_SCRIPT_URL') || '');
-
     const fetchLeads = async () => {
-        if (setupMode) return;
         setLoading(true);
         setError(null);
         try {
             const data = await getLeads();
             setLeads(data.filter(l => l.id && l.id !== ''));
         } catch (err: any) {
+            if (err.message === 'UNAUTHORIZED') {
+                onLogout();
+                return;
+            }
             setError(err.message || 'Error fetching leads');
         } finally {
             setLoading(false);
@@ -133,7 +142,7 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
 
     useEffect(() => {
         fetchLeads();
-    }, [setupMode]);
+    }, []);
 
     const handleStatusChange = async (id: string, field: string, value: any) => {
         try {
@@ -159,12 +168,6 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
             alert('Error: ' + err.message);
             fetchLeads();
         }
-    };
-
-    const handleSaveSetup = () => {
-        if (!appScriptUrl) return;
-        localStorage.setItem('APPS_SCRIPT_URL', appScriptUrl);
-        setSetupMode(false);
     };
 
     const stats = useMemo(() => {
@@ -205,30 +208,6 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
         return parseLocalDate(b.Fecha) - parseLocalDate(a.Fecha);
     });
 
-    if (setupMode) {
-        return (
-            <div className="crm-body">
-                <div className="crm-setup-screen">
-                    <motion.div className="crm-setup-box" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-                        <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-                            <Logo width={160} />
-                        </div>
-                        <h2>Guaraní CRM</h2>
-                        <p>Admin de Propiedades & Leads</p>
-                        <input
-                            type="url"
-                            placeholder="Web App URL de Google Apps Script"
-                            className="crm-input-elegant"
-                            value={appScriptUrl}
-                            onChange={e => setAppScriptUrl(e.target.value)}
-                        />
-                        <button className="crm-btn-primary" onClick={handleSaveSetup}>Ingresar al Panel</button>
-                    </motion.div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="crm-body">
             <div className="crm-container">
@@ -246,7 +225,6 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                             <RefreshCw size={18} className={loading ? 'spin' : ''} />
                             {loading ? 'Sincronizando' : 'Actualizar'}
                         </button>
-                        <button className="icon-action-btn" onClick={() => setSetupMode(true)} title="Configuración"><Settings size={20} /></button>
                         <button className="icon-action-btn" onClick={onLogout} title="Cerrar sesión"><LogOut size={20} /></button>
                         <a href="/" className="icon-action-btn" title="Volver al sitio"><House size={20} /></a>
                     </div>
