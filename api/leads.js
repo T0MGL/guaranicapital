@@ -28,8 +28,10 @@ async function notifyNewLead(lead) {
             body: JSON.stringify(lead),
             signal: AbortSignal.timeout(2000),
         });
-    } catch {
-        // Notification is best-effort. Never let it break or delay lead capture.
+    } catch (err) {
+        // Best-effort: never break or delay lead capture. This is the sole alert channel,
+        // so log the failure class (name only, no PII) so a dead n8n is detectable.
+        console.warn('lead.notify.failed', err?.name || 'error');
     }
 }
 
