@@ -1,7 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut, House } from 'lucide-react';
+import { Search, Phone, MapPin, Calendar, Check, X, RefreshCw, Users, ArrowUpRight, Filter, Eye, EyeOff, LogOut, House, Copy, Download } from 'lucide-react';
 import { getLeads, updateLead, Lead } from '../lib/api';
+import { parseWhatsapp } from '../lib/phone';
+import { exportLeadsToCsv } from '../lib/csv';
 import { Logo } from '../components/Logo';
 import '../styles/crm.css';
 
@@ -114,6 +116,89 @@ export function CRM() {
     return <CRMDashboard onLogout={() => { localStorage.removeItem(SESSION_KEY); setAuthenticated(false); }} />;
 }
 
+const phoneRowStyle: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: '8px' };
+const phoneCopyBtnStyle: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', gap: '5px',
+    background: 'none', border: 'none', padding: 0, margin: 0,
+    cursor: 'pointer', color: 'var(--crm-text-muted)',
+    fontSize: '0.8125rem', fontFamily: 'inherit', lineHeight: 1.4,
+};
+const copiedStyle: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: '3px', color: 'var(--crm-success)', fontWeight: 600 };
+
+// The stored number carries the country code in its digits but no leading +.
+// parseWhatsapp reconstructs the E.164 (with +) and the country so we can copy a
+// dialable number and show the flag. wa.me needs the same digits without the +.
+function PhoneCopy({ whatsapp }: { whatsapp: string }) {
+    const [copied, setCopied] = useState(false);
+    const revertTimer = useRef<number | null>(null);
+    const { e164, flag, countryName } = useMemo(() => parseWhatsapp(whatsapp), [whatsapp]);
+
+    useEffect(() => () => {
+        if (revertTimer.current) window.clearTimeout(revertTimer.current);
+    }, []);
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(e164);
+            setCopied(true);
+            if (revertTimer.current) window.clearTimeout(revertTimer.current);
+            revertTimer.current = window.setTimeout(() => setCopied(false), 1500);
+        } catch {
+            // Clipboard blocked (insecure context or denied permission): keep the number visible, no false confirmation.
+        }
+    };
+
+    return (
+        <span style={phoneRowStyle}>
+            <a
+                href={`https://wa.me/${e164.replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noreferrer"
+                style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }}
+                title="Chat WhatsApp"
+            >
+                <Phone size={14} />
+            </a>
+            <motion.button
+                type="button"
+                onClick={handleCopy}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                style={phoneCopyBtnStyle}
+                title={`Copiar ${e164}`}
+            >
+                <span aria-hidden style={{ fontSize: '0.95rem', lineHeight: 1 }} title={countryName}>{flag}</span>
+                <span>{e164}</span>
+                <AnimatePresence mode="wait" initial={false}>
+                    {copied ? (
+                        <motion.span
+                            key="copied"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.15 }}
+                            style={copiedStyle}
+                        >
+                            <Check size={12} /> Copiado
+                        </motion.span>
+                    ) : (
+                        <motion.span
+                            key="hint"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.5 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                            style={{ display: 'inline-flex', alignItems: 'center' }}
+                        >
+                            <Copy size={12} />
+                        </motion.span>
+                    )}
+                </AnimatePresence>
+            </motion.button>
+        </span>
+    );
+}
+
 function CRMDashboard({ onLogout }: { onLogout: () => void }) {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [loading, setLoading] = useState(true);
@@ -171,12 +256,17 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
     };
 
     const stats = useMemo(() => {
-        const contacted = leads.filter(l => String(l.contacted) === 'true').length;
-        const converted = leads.filter(l => String(l.converted) === 'true').length;
+        const isTrue = (v: unknown) => String(v) === 'true';
+        const contacted = leads.filter(l => isTrue(l.contacted)).length;
+        const converted = leads.filter(l => isTrue(l.converted)).length;
         const total = leads.length;
-        const conversionRate = total > 0 ? ((converted / total) * 100).toFixed(1) : '0';
+        // Only leads someone actually touched (contacted, converted, or lost) count as
+        // worked. Never-contacted leads do not dilute the conversion rate.
+        const worked = leads.filter(l => isTrue(l.contacted) || isTrue(l.converted) || isTrue(l.lost)).length;
+        const conversionRate = worked > 0 ? ((converted / worked) * 100).toFixed(1) : '0';
+        const contactedRate = worked > 0 ? Math.round((contacted / worked) * 100) : 0;
 
-        return { contacted, converted, total, conversionRate };
+        return { contacted, converted, total, worked, conversionRate, contactedRate };
     }, [leads]);
 
     const filteredLeads = leads.filter(lead => {
@@ -225,6 +315,10 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                             <RefreshCw size={18} className={loading ? 'spin' : ''} />
                             {loading ? 'Sincronizando' : 'Actualizar'}
                         </button>
+                        <button className="crm-btn-refresh" onClick={() => exportLeadsToCsv(filteredLeads)} disabled={loading || filteredLeads.length === 0} title="Exportar los leads visibles a CSV">
+                            <Download size={18} />
+                            Exportar CSV
+                        </button>
                         <button className="icon-action-btn" onClick={onLogout} title="Cerrar sesión"><LogOut size={20} /></button>
                         <a href="/" className="icon-action-btn" title="Volver al sitio"><House size={20} /></a>
                     </div>
@@ -241,13 +335,13 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                         <div className="stat-icon-wrapper" style={{ background: '#dcfce7', color: '#166534' }}><ArrowUpRight size={24} /></div>
                         <h3>Conversión</h3>
                         <div className="value">{stats.conversionRate}%</div>
-                        <div className="trend" style={{ color: '#166534' }}>{stats.converted} cierres exitosos</div>
+                        <div className="trend" style={{ color: '#166534' }}>{stats.converted} de {stats.worked} leads trabajados</div>
                     </div>
                     <div className="crm-stat-card">
                         <div className="stat-icon-wrapper" style={{ background: '#fef3c7', color: '#92400e' }}><Phone size={24} /></div>
                         <h3>En Contacto</h3>
                         <div className="value">{stats.contacted}</div>
-                        <div className="trend" style={{ color: '#92400e' }}>{((stats.contacted / stats.total) * 100 || 0).toFixed(0)}% del total</div>
+                        <div className="trend" style={{ color: '#92400e' }}>{stats.contactedRate}% de leads trabajados</div>
                     </div>
                 </section>
 
@@ -320,8 +414,7 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                                                 <div className="lead-name-cell">
                                                     <span>{lead.Nombre}</span>
                                                     <div style={{ display: 'flex', gap: '10px', marginTop: '6px', alignItems: 'center' }}>
-                                                        <a href={`https://wa.me/${String(lead.Whatsapp ?? '').replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#27ae60', display: 'flex', alignItems: 'center' }} title="Chat WhatsApp"><Phone size={14} /></a>
-                                                        <small>{lead.Whatsapp}</small>
+                                                        <PhoneCopy whatsapp={lead.Whatsapp} />
                                                         <small style={{ opacity: 0.5 }}>•</small>
                                                         <small>{lead.Email}</small>
                                                     </div>
