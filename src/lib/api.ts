@@ -15,13 +15,40 @@ export interface Lead {
     lost: boolean;
 }
 
+// Google Sheets coerces any all-digit cell to a number, so Whatsapp arrives as a JS
+// number (595981123321) for most rows. The dashboard calls String methods on it
+// (.includes in the search filter, .replace in the phone parser), which throw on a
+// number and crash the whole render. Normalize every field to its declared string
+// shape here, at the single boundary, so no consumer has to defend against it.
+function normalizeLead(raw: Record<string, unknown>): Lead {
+    const str = (v: unknown) => (v == null ? '' : String(v));
+    return {
+        id: str(raw.id),
+        Fecha: str(raw.Fecha),
+        Nombre: str(raw.Nombre),
+        Whatsapp: str(raw.Whatsapp),
+        Email: str(raw.Email),
+        Ubicacion: str(raw.Ubicacion),
+        Presupuesto: str(raw.Presupuesto),
+        Tipo: str(raw.Tipo),
+        Interes: str(raw.Interes),
+        Fuente: str(raw.Fuente),
+        Detalles: str(raw.Detalles),
+        contacted: raw.contacted === true || raw.contacted === 'true',
+        converted: raw.converted === true || raw.converted === 'true',
+        lost: raw.lost === true || raw.lost === 'true',
+    };
+}
+
 export async function getLeads(): Promise<Lead[]> {
     const r = await fetch('/api/leads', { credentials: 'same-origin' });
     if (r.status === 401) throw new Error('UNAUTHORIZED');
     if (!r.ok) throw new Error('Error fetching leads');
     const data = await r.json();
-    if (data.error) throw new Error(data.error);
-    return data;
+    if (!Array.isArray(data)) {
+        throw new Error(data?.error || 'Unexpected leads response');
+    }
+    return data.map(normalizeLead);
 }
 
 export async function createLead(leadData: Partial<Lead>): Promise<any> {

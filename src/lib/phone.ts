@@ -29,8 +29,8 @@ function isoToName(iso: string | null): string {
     }
 }
 
-export function parseWhatsapp(raw: string | null | undefined): PhoneInfo {
-    const digits = (raw ?? '').replace(/[^0-9]/g, '');
+export function parseWhatsapp(raw: string | number | null | undefined): PhoneInfo {
+    const digits = String(raw ?? '').replace(/[^0-9]/g, '');
 
     // Bare canonical PY mobile (e.g. 981889482): 9 digits with no country code.
     // Must run BEFORE the international parse: libphonenumber otherwise reads these
