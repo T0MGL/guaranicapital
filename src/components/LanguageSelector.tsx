@@ -7,7 +7,6 @@ const languages: Record<Language, { name: string; flag: string }> = {
   en: { name: 'English', flag: '🇬🇧' },
   es: { name: 'Español', flag: '🇪🇸' },
   pt: { name: 'Português', flag: '🇵🇹' },
-  de: { name: 'Deutsch', flag: '🇩🇪' },
 };
 
 interface LanguageSelectorProps {

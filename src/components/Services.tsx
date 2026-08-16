@@ -55,27 +55,6 @@ export const Services = () => {
           <p className="section-subtitle">
             {t.services.subtitle}
           </p>
-
-          <motion.a
-            href="https://drive.google.com/uc?export=download&id=1VF4bghhyGIT4FvqX-vljvvuCn9krW0mv"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="brochure-download"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {t.services.brochure}
-          </motion.a>
         </motion.div>
 
         <div className="services-grid">
@@ -157,29 +136,6 @@ export const Services = () => {
           text-align: center;
           max-width: 800px;
           margin: 0 auto var(--space-3xl);
-        }
-
-        .brochure-download {
-          display: inline-flex;
-          align-items: center;
-          gap: var(--space-sm);
-          margin-top: var(--space-xl);
-          padding: var(--space-sm) var(--space-lg);
-          font-family: var(--font-body);
-          font-size: 0.9375rem;
-          font-weight: 500;
-          color: var(--color-primary);
-          background: transparent;
-          border: 1px solid var(--color-primary);
-          border-radius: var(--radius-full);
-          text-decoration: none;
-          transition: background-color 0.3s ease, color 0.3s ease;
-          cursor: pointer;
-        }
-
-        .brochure-download:hover {
-          background: var(--color-primary);
-          color: white;
         }
 
         .services-grid {
@@ -347,12 +303,6 @@ export const Services = () => {
 
           .services-header {
             margin-bottom: var(--space-2xl);
-          }
-
-          .brochure-download {
-            font-size: 0.875rem;
-            padding: var(--space-sm) var(--space-md);
-            min-height: 44px; /* Better touch target */
           }
 
           .services-grid {

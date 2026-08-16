@@ -12,10 +12,11 @@ interface PropertyMeta {
 interface PropertyCardProps {
   prop: PropertyMeta;
   name: string;
+  details: string;
   widthPercent: number;
 }
 
-const PropertyCard = ({ prop, name, widthPercent }: PropertyCardProps) => {
+const PropertyCard = ({ prop, name, details, widthPercent }: PropertyCardProps) => {
   const [imgIndex, setImgIndex] = useState(0);
   const total = prop.images.length;
   const hasMultiple = total > 1;
@@ -109,7 +110,11 @@ const PropertyCard = ({ prop, name, widthPercent }: PropertyCardProps) => {
       </div>
       <div className="card-footer">
         <p className="card-name">{name}</p>
-        <p className="card-location">{prop.location}</p>
+        {details ? (
+          <p className="card-details">{details}</p>
+        ) : (
+          <p className="card-location">{prop.location}</p>
+        )}
       </div>
     </a>
   );
@@ -151,6 +156,26 @@ export const PropertyPortfolio = () => {
         '/properties/3/1.webp',
         '/properties/3/2.webp',
         '/properties/3/3.webp',
+      ],
+    },
+    {
+      id: 4,
+      location: 'Asunción',
+      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1719902712077092729',
+      images: [
+        '/properties/4/1.webp',
+        '/properties/4/2.webp',
+        '/properties/4/3.webp',
+      ],
+    },
+    {
+      id: 5,
+      location: 'Asunción',
+      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1685387749969005483',
+      images: [
+        '/properties/5/1.webp',
+        '/properties/5/2.webp',
+        '/properties/5/3.webp',
       ],
     },
   ];
@@ -213,6 +238,7 @@ export const PropertyPortfolio = () => {
                   key={prop.id}
                   prop={prop}
                   name={t.portfolio.properties[index].name}
+                  details={t.portfolio.properties[index].details}
                   widthPercent={100 / N}
                 />
               ))}
@@ -478,6 +504,14 @@ export const PropertyPortfolio = () => {
           margin: 0;
           letter-spacing: 0.04em;
           text-transform: uppercase;
+        }
+
+        .card-details {
+          font-family: var(--font-body);
+          font-size: 0.775rem;
+          color: var(--color-text-secondary);
+          margin: 0;
+          line-height: 1.5;
         }
 
         /* Navigation */
