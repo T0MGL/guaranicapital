@@ -181,6 +181,11 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
           color: var(--color-primary);
         }
 
+        .language-option:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 2px;
+        }
+
         @media (max-width: 767px) {
           .language-button {
             padding: 0.4rem 0.6rem;

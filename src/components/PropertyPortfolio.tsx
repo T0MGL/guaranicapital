@@ -361,6 +361,11 @@ export const PropertyPortfolio = () => {
           cursor: pointer;
         }
 
+        .gallery-card:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 3px;
+        }
+
         .card-image-box {
           aspect-ratio: 4 / 3;
           overflow: hidden;

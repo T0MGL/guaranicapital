@@ -124,9 +124,14 @@ export const ContactSection = () => {
           border: 1px solid var(--color-border);
           border-radius: var(--radius-lg);
           background: rgba(255, 255, 255, 0.94);
-          backdrop-filter: blur(8px);
           overflow: hidden;
           box-shadow: var(--shadow-md);
+          transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+        }
+
+        .location-card:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-lg);
         }
 
         .location-info {
@@ -182,6 +187,11 @@ export const ContactSection = () => {
 
         .location-link:hover svg {
           transform: translate(2px, -2px);
+        }
+
+        .location-link:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 3px;
         }
 
         .location-map {

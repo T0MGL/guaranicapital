@@ -238,7 +238,7 @@ export const NewsInsights = () => {
         }
 
         .advisory-button:hover {
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 8px 24px rgba(26, 37, 47, 0.28);
           transform: translateY(-1px);
         }
 
@@ -248,6 +248,11 @@ export const NewsInsights = () => {
 
         .advisory-button:active {
           transform: translateY(0) scale(0.98);
+        }
+
+        .advisory-button:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 3px;
         }
 
         @media (max-width: 1200px) {
@@ -382,6 +387,11 @@ const ArticleEmbed = ({
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .article-card:hover .article-image img {
+          transform: scale(1.05);
         }
 
         .card-content {

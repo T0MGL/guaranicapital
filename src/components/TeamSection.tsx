@@ -169,7 +169,7 @@ export const TeamSection = () => {
         .founder-entries {
           display: flex;
           flex-direction: column;
-          gap: clamp(1.25rem, 2.5vw, 1.75rem);
+          gap: clamp(1.5rem, 2.5vw, 2rem);
         }
 
         .founder-entry {
@@ -222,6 +222,11 @@ export const TeamSection = () => {
           aspect-ratio: 16 / 8;
           object-fit: cover;
           display: block;
+          transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .team-who:hover .team-who-image {
+          transform: scale(1.03);
         }
 
         .team-who-copy {
