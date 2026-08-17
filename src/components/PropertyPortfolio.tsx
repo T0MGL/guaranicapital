@@ -12,10 +12,11 @@ interface PropertyMeta {
 interface PropertyCardProps {
   prop: PropertyMeta;
   name: string;
+  details: string;
   widthPercent: number;
 }
 
-const PropertyCard = ({ prop, name, widthPercent }: PropertyCardProps) => {
+const PropertyCard = ({ prop, name, details, widthPercent }: PropertyCardProps) => {
   const [imgIndex, setImgIndex] = useState(0);
   const total = prop.images.length;
   const hasMultiple = total > 1;
@@ -109,7 +110,11 @@ const PropertyCard = ({ prop, name, widthPercent }: PropertyCardProps) => {
       </div>
       <div className="card-footer">
         <p className="card-name">{name}</p>
-        <p className="card-location">{prop.location}</p>
+        {details ? (
+          <p className="card-details">{details}</p>
+        ) : (
+          <p className="card-location">{prop.location}</p>
+        )}
       </div>
     </a>
   );
@@ -122,7 +127,7 @@ export const PropertyPortfolio = () => {
   const [offset, setOffset] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const propertiesMeta: PropertyMeta[] = [
+  const originalProperties: PropertyMeta[] = [
     {
       id: 1,
       location: 'Asunción',
@@ -155,6 +160,29 @@ export const PropertyPortfolio = () => {
     },
   ];
 
+  const newProperties: PropertyMeta[] = [
+    {
+      id: 4,
+      location: 'Asunción',
+      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1719902712077092729',
+      images: [
+        '/properties/4/1.webp',
+        '/properties/4/2.webp',
+        '/properties/4/3.webp',
+      ],
+    },
+    {
+      id: 5,
+      location: 'Asunción',
+      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1685387749969005483',
+      images: [
+        '/properties/5/1.webp',
+        '/properties/5/2.webp',
+        '/properties/5/3.webp',
+      ],
+    },
+  ];
+
   useEffect(() => {
     const update = () => {
       if (window.innerWidth < 640) setVisibleCount(1);
@@ -166,7 +194,7 @@ export const PropertyPortfolio = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  const N = propertiesMeta.length;
+  const N = originalProperties.length;
   const maxOffset = Math.max(0, N - visibleCount);
 
   useEffect(() => {
@@ -208,11 +236,12 @@ export const PropertyPortfolio = () => {
               transition={{ type: 'spring', stiffness: 320, damping: 38, mass: 0.9 }}
               style={{ width: `${(N / visibleCount) * 100}%` }}
             >
-              {propertiesMeta.map((prop, index) => (
+              {originalProperties.map((prop, index) => (
                 <PropertyCard
                   key={prop.id}
                   prop={prop}
                   name={t.portfolio.properties[index].name}
+                  details={t.portfolio.properties[index].details}
                   widthPercent={100 / N}
                 />
               ))}
@@ -264,6 +293,18 @@ export const PropertyPortfolio = () => {
                 </svg>
               </button>
             </div>
+          </div>
+
+          <div className="gallery-secondary">
+            {newProperties.map((prop, index) => (
+              <PropertyCard
+                key={prop.id}
+                prop={prop}
+                name={t.portfolio.properties[index + originalProperties.length].name}
+                details={t.portfolio.properties[index + originalProperties.length].details}
+                widthPercent={100 / visibleCount}
+              />
+            ))}
           </div>
         </motion.div>
 
@@ -333,6 +374,11 @@ export const PropertyPortfolio = () => {
           color: inherit;
           display: block;
           cursor: pointer;
+        }
+
+        .gallery-card:focus-visible {
+          outline: 2px solid var(--color-primary-dark);
+          outline-offset: 3px;
         }
 
         .card-image-box {
@@ -480,6 +526,14 @@ export const PropertyPortfolio = () => {
           text-transform: uppercase;
         }
 
+        .card-details {
+          font-family: var(--font-body);
+          font-size: 0.775rem;
+          color: var(--color-text-secondary);
+          margin: 0;
+          line-height: 1.5;
+        }
+
         /* Navigation */
         .gallery-nav {
           display: flex;
@@ -545,6 +599,21 @@ export const PropertyPortfolio = () => {
         .nav-arrow:disabled {
           opacity: 0.22;
           cursor: not-allowed;
+        }
+
+        /* Secondary listings (new properties, always visible, no carousel).
+           Cards are sized via the same 100 / visibleCount logic as the
+           carousel above (widthPercent prop), so a card here is always
+           pixel-identical to a card in group 1 at the same breakpoint.
+           Flex + no stretch means the unused slot in the 3-up row stays
+           empty instead of the 2 cards inflating to fill it. */
+        .gallery-secondary {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+          column-gap: 0;
+          row-gap: var(--space-lg);
+          margin-top: var(--space-xl);
         }
 
         /* Profile CTA */

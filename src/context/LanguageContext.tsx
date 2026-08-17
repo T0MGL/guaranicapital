@@ -9,7 +9,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const SUPPORTED: Language[] = ['en', 'es', 'pt', 'de'];
+const SUPPORTED: Language[] = ['en', 'es', 'pt'];
 
 function detectLanguage(): Language {
   const saved = localStorage.getItem('language');
@@ -20,7 +20,6 @@ function detectLanguage(): Language {
   const browserLang = (navigator.language || '').split('-')[0].toLowerCase();
   if (browserLang === 'es') return 'es';
   if (browserLang === 'pt') return 'pt';
-  if (browserLang === 'de') return 'de';
   return 'en';
 }
 

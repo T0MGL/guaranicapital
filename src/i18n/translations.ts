@@ -1,4 +1,4 @@
-export type Language = 'en' | 'es' | 'pt' | 'de';
+export type Language = 'en' | 'es' | 'pt';
 
 export const translations = {
   en: {
@@ -19,14 +19,14 @@ export const translations = {
         line2: 'be generating right now?',
         line3: 'We take care of everything.',
       },
-      subtitle: '100% comprehensive Airbnb and Booking.com management with proven results in +50 properties in Paraguay',
+      subtitle: '100% comprehensive Airbnb and Booking.com management with proven results in +100 properties in Paraguay',
       cta: {
         primary: 'Get Started',
         secondary: 'Discover our services',
       },
       stats: {
         properties: {
-          number: '+50',
+          number: '+100',
           label: 'Properties managed',
         },
         support: {
@@ -87,9 +87,11 @@ export const translations = {
       viewButton: 'View on Airbnb',
       profileButton: 'See all reviews on Airbnb',
       properties: [
-        { name: 'Modern Luxury Apartment' },
-        { name: 'Premium Downtown Suite' },
-        { name: 'Elegant City View' },
+        { name: 'Modern Luxury Apartment', details: '' },
+        { name: 'Premium Downtown Suite', details: '' },
+        { name: 'Elegant City View', details: '' },
+        { name: '1505 Cumbres', details: 'Entire rental unit · 1 bedroom · 1 bed · 1 bath' },
+        { name: 'Palmanova 13G', details: 'Entire rental unit · 2 bedrooms · 3 beds · 2 baths' },
       ],
     },
 
@@ -112,10 +114,13 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Founders',
         title: 'One team. One operation.',
         body: 'Clear processes, 24/7 support and a single point of contact. You just collect the income.',
-        meta: 'Asunción · 2026',
+      },
+      who: {
+        title: 'Who we are',
+        subtitle: 'A reliable team that delivers excellence.',
+        imageAlt: 'Guaraní Capital team walking through a residential building in Asunción',
       },
     },
 
@@ -127,7 +132,6 @@ export const translations = {
         line2: 'in one place',
       },
       subtitle: 'From setup to ongoing management, we handle everything so your property generates passive income from day one.',
-      brochure: 'Download complete brochure',
       items: {
         setup: {
           title: 'Your Property Ready to Earn in 7 Days',
@@ -141,7 +145,7 @@ export const translations = {
         },
         operations: {
           title: 'Zero Calls. Zero Problems. Only Payments.',
-          description: '24/7 guest support, seamless check-in/check-out, professional cleaning after every stay, and complete maintenance—all handled by us.',
+          description: '24/7 guest support, seamless check-in/check-out, professional cleaning after every stay, and complete maintenance. All handled by us.',
           features: [
             'Multilingual communication',
             'Key delivery',
@@ -194,7 +198,7 @@ export const translations = {
         support247: '24/7 Support',
         maintenance: 'Maintenance',
       },
-      location: 'Asunción, Paraguay',
+      location: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
       hours: 'Mon - Fri: 9:00 - 18:00',
       developedBy: 'Developed by Bright Idea',
       legalLinks: {
@@ -222,6 +226,20 @@ export const translations = {
         { description: "The real estate sector represents 12% of Paraguay's GDP with returns of 5–8%, projecting US$ 1.9 billion in transactions for 2025." },
         { description: 'The rise of foreigners in Paraguay: what real estate solutions are they seeking? Investment opportunities in premium furnished apartments.' },
       ],
+      advisory: {
+        title: 'Real estate investment advisory',
+        lead: 'We specialize in investment advisory in Asunción, with access to exclusive properties at the best price for Airbnb rental.',
+        body: 'Paraguay is at a unique moment: investment grade status, growing demand for short-term stays and a real estate market in full expansion. Investing today means getting in before the rest.',
+        ctaText: 'Write to us today and we will advise you on the best investment opportunities in Asunción.',
+        button: 'Write to us today',
+      },
+    },
+
+    // Contact
+    contact: {
+      locationLabel: 'Our office',
+      address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
+      mapTitle: 'Guaraní Capital location on Google Maps',
     },
 
     // Form
@@ -295,14 +313,14 @@ export const translations = {
         line2: 'tu propiedad hoy?',
         line3: 'Nosotros lo manejamos todo.',
       },
-      subtitle: 'Gestión 100% integral de Airbnb y Booking.com con resultados probados en +50 propiedades en Paraguay',
+      subtitle: 'Gestión 100% integral de Airbnb y Booking.com con resultados probados en +100 propiedades en Paraguay',
       cta: {
         primary: 'Empezá ahora',
         secondary: 'Conocé nuestros servicios',
       },
       stats: {
         properties: {
-          number: '+50',
+          number: '+100',
           label: 'Propiedades gestionadas',
         },
         support: {
@@ -363,9 +381,11 @@ export const translations = {
       viewButton: 'Ver en Airbnb',
       profileButton: 'Ver todas las reseñas en Airbnb',
       properties: [
-        { name: 'Apartamento de Lujo Moderno' },
-        { name: 'Suite Premium en el Centro' },
-        { name: 'Vista Elegante a la Ciudad' },
+        { name: 'Apartamento de Lujo Moderno', details: '' },
+        { name: 'Suite Premium en el Centro', details: '' },
+        { name: 'Vista Elegante a la Ciudad', details: '' },
+        { name: '1505 Cumbres', details: 'Vivienda alquilada · 1 dormitorio · 1 cama · 1 baño' },
+        { name: 'Palmanova 13G', details: 'Vivienda alquilada · 2 dormitorios · 3 camas · 2 baños' },
       ],
     },
 
@@ -388,10 +408,13 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Fundadores',
         title: 'Un equipo. Una operación.',
         body: 'Procesos claros, soporte 24/7 y un único punto de contacto. Vos solo cobrás.',
-        meta: 'Asunción · 2026',
+      },
+      who: {
+        title: 'Quiénes somos',
+        subtitle: 'Un equipo confiable que brinda excelencia.',
+        imageAlt: 'Equipo de Guaraní Capital recorriendo un edificio residencial en Asunción',
       },
     },
 
@@ -403,7 +426,6 @@ export const translations = {
         line2: 'en un solo lugar',
       },
       subtitle: 'Desde el setup hasta la gestión continua, nos encargamos de todo para que tu propiedad genere ingresos pasivos desde el día uno.',
-      brochure: 'Descargar brochure completo',
       items: {
         setup: {
           title: 'Tu Propiedad Lista para Generar en 7 Días',
@@ -417,7 +439,7 @@ export const translations = {
         },
         operations: {
           title: 'Cero Llamadas. Cero Problemas. Solo Pagos.',
-          description: 'Atención 24/7 a huéspedes, check-in/check-out sin complicaciones, limpieza profesional tras cada estadía y mantenimiento completo—todo gestionado por nosotros.',
+          description: 'Atención 24/7 a huéspedes, check-in/check-out sin complicaciones, limpieza profesional tras cada estadía y mantenimiento completo. Todo gestionado por nosotros.',
           features: [
             'Comunicación multilingüe',
             'Entrega de llaves',
@@ -470,7 +492,7 @@ export const translations = {
         support247: 'Atención 24/7',
         maintenance: 'Mantenimiento',
       },
-      location: 'Asunción, Paraguay',
+      location: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
       hours: 'Lun - Vie: 9:00 - 18:00',
       developedBy: 'Desarrollado por Bright Idea',
       legalLinks: {
@@ -498,6 +520,20 @@ export const translations = {
         { description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5-8%, proyectando US$ 1.900 millones en transacciones para 2025.' },
         { description: 'El auge de los extranjeros en Paraguay: ¿qué soluciones inmobiliarias buscan? Oportunidades de inversión en apartamentos premium amoblados.' },
       ],
+      advisory: {
+        title: 'Asesoría en inversión inmobiliaria',
+        lead: 'Somos especialistas en asesoría para inversión en Asunción, con acceso a propiedades exclusivas y al mejor precio para renta en Airbnb.',
+        body: 'Paraguay atraviesa un momento único: grado de inversión, demanda creciente de estadías temporarias y un mercado inmobiliario en plena expansión. Invertir hoy es entrar antes que el resto.',
+        ctaText: 'Escribinos hoy y te asesoramos sobre las mejores oportunidades de inversión en Asunción.',
+        button: 'Escribinos hoy',
+      },
+    },
+
+    // Contact
+    contact: {
+      locationLabel: 'Nuestra oficina',
+      address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
+      mapTitle: 'Ubicación de Guaraní Capital en Google Maps',
     },
 
     // Form
@@ -571,14 +607,14 @@ export const translations = {
         line2: 'sua propriedade hoje?',
         line3: 'Cuidamos de tudo.',
       },
-      subtitle: 'Gestão 100% integral do Airbnb e Booking.com com resultados comprovados em +50 propriedades no Paraguai',
+      subtitle: 'Gestão 100% integral do Airbnb e Booking.com com resultados comprovados em +100 propriedades no Paraguai',
       cta: {
         primary: 'Comece agora',
         secondary: 'Conheça nossos serviços',
       },
       stats: {
         properties: {
-          number: '+50',
+          number: '+100',
           label: 'Propriedades gerenciadas',
         },
         support: {
@@ -639,9 +675,11 @@ export const translations = {
       viewButton: 'Ver no Airbnb',
       profileButton: 'Ver todas as avaliações no Airbnb',
       properties: [
-        { name: 'Apartamento de Luxo Moderno' },
-        { name: 'Suíte Premium no Centro' },
-        { name: 'Vista Elegante da Cidade' },
+        { name: 'Apartamento de Luxo Moderno', details: '' },
+        { name: 'Suíte Premium no Centro', details: '' },
+        { name: 'Vista Elegante da Cidade', details: '' },
+        { name: '1505 Cumbres', details: 'Locação inteira · 1 quarto · 1 cama · 1 banheiro' },
+        { name: 'Palmanova 13G', details: 'Locação inteira · 2 quartos · 3 camas · 2 banheiros' },
       ],
     },
 
@@ -664,10 +702,13 @@ export const translations = {
         },
       ],
       statement: {
-        eyebrow: 'Fundadores',
         title: 'Uma equipe. Uma operação.',
         body: 'Processos claros, suporte 24/7 e um único ponto de contato. Você só recebe a renda.',
-        meta: 'Assunção · 2026',
+      },
+      who: {
+        title: 'Quem somos',
+        subtitle: 'Uma equipe confiável que entrega excelência.',
+        imageAlt: 'Equipe da Guaraní Capital percorrendo um edifício residencial em Assunção',
       },
     },
 
@@ -679,7 +720,6 @@ export const translations = {
         line2: 'em um só lugar',
       },
       subtitle: 'Desde a configuração até a gestão contínua, cuidamos de tudo para que sua propriedade gere renda passiva desde o primeiro dia.',
-      brochure: 'Baixar brochura completa',
       items: {
         setup: {
           title: 'Sua Propriedade Pronta para Gerar em 7 Dias',
@@ -693,7 +733,7 @@ export const translations = {
         },
         operations: {
           title: 'Zero Ligações. Zero Problemas. Só Pagamentos.',
-          description: 'Atendimento 24/7 aos hóspedes, check-in/check-out sem complicações, limpeza profissional após cada estadia e manutenção completa—tudo gerenciado por nós.',
+          description: 'Atendimento 24/7 aos hóspedes, check-in/check-out sem complicações, limpeza profissional após cada estadia e manutenção completa. Tudo gerenciado por nós.',
           features: [
             'Comunicação multilíngue',
             'Entrega de chaves',
@@ -746,7 +786,7 @@ export const translations = {
         support247: 'Atendimento 24/7',
         maintenance: 'Manutenção',
       },
-      location: 'Assunção, Paraguai',
+      location: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
       hours: 'Seg - Sex: 9:00 - 18:00',
       developedBy: 'Desenvolvido por Bright Idea',
       legalLinks: {
@@ -774,6 +814,20 @@ export const translations = {
         { description: 'O setor imobiliário representa 12% do PIB paraguaio com retornos de 5-8%, projetando US$ 1,9 bilhão em transações para 2025.' },
         { description: 'A ascensão dos estrangeiros no Paraguai: quais soluções imobiliárias eles buscam? Oportunidades de investimento em apartamentos mobiliados premium.' },
       ],
+      advisory: {
+        title: 'Assessoria em investimento imobiliário',
+        lead: 'Somos especialistas em assessoria para investimento em Assunção, com acesso a propriedades exclusivas e ao melhor preço para aluguel no Airbnb.',
+        body: 'O Paraguai vive um momento único: grau de investimento, demanda crescente por estadias temporárias e um mercado imobiliário em plena expansão. Investir hoje é entrar antes dos demais.',
+        ctaText: 'Fale conosco hoje e orientamos você sobre as melhores oportunidades de investimento em Assunção.',
+        button: 'Fale conosco hoje',
+      },
+    },
+
+    // Contact
+    contact: {
+      locationLabel: 'Nosso escritório',
+      address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
+      mapTitle: 'Localização da Guaraní Capital no Google Maps',
     },
 
     // Form
@@ -825,282 +879,6 @@ export const translations = {
         managementLabel: 'gestão',
         description: 'Recebemos sua solicitação de {type}. Respondemos em menos de 24 horas.',
         back: 'Voltar ao início',
-      },
-    },
-  },
-
-  de: {
-    // Navbar
-    navbar: {
-      home: 'Startseite',
-      about: 'Über uns',
-      services: 'Dienstleistungen',
-      team: 'Team',
-      contact: 'Kontakt',
-    },
-
-    // Hero Section
-    hero: {
-      eyebrow: 'Immobilienverwaltung in Paraguay',
-      title: {
-        line1: 'Wie viel könnte Ihre Immobilie',
-        line2: 'gerade jetzt generieren?',
-        line3: 'Wir kümmern uns um alles.',
-      },
-      subtitle: '100% umfassende Airbnb- und Booking.com-Verwaltung mit nachgewiesenen Ergebnissen in über 50 Immobilien in Paraguay',
-      cta: {
-        primary: 'Jetzt starten',
-        secondary: 'Unsere Leistungen entdecken',
-      },
-      stats: {
-        properties: {
-          number: '+50',
-          label: 'Verwaltete Immobilien',
-        },
-        support: {
-          number: '24/7',
-          label: 'Gästebetreuung',
-        },
-        experience: {
-          number: '+9',
-          label: 'Jahre Erfahrung',
-        },
-      },
-    },
-
-    // Why Choose Us
-    whyChooseUs: {
-      label: 'Warum Guaraní Capital?',
-      title: {
-        line1: 'Professionelles Management',
-        line2: 'für den paraguayischen Markt',
-      },
-      subtitle: 'Wir kombinieren Technologie, strukturierte Prozesse und lokales Wissen, damit Ihre Immobilie echtes passives Einkommen generiert.',
-      pillars: {
-        revenue: {
-          title: 'Maximierte Einnahmen',
-          description: 'Dynamische Preisstrategien und Belegungsmanagement, abgestimmt auf den paraguayischen Markt, die Ihre Einnahmen Monat für Monat maximieren.',
-          stats: {
-            value: '+40%',
-            label: 'Durchschnittliches Einkommen vs. traditionelle Verwaltung',
-          },
-        },
-        management: {
-          title: '100% Umfassende Verwaltung',
-          description: 'Wir kümmern uns um absolut alles: 24/7-Kommunikation mit Gästen, Schlüsselübergabe, professionelle Reinigung, vorbeugende Wartung und sogar Möblierung, wenn Sie diese benötigen.',
-          stats: {
-            value: '24/7',
-            label: 'Echte Verfügbarkeit für Ihre Gäste',
-          },
-        },
-        support: {
-          title: 'Rundum-Support',
-          description: 'Von der ersten Einrichtung bis zur laufenden Wartung koordinieren wir Reparaturen, Reinigung und alle betrieblichen Bedürfnisse. Sie erhalten nur monatlich die Zahlungen.',
-          stats: {
-            value: '0 Std',
-            label: 'Ihrer Zeit pro Monat erforderlich',
-          },
-        },
-      },
-    },
-
-    // Property Portfolio
-    portfolio: {
-      label: 'Unsere Immobilien',
-      title: {
-        line1: 'Ausgewählte Immobilien',
-        line2: 'Derzeit verwaltet',
-      },
-      subtitle: 'Entdecken Sie einige unserer Premium-Immobilien, die außergewöhnliche Renditen auf Airbnb erzielen',
-      viewButton: 'Auf Airbnb ansehen',
-      profileButton: 'Alle Bewertungen auf Airbnb ansehen',
-      properties: [
-        { name: 'Moderne Luxuswohnung' },
-        { name: 'Premium Downtown Suite' },
-        { name: 'Elegante Stadtaussicht' },
-      ],
-    },
-
-    // Team
-    team: {
-      label: 'Gründer',
-      title: {
-        line1: 'Die Menschen hinter',
-        line2: 'Guaraní Capital',
-      },
-      subtitle: 'Zwei Gründer, ein klares Ziel: Ihre Immobilie arbeitet auf Höchstniveau, ohne dass Sie sich um etwas kümmern müssen.',
-      founders: [
-        {
-          role: 'Founder · Operations Director',
-          bio: 'Gestaltet die operativen Prozesse, die in jeder Immobilie für Qualität sorgen. Leitet das Team vor Ort, die Reinigungsstandards, den Check-in und die Gästeerfahrung rund um die Uhr.',
-        },
-        {
-          role: 'Co-Founder · Business Director',
-          bio: 'Verantwortlich für die Geschäftsstrategie und die Beziehung zu den Eigentümern. Treibt das Portfoliowachstum voran und stellt sicher, dass jede Einheit ihr Maximum leistet.',
-        },
-      ],
-      statement: {
-        eyebrow: 'Gründer',
-        title: 'Ein Team. Ein Ablauf.',
-        body: 'Klare Prozesse, 24/7-Support und ein einziger Ansprechpartner. Sie kassieren einfach die Einnahmen.',
-        meta: 'Asunción · 2026',
-      },
-    },
-
-    // Services
-    services: {
-      label: 'Unsere Dienstleistungen',
-      title: {
-        line1: 'Alles, was Sie zum Verdienen brauchen',
-        line2: 'an einem Ort',
-      },
-      subtitle: 'Von der Einrichtung bis zur laufenden Verwaltung kümmern wir uns um alles, damit Ihre Immobilie vom ersten Tag an passives Einkommen generiert.',
-      brochure: 'Vollständige Broschüre herunterladen',
-      items: {
-        setup: {
-          title: 'Ihre Immobilie bereit zum Verdienen in 7 Tagen',
-          description: 'Professionelle Fotografie, optimierte Anzeigen, Multi-Plattform-Einrichtung und umsatzorientierte Preisstrategie vom ersten Tag an.',
-          features: [
-            'HD-Fotoshooting',
-            'Professionelles Copywriting',
-            'SEO-Optimierung',
-            'Kanalkonfiguration',
-          ],
-        },
-        operations: {
-          title: 'Null Anrufe. Null Probleme. Nur Zahlungen.',
-          description: '24/7-Gästebetreuung, nahtloser Check-in/Check-out, professionelle Reinigung nach jedem Aufenthalt und vollständige Wartung – alles von uns verwaltet.',
-          features: [
-            'Mehrsprachige Kommunikation',
-            'Schlüsselübergabe',
-            'Professionelle Reinigung',
-            'Vorbeugende Wartung',
-          ],
-        },
-        optimization: {
-          title: 'Preise, die sich selbst anpassen. Einnahmen, die wachsen.',
-          description: 'Dynamische Preisgestaltung, die Ihre Einnahmen basierend auf Echtzeit-Nachfrage, Saisonalität und Marktanalyse maximiert.',
-          features: [
-            'Dynamische Preisgestaltung',
-            'Marktanalyse',
-            'Bewertungsmanagement',
-            'Monatliche Berichte',
-          ],
-        },
-        furnishing: {
-          title: 'Von leerer Wohnung zum Booking-Erfolg in 2 Wochen',
-          description: 'Wir möblieren und gestalten Ihre Immobilie mit einem bewährten Stil, der die Belegung maximiert und Premium-Preise ermöglicht.',
-          features: [
-            'Innenarchitektur',
-            'Komplette Möblierung',
-            'Dekoration',
-            'Technische Ausstattung',
-          ],
-        },
-      },
-      cta: {
-        title: 'Wie viel könnte Ihre Immobilie gerade jetzt verdienen?',
-        text: '100% umfassende Verwaltung, die es Ihnen ermöglicht, Gewinne zu maximieren, ohne betriebliche Kopfschmerzen. Erstklassige Immobilien in Asunción erzielen außergewöhnliche Renditen.',
-        button: 'Kostenlose Umsatzprognose erhalten',
-        buttonSubtext: 'Dauert weniger als 2 Minuten',
-      },
-    },
-
-    // Footer
-    footer: {
-      tagline: 'Professionelle Airbnb-ähnliche Immobilienverwaltung in Paraguay. Lokaler Service, 24/7-Support.',
-      navigation: 'Navigation',
-      servicesTitle: 'Dienstleistungen',
-      contactTitle: 'Kontakt',
-      links: {
-        home: 'Startseite',
-        about: 'Über uns',
-        services: 'Dienstleistungen',
-        contact: 'Kontakt',
-        fullManagement: 'Vollständige Verwaltung',
-        digitalMarketing: 'Digitales Marketing',
-        support247: '24/7 Support',
-        maintenance: 'Wartung',
-      },
-      location: 'Asunción, Paraguay',
-      hours: 'Mo - Fr: 9:00 - 18:00',
-      developedBy: 'Entwickelt von Bright Idea',
-      legalLinks: {
-        terms: 'Allgemeine Geschäftsbedingungen',
-        privacy: 'Datenschutzrichtlinie',
-      },
-      rights: 'Alle Rechte vorbehalten.',
-    },
-
-    // WhatsApp Button
-    whatsapp: {
-      message: 'Chatten Sie mit uns',
-      ariaLabel: 'Über WhatsApp kontaktieren',
-      waMessage: 'Hallo! Ich hätte gerne Informationen über die Immobilienverwaltung in Paraguay',
-    },
-
-    // News
-    news: {
-      label: 'Marktnachrichten',
-      titleCountry: 'Paraguay',
-      titleTagline: 'Die Zeit ist Jetzt',
-      readMore: 'Vollständigen Artikel lesen',
-      articles: [
-        { description: "Standard & Poor's verleiht Paraguay sein zweites Investment-Grade-Rating und hebt die Bewertung auf BBB- für seine monetäre Glaubwürdigkeit und Inflationskontrolle an." },
-        { description: 'Der Immobiliensektor repräsentiert 12% des paraguayischen BIP mit Renditen von 5-8% und prognostiziert US$ 1,9 Milliarden an Transaktionen für 2025.' },
-        { description: 'Der Aufstieg der Ausländer in Paraguay: Welche Immobilienlösungen suchen sie? Investitionsmöglichkeiten in Premium-Möbelwohnungen.' },
-      ],
-    },
-
-    // Form
-    form: {
-      selection: {
-        title: 'Kostenlose Beratung vereinbaren',
-        subtitle: 'Erzählen Sie uns von Ihrem Fall und wir senden Ihnen kostenlos eine Simulation.',
-        question: 'Wie können wir Ihnen helfen?',
-        investTitle: 'Ich möchte investieren',
-        investDescription: 'Sie suchen eine Wohnung zu kaufen, die über Airbnb vermietet werden soll',
-        managementTitle: 'Ich möchte Verwaltung',
-        managementDescription: 'Sie haben bereits eine Wohnung und möchten, dass wir sie verwalten',
-        footer: 'Wir antworten in weniger als 24 Stunden',
-        changeSelection: 'Auswahl ändern',
-      },
-      ui: {
-        back: 'Zurück',
-        continue: 'Weiter',
-        required: 'Dieses Feld ist erforderlich',
-        invalid: 'Ungültiger Wert',
-        select: 'Auswählen...',
-        hint: 'Drücken Sie Enter ↵ um fortzufahren',
-        emailInvalid: 'Bitte geben Sie eine gültige E-Mail ein',
-        phoneInvalid: 'Bitte geben Sie eine gültige Nummer ein',
-      },
-      investment: {
-        fullName: { question: 'Wie lautet Ihr vollständiger Name?', placeholder: 'Alex Smith' },
-        email: { question: 'Wie lautet Ihre E-Mail?', placeholder: 'alex@example.com' },
-        phone: { question: 'Wie lautet Ihre WhatsApp-Nummer?', subtitle: 'Landesvorwahl angeben', placeholder: '+595 991 899050' },
-        country: { question: 'Aus welchem Land kontaktieren Sie uns?', placeholder: 'Paraguay' },
-        budget: { question: 'Was ist Ihr ungefähres Budget?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Über USD 100.000'] },
-        timeframe: { question: 'Wann möchten Sie investieren?', options: ['Sofort', 'In den nächsten 3 Monaten', 'Ich evaluiere nur'] },
-        rentalType: { question: 'Welche Art von Mieteinnahmen interessiert Sie?', subtitle: 'Dieses Feld ist optional', options: ['Kurzzeitmiete (Airbnb/Booking)', 'Ich bin unsicher'] },
-      },
-      management: {
-        fullName: { question: 'Wie lautet Ihr vollständiger Name?', placeholder: 'Alex Smith' },
-        email: { question: 'Wie lautet Ihre E-Mail?', placeholder: 'alex@example.com' },
-        phone: { question: 'Wie lautet Ihre WhatsApp-Nummer?', subtitle: 'Landesvorwahl angeben', placeholder: '+595 991 899050' },
-        zone: { question: 'In welchem Gebiet oder Gebäude befindet sich Ihre Immobilie?', placeholder: 'z.B: Villa Morra, Torre Champagne' },
-        propertyType: { question: 'Um welchen Immobilientyp handelt es sich?', options: ['Studio', '1 Schlafzimmer', '2 Schlafzimmer', 'Sonstiges'] },
-        furnished: { question: 'Ist sie möbliert?', options: ['Ja', 'Nein', 'Teilweise'] },
-        published: { question: 'Ist sie bereits auf Airbnb oder Booking gelistet?', options: ['Ja', 'Nein'] },
-        startDate: { question: 'Ab wann möchten Sie beginnen?', options: ['Sofort', 'Ich evaluiere noch'] },
-        photosLink: { question: 'Haben Sie Fotos der Immobilie?', subtitle: 'Sie können einen Link zu Google Drive oder ähnlichem teilen (optional)', placeholder: 'https://drive.google.com/...' },
-      },
-      success: {
-        title: 'Fertig! Wir melden uns bald',
-        investLabel: 'Investition',
-        managementLabel: 'Verwaltung',
-        description: 'Wir haben Ihre {type}-Anfrage erhalten. Wir antworten in weniger als 24 Stunden.',
-        back: 'Zurück zum Anfang',
       },
     },
   },

@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToSection } from '../hooks/useLenis';
 
 const newsArticlesMeta = [
   {
@@ -21,6 +22,18 @@ export const NewsInsights = () => {
   const { t } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const advisoryRef = useRef(null);
+  const advisoryInView = useInView(advisoryRef, { once: true, amount: 0.3 });
+
+  const scrollToContact = () => {
+    const target =
+      document.getElementById('contact-form') ?? document.getElementById('contact');
+    if (!target) return;
+    // Center the form selection cards instead of landing on the heading (same as Hero).
+    const rect = target.getBoundingClientRect();
+    const centerOffset = Math.round((window.innerHeight - rect.height) / 2) * -1;
+    scrollToSection(target, centerOffset);
+  };
 
   return (
     <section id="news" className="news-insights">
@@ -57,6 +70,35 @@ export const NewsInsights = () => {
             />
           ))}
         </div>
+
+        <motion.div
+          ref={advisoryRef}
+          className="advisory-panel"
+          initial={{ opacity: 0, y: 30 }}
+          animate={advisoryInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <div className="advisory-copy">
+            <h3 className="advisory-title">{t.news.advisory.title}</h3>
+            <p className="advisory-lead">{t.news.advisory.lead}</p>
+            <p className="advisory-body">{t.news.advisory.body}</p>
+          </div>
+          <div className="advisory-cta">
+            <p className="advisory-cta-text">{t.news.advisory.ctaText}</p>
+            <button type="button" className="advisory-button" onClick={scrollToContact}>
+              {t.news.advisory.button}
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M4 10H16M16 10L11 5M16 10L11 15"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </motion.div>
       </div>
 
       <style>{`
@@ -115,10 +157,120 @@ export const NewsInsights = () => {
           gap: var(--space-lg);
         }
 
+        /* Investment advisory */
+        .advisory-panel {
+          display: grid;
+          grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+          gap: clamp(2rem, 5vw, 4rem);
+          align-items: center;
+          max-width: 1120px;
+          margin: var(--space-3xl) auto 0;
+          padding: clamp(1.75rem, 4vw, 3rem);
+          border-radius: var(--radius-lg);
+          background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+          color: white;
+          box-shadow: var(--shadow-xl);
+        }
+
+        .advisory-title {
+          font-family: var(--font-display);
+          font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          line-height: 1.2;
+          margin: 0 0 var(--space-sm);
+        }
+
+        .advisory-lead {
+          font-family: var(--font-body);
+          font-size: 1.0625rem;
+          line-height: 1.7;
+          margin: 0 0 var(--space-sm);
+          opacity: 0.95;
+        }
+
+        .advisory-body {
+          font-family: var(--font-body);
+          font-size: 1rem;
+          line-height: 1.7;
+          margin: 0;
+          opacity: 0.8;
+        }
+
+        .advisory-cta {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-md);
+          padding: clamp(1.25rem, 2.5vw, 1.75rem);
+          border-radius: var(--radius-md);
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .advisory-cta-text {
+          font-family: var(--font-body);
+          font-size: 0.9375rem;
+          line-height: 1.6;
+          margin: 0;
+          opacity: 0.9;
+        }
+
+        .advisory-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.6rem;
+          padding: 0.85rem 1.8rem;
+          font-family: var(--font-body);
+          font-size: 0.9375rem;
+          font-weight: 500;
+          color: var(--color-primary-dark);
+          background: #ffffff;
+          border: none;
+          border-radius: var(--radius-full);
+          cursor: pointer;
+          transition: box-shadow var(--transition-base), transform var(--transition-base);
+          width: fit-content;
+        }
+
+        .advisory-button svg {
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .advisory-button:hover {
+          box-shadow: 0 8px 24px rgba(26, 37, 47, 0.28);
+          transform: translateY(-1px);
+        }
+
+        .advisory-button:hover svg {
+          transform: translateX(3px);
+        }
+
+        .advisory-button:active {
+          transform: translateY(0) scale(0.98);
+        }
+
+        .advisory-button:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 3px;
+        }
+
         @media (max-width: 1200px) {
           .news-articles {
             grid-template-columns: 1fr;
             gap: var(--space-2xl);
+          }
+        }
+
+        @media (max-width: 900px) {
+          .advisory-panel {
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+            margin-top: var(--space-2xl);
+          }
+
+          .advisory-button {
+            width: 100%;
           }
         }
 
@@ -235,6 +387,11 @@ const ArticleEmbed = ({
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .article-card:hover .article-image img {
+          transform: scale(1.05);
         }
 
         .card-content {
