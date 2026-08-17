@@ -190,7 +190,7 @@ export const ContactSection = () => {
         }
 
         .location-link:focus-visible {
-          outline: 2px solid var(--color-accent);
+          outline: 2px solid var(--color-primary-dark);
           outline-offset: 3px;
         }
 

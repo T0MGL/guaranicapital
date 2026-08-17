@@ -120,6 +120,7 @@ export const translations = {
       who: {
         title: 'Who we are',
         subtitle: 'A reliable team that delivers excellence.',
+        imageAlt: 'Guaraní Capital team walking through a residential building in Asunción',
       },
     },
 
@@ -413,6 +414,7 @@ export const translations = {
       who: {
         title: 'Quiénes somos',
         subtitle: 'Un equipo confiable que brinda excelencia.',
+        imageAlt: 'Equipo de Guaraní Capital recorriendo un edificio residencial en Asunción',
       },
     },
 
@@ -706,6 +708,7 @@ export const translations = {
       who: {
         title: 'Quem somos',
         subtitle: 'Uma equipe confiável que entrega excelência.',
+        imageAlt: 'Equipe da Guaraní Capital percorrendo um edifício residencial em Assunção',
       },
     },
 

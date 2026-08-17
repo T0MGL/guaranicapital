@@ -302,7 +302,7 @@ export const PropertyPortfolio = () => {
                 prop={prop}
                 name={t.portfolio.properties[index + originalProperties.length].name}
                 details={t.portfolio.properties[index + originalProperties.length].details}
-                widthPercent={100}
+                widthPercent={100 / visibleCount}
               />
             ))}
           </div>
@@ -377,7 +377,7 @@ export const PropertyPortfolio = () => {
         }
 
         .gallery-card:focus-visible {
-          outline: 2px solid var(--color-accent);
+          outline: 2px solid var(--color-primary-dark);
           outline-offset: 3px;
         }
 
@@ -601,19 +601,19 @@ export const PropertyPortfolio = () => {
           cursor: not-allowed;
         }
 
-        /* Secondary listings (new properties, always visible, no carousel) */
+        /* Secondary listings (new properties, always visible, no carousel).
+           Cards are sized via the same 100 / visibleCount logic as the
+           carousel above (widthPercent prop), so a card here is always
+           pixel-identical to a card in group 1 at the same breakpoint.
+           Flex + no stretch means the unused slot in the 3-up row stays
+           empty instead of the 2 cards inflating to fill it. */
         .gallery-secondary {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
           column-gap: 0;
           row-gap: var(--space-lg);
           margin-top: var(--space-xl);
-        }
-
-        @media (max-width: 640px) {
-          .gallery-secondary {
-            grid-template-columns: 1fr;
-          }
         }
 
         /* Profile CTA */

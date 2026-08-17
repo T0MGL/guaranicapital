@@ -77,7 +77,7 @@ export const TeamSection = () => {
         >
           <img
             src="/team/equipo.webp"
-            alt="Equipo de Guaraní Capital recorriendo un edificio residencial en Asunción"
+            alt={t.team.who.imageAlt}
             className="team-who-image"
             loading="lazy"
             width={1920}

@@ -6,7 +6,7 @@ import { Language } from '../i18n/translations';
 const languages: Record<Language, { name: string; flag: string }> = {
   en: { name: 'English', flag: '🇬🇧' },
   es: { name: 'Español', flag: '🇪🇸' },
-  pt: { name: 'Português', flag: '🇵🇹' },
+  pt: { name: 'Português', flag: '🇧🇷' },
 };
 
 interface LanguageSelectorProps {
@@ -182,8 +182,11 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
         }
 
         .language-option:focus-visible {
-          outline: 2px solid var(--color-accent);
-          outline-offset: 2px;
+          /* Inset instead of outward outline: the dropdown clips at its own
+             rounded corners (overflow: hidden), so an outward ring gets cut
+             off on every side for a full-width option. */
+          outline: none;
+          box-shadow: inset 0 0 0 2px var(--color-primary-dark);
         }
 
         @media (max-width: 767px) {
