@@ -127,7 +127,7 @@ export const PropertyPortfolio = () => {
   const [offset, setOffset] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const propertiesMeta: PropertyMeta[] = [
+  const originalProperties: PropertyMeta[] = [
     {
       id: 1,
       location: 'Asunción',
@@ -158,6 +158,9 @@ export const PropertyPortfolio = () => {
         '/properties/3/3.webp',
       ],
     },
+  ];
+
+  const newProperties: PropertyMeta[] = [
     {
       id: 4,
       location: 'Asunción',
@@ -191,7 +194,7 @@ export const PropertyPortfolio = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  const N = propertiesMeta.length;
+  const N = originalProperties.length;
   const maxOffset = Math.max(0, N - visibleCount);
 
   useEffect(() => {
@@ -233,7 +236,7 @@ export const PropertyPortfolio = () => {
               transition={{ type: 'spring', stiffness: 320, damping: 38, mass: 0.9 }}
               style={{ width: `${(N / visibleCount) * 100}%` }}
             >
-              {propertiesMeta.map((prop, index) => (
+              {originalProperties.map((prop, index) => (
                 <PropertyCard
                   key={prop.id}
                   prop={prop}
@@ -290,6 +293,18 @@ export const PropertyPortfolio = () => {
                 </svg>
               </button>
             </div>
+          </div>
+
+          <div className="gallery-secondary">
+            {newProperties.map((prop, index) => (
+              <PropertyCard
+                key={prop.id}
+                prop={prop}
+                name={t.portfolio.properties[index + originalProperties.length].name}
+                details={t.portfolio.properties[index + originalProperties.length].details}
+                widthPercent={100}
+              />
+            ))}
           </div>
         </motion.div>
 
@@ -584,6 +599,21 @@ export const PropertyPortfolio = () => {
         .nav-arrow:disabled {
           opacity: 0.22;
           cursor: not-allowed;
+        }
+
+        /* Secondary listings (new properties, always visible, no carousel) */
+        .gallery-secondary {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          column-gap: 0;
+          row-gap: var(--space-lg);
+          margin-top: var(--space-xl);
+        }
+
+        @media (max-width: 640px) {
+          .gallery-secondary {
+            grid-template-columns: 1fr;
+          }
         }
 
         /* Profile CTA */
