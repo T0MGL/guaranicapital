@@ -181,6 +181,16 @@ export const PropertyPortfolio = () => {
         '/properties/5/3.webp',
       ],
     },
+    {
+      id: 6,
+      location: 'Asunción',
+      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1654548701933626473',
+      images: [
+        '/properties/6/1.webp',
+        '/properties/6/2.webp',
+        '/properties/6/3.webp',
+      ],
+    },
   ];
 
   useEffect(() => {
@@ -605,8 +615,8 @@ export const PropertyPortfolio = () => {
            Cards are sized via the same 100 / visibleCount logic as the
            carousel above (widthPercent prop), so a card here is always
            pixel-identical to a card in group 1 at the same breakpoint.
-           Flex + no stretch means the unused slot in the 3-up row stays
-           empty instead of the 2 cards inflating to fill it. */
+           Keep this row's item count a multiple of visibleCount at the
+           3-up breakpoint, or a partial row will leave a gap on flex. */
         .gallery-secondary {
           display: flex;
           flex-wrap: wrap;
