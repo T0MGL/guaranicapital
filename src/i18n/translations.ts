@@ -92,6 +92,7 @@ export const translations = {
         { name: 'Elegant City View', details: '' },
         { name: '1505 Cumbres', details: 'Entire rental unit · 1 bedroom · 1 bed · 1 bath' },
         { name: 'Palmanova 13G', details: 'Entire rental unit · 2 bedrooms · 3 beds · 2 baths' },
+        { name: 'Modern Downtown Studio', details: 'Entire rental unit · Studio · 1 bed · 1 bath' },
       ],
     },
 
@@ -386,6 +387,7 @@ export const translations = {
         { name: 'Vista Elegante a la Ciudad', details: '' },
         { name: '1505 Cumbres', details: 'Vivienda alquilada · 1 dormitorio · 1 cama · 1 baño' },
         { name: 'Palmanova 13G', details: 'Vivienda alquilada · 2 dormitorios · 3 camas · 2 baños' },
+        { name: 'Estudio Moderno Céntrico', details: 'Vivienda alquilada · Estudio · 1 cama · 1 baño' },
       ],
     },
 
@@ -680,6 +682,7 @@ export const translations = {
         { name: 'Vista Elegante da Cidade', details: '' },
         { name: '1505 Cumbres', details: 'Locação inteira · 1 quarto · 1 cama · 1 banheiro' },
         { name: 'Palmanova 13G', details: 'Locação inteira · 2 quartos · 3 camas · 2 banheiros' },
+        { name: 'Estúdio Moderno no Centro', details: 'Locação inteira · Estúdio · 1 cama · 1 banheiro' },
       ],
     },
 
