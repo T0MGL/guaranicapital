@@ -14,6 +14,7 @@ export const translations = {
       about: 'About',
       services: 'Services',
       team: 'Team',
+      faq: 'FAQ',
       contact: 'Contact',
       language: 'Language',
     },
@@ -217,6 +218,88 @@ export const translations = {
       },
     },
 
+    // FAQ
+    faq: {
+      label: 'Frequently asked questions',
+      title: {
+        line1: 'How we work,',
+        line2: 'no fine print',
+      },
+      subtitle: 'Fees, settlements, contract, and day-to-day operation. Straight answers to what owners ask us most.',
+      items: [
+        {
+          question: 'What does the management service include?',
+          answer:
+            'We handle property promotion, booking management, guest communication, platform management, cleaning coordination, quality control, and follow-up before, during, and after each stay.',
+        },
+        {
+          question: 'Which platform do you list my property on?',
+          answer:
+            'We work exclusively through Airbnb, under our Superhost-status account. When it makes commercial sense, we may also use other digital platforms or our own contact network.',
+        },
+        {
+          question: 'Is the Airbnb account under my name?',
+          answer:
+            "The listing is uploaded to our own Airbnb account (Superhost status), where we manage our entire property portfolio. If you'd like, we can give you co-host access so you can see bookings, calendar, and reviews.",
+        },
+        {
+          question: 'What is your management fee?',
+          answer:
+            "15% of the net billing of each confirmed reservation. It is deducted directly from your monthly settlement, you don't need to pay it separately.",
+        },
+        {
+          question: 'What does that fee cover?',
+          answer:
+            'Listing publication, booking management, guest communication, operational coordination, quality control, the monthly settlement, and restocking basic supplies. It does not include cleaning between stays, which is paid by the guest.',
+        },
+        {
+          question: 'How much does onboarding cost?',
+          answer:
+            'USD 150, paid by the owner. It includes an initial deep clean, preparing the property for listing, an inventory of furniture and equipment, and professional photography.',
+        },
+        {
+          question: 'How does the custom furnishing service work?',
+          answer:
+            "If your unit needs to be furnished from scratch or renovated, we offer a custom furnishing service, separate from onboarding. You let us know you're interested, our architect takes measurements of the unit, and we put together a custom quote based on those measurements and the type of furnishing we know works for short-term rentals (Airbnb-ready). If you approve the quote, you pay 50% upfront to start the custom manufacturing process in our factory; installation takes a few weeks and then it's ready to operate.",
+        },
+        {
+          question: 'How do you set the price for my unit?',
+          answer:
+            'We use dynamic pricing: the rate is constantly adjusted based on demand, season, and occupancy, to ensure the highest possible occupancy. At the start of a listing, the rate is usually lower, to generate the first bookings and reviews.',
+        },
+        {
+          question: 'What occupancy rate can I expect?',
+          answer:
+            'We aim to maximize occupancy for every unit, and we generally achieve rates of around 90%. Actual occupancy depends on location, season, and the condition of the unit, so it can vary case by case.',
+        },
+        {
+          question: 'When and in what currency do I get paid?',
+          answer:
+            "Between the 1st and 5th of the following month (possibly extending to the 10th due to Airbnb's payment processing times). You can choose to be paid in guaraníes or in US dollars (USD).",
+        },
+        {
+          question: 'Will I be able to see my bookings and income in real time?',
+          answer:
+            'Yes. We give you co-host access on Airbnb or access to our owner portal, where you can check bookings, the calendar, income, and financial statements whenever you like.',
+        },
+        {
+          question: 'Can I use my own apartment?',
+          answer:
+            'Yes. You can block dates for personal use directly on the management platform, letting us know with reasonable notice.',
+        },
+        {
+          question: 'How long is the contract, and can I exit early?',
+          answer:
+            "The contract is for one (1) year, automatically renewing. Either party may terminate it at any time with 30 days' notice.",
+        },
+        {
+          question: 'Do you guarantee occupancy or income levels?',
+          answer:
+            "No. Results depend on external factors such as market demand, seasonality, location, and the condition of the property. We work to maximize the performance of every unit, but we don't offer guaranteed figures.",
+        },
+      ],
+    },
+
     // Contact
     contact: {
       locationLabel: 'Our office',
@@ -284,6 +367,7 @@ export const translations = {
       about: 'Nosotros',
       services: 'Servicios',
       team: 'Equipo',
+      faq: 'FAQ',
       contact: 'Contacto',
       language: 'Idioma',
     },
@@ -487,6 +571,88 @@ export const translations = {
       },
     },
 
+    // FAQ
+    faq: {
+      label: 'Preguntas frecuentes',
+      title: {
+        line1: 'Cómo trabajamos,',
+        line2: 'sin letra chica',
+      },
+      subtitle: 'Comisión, liquidaciones, contrato y operación. Las respuestas concretas a lo que más nos preguntan los propietarios.',
+      items: [
+        {
+          question: '¿Qué incluye el servicio de administración?',
+          answer:
+            'Nos encargamos de la promoción del inmueble, la gestión de reservas, la comunicación con huéspedes, la gestión de plataformas, la coordinación de limpieza, el control de calidad y el seguimiento antes, durante y después de cada estadía.',
+        },
+        {
+          question: '¿En qué plataforma publican mi propiedad?',
+          answer:
+            'Trabajamos exclusivamente con Airbnb, bajo nuestra cuenta con estatus Superhost. Si conviene comercialmente, también podemos usar otras plataformas digitales o nuestra propia red de contactos.',
+        },
+        {
+          question: '¿La cuenta de Airbnb queda a mi nombre?',
+          answer:
+            'El listado se carga en nuestra cuenta de Airbnb (Superhost), donde administramos toda nuestra cartera de propiedades. Si querés, te damos acceso como co-anfitrión (co-host) para que puedas ver reservas, calendario y valoraciones.',
+        },
+        {
+          question: '¿Cuál es la comisión de gestión?',
+          answer:
+            '15% sobre la facturación neta de cada reserva confirmada. Se descuenta directamente de tu liquidación mensual, no tenés que pagarla aparte.',
+        },
+        {
+          question: '¿Qué cubre esa comisión?',
+          answer:
+            'Publicación, gestión de reservas, comunicación con huéspedes, coordinación operativa, control de calidad, liquidación mensual y reposición de insumos básicos. No incluye el costo de limpieza entre estadías, que paga el huésped.',
+        },
+        {
+          question: '¿Cuánto cuesta el onboarding?',
+          answer:
+            'USD 150, a cargo del propietario. Incluye limpieza profunda inicial, preparación del inmueble para su publicación, inventario del mobiliario y equipamiento, y fotografía profesional.',
+        },
+        {
+          question: '¿Cómo funciona el servicio de amoblamiento a medida?',
+          answer:
+            'Si tu unidad necesita equiparse desde cero o renovarse, ofrecemos un servicio de amoblamiento a medida, independiente del onboarding. Nos avisás que te interesa, nuestra arquitecta hace las mediciones de la unidad, y armamos un presupuesto a medida según esas mediciones y el tipo de equipamiento que sabemos que funciona para alquiler temporal (listo para Airbnb). Si aprobás el presupuesto, pagás el 50% para arrancar la fabricación a medida en fábrica; la instalación toma algunas semanas y ya queda lista para operar.',
+        },
+        {
+          question: '¿Cómo definen la tarifa de mi unidad?',
+          answer:
+            'Usamos precios dinámicos: la tarifa se ajusta constantemente según la demanda, la temporada y la ocupación, para asegurar la mayor ocupación posible. Al principio del listado suele ser más baja, para generar las primeras reservas y reseñas.',
+        },
+        {
+          question: '¿Cuál es la tasa de ocupación esperada?',
+          answer:
+            'Buscamos maximizar la ocupación de cada unidad, y en general solemos alcanzar tasas de alrededor del 90%. La ocupación real depende de la ubicación, la temporada y las condiciones de la unidad, por lo que puede variar de un caso a otro.',
+        },
+        {
+          question: '¿Cuándo y en qué moneda recibo mi liquidación?',
+          answer:
+            'Entre los días 1 y 5 del mes siguiente (con posible extensión hasta el día 10 por tiempos de acreditación de Airbnb). Podés elegir cobrar en guaraníes o en dólares (USD).',
+        },
+        {
+          question: '¿Voy a poder ver mis reservas e ingresos en tiempo real?',
+          answer:
+            'Sí. Te damos acceso como co-anfitrión en Airbnb o a través de nuestro portal de propietarios, donde podés consultar reservas, calendario, ingresos y estados financieros cuando quieras.',
+        },
+        {
+          question: '¿Puedo usar mi propio departamento?',
+          answer:
+            'Sí. Podés bloquear fechas para uso personal directamente en la plataforma de gestión, avisándonos con anticipación razonable.',
+        },
+        {
+          question: '¿Por cuánto tiempo es el contrato y puedo salir antes?',
+          answer:
+            'El contrato es de un (1) año, con renovación automática. Cualquiera de las partes puede rescindirlo en cualquier momento con 30 días de preaviso.',
+        },
+        {
+          question: '¿Garantizan un nivel de ocupación o ingresos?',
+          answer:
+            'No. Los resultados dependen de factores externos como la demanda del mercado, la estacionalidad, la ubicación y las condiciones del inmueble. Trabajamos para maximizar el rendimiento de cada unidad, pero no ofrecemos cifras garantizadas.',
+        },
+      ],
+    },
+
     // Contact
     contact: {
       locationLabel: 'Nuestra oficina',
@@ -554,6 +720,7 @@ export const translations = {
       about: 'Sobre',
       services: 'Serviços',
       team: 'Equipe',
+      faq: 'FAQ',
       contact: 'Contato',
       language: 'Idioma',
     },
@@ -755,6 +922,88 @@ export const translations = {
         ctaText: 'Fale conosco hoje e orientamos você sobre as melhores oportunidades de investimento em Assunção.',
         button: 'Fale conosco hoje',
       },
+    },
+
+    // FAQ
+    faq: {
+      label: 'Perguntas frequentes',
+      title: {
+        line1: 'Como trabalhamos,',
+        line2: 'sem letras miúdas',
+      },
+      subtitle: 'Comissão, repasses, contrato e operação. As respostas concretas ao que os proprietários mais nos perguntam.',
+      items: [
+        {
+          question: 'O que inclui o serviço de administração?',
+          answer:
+            'Cuidamos da divulgação do imóvel, da gestão de reservas, da comunicação com os hóspedes, da gestão das plataformas, da coordenação da limpeza, do controle de qualidade e do acompanhamento antes, durante e depois de cada estadia.',
+        },
+        {
+          question: 'Em qual plataforma vocês anunciam meu imóvel?',
+          answer:
+            'Trabalhamos exclusivamente com o Airbnb, na nossa conta com status de Superhost. Quando fizer sentido comercialmente, também podemos usar outras plataformas digitais ou a nossa própria rede de contatos.',
+        },
+        {
+          question: 'A conta do Airbnb fica no meu nome?',
+          answer:
+            'O anúncio é publicado na nossa conta do Airbnb (status Superhost), onde administramos toda a nossa carteira de imóveis. Se você quiser, damos acesso como coanfitrião (co-host) para que possa ver reservas, calendário e avaliações.',
+        },
+        {
+          question: 'Qual é a comissão de gestão?',
+          answer:
+            '15% sobre o faturamento líquido de cada reserva confirmada. É descontada diretamente do seu repasse mensal, você não precisa pagar à parte.',
+        },
+        {
+          question: 'O que essa comissão cobre?',
+          answer:
+            'Publicação do anúncio, gestão de reservas, comunicação com os hóspedes, coordenação operacional, controle de qualidade, repasse mensal e reposição de insumos básicos. Não inclui o custo da limpeza entre estadias, que é pago pelo hóspede.',
+        },
+        {
+          question: 'Quanto custa o onboarding?',
+          answer:
+            'USD 150, por conta do proprietário. Inclui limpeza profunda inicial, preparação do imóvel para o anúncio, inventário do mobiliário e dos equipamentos, e fotografia profissional.',
+        },
+        {
+          question: 'Como funciona o serviço de mobiliário sob medida?',
+          answer:
+            'Se a sua unidade precisa ser equipada do zero ou renovada, oferecemos um serviço de mobiliário sob medida, independente do onboarding. Você nos avisa que tem interesse, a nossa arquiteta faz as medições da unidade, e montamos um orçamento sob medida conforme essas medições e o tipo de equipamento que sabemos que funciona para aluguel por temporada (pronto para o Airbnb). Se você aprovar o orçamento, paga 50% para iniciar a fabricação sob medida na fábrica; a instalação leva algumas semanas e já fica pronta para operar.',
+        },
+        {
+          question: 'Como vocês definem a diária da minha unidade?',
+          answer:
+            'Usamos preços dinâmicos: a diária é ajustada constantemente conforme a demanda, a temporada e a ocupação, para garantir a maior ocupação possível. No início do anúncio costuma ser mais baixa, para gerar as primeiras reservas e avaliações.',
+        },
+        {
+          question: 'Qual é a taxa de ocupação esperada?',
+          answer:
+            'Buscamos maximizar a ocupação de cada unidade, e em geral costumamos alcançar taxas em torno de 90%. A ocupação real depende da localização, da temporada e das condições da unidade, por isso pode variar de caso a caso.',
+        },
+        {
+          question: 'Quando e em que moeda recebo o meu repasse?',
+          answer:
+            'Entre os dias 1 e 5 do mês seguinte (com possível extensão até o dia 10 por conta dos prazos de crédito do Airbnb). Você pode escolher receber em guaranis ou em dólares (USD).',
+        },
+        {
+          question: 'Vou poder ver minhas reservas e receitas em tempo real?',
+          answer:
+            'Sim. Damos acesso como coanfitrião no Airbnb ou através do nosso portal de proprietários, onde você pode consultar reservas, calendário, receitas e demonstrativos financeiros quando quiser.',
+        },
+        {
+          question: 'Posso usar o meu próprio apartamento?',
+          answer:
+            'Sim. Você pode bloquear datas para uso pessoal diretamente na plataforma de gestão, avisando com antecedência razoável.',
+        },
+        {
+          question: 'Por quanto tempo é o contrato e posso sair antes?',
+          answer:
+            'O contrato é de um (1) ano, com renovação automática. Qualquer uma das partes pode rescindi-lo a qualquer momento com 30 dias de aviso prévio.',
+        },
+        {
+          question: 'Vocês garantem um nível de ocupação ou de receita?',
+          answer:
+            'Não. Os resultados dependem de fatores externos como a demanda do mercado, a sazonalidade, a localização e as condições do imóvel. Trabalhamos para maximizar o desempenho de cada unidade, mas não oferecemos números garantidos.',
+        },
+      ],
     },
 
     // Contact
