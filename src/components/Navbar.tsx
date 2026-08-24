@@ -34,6 +34,7 @@ export const Navbar = () => {
     { label: t.navbar.about, id: 'about' },
     { label: t.navbar.services, id: 'services' },
     { label: t.navbar.team, id: 'team' },
+    { label: t.navbar.faq, id: 'faq' },
     { label: t.navbar.contact, id: 'contact' },
   ];
 
@@ -187,7 +188,7 @@ export const Navbar = () => {
 
         .navbar-menu.desktop {
           display: none;
-          gap: var(--space-lg);
+          gap: var(--space-md);
         }
 
         .nav-link {
@@ -315,6 +316,12 @@ export const Navbar = () => {
 
           .mobile-language-selector {
             display: none;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .navbar-menu.desktop {
+            gap: var(--space-lg);
           }
         }
 
