@@ -20,7 +20,7 @@ export const translations = {
         line2: 'be generating right now?',
         line3: 'We take care of everything.',
       },
-      subtitle: '100% comprehensive Airbnb and Booking.com management with proven results in +100 properties in Paraguay',
+      subtitle: '100% comprehensive Airbnb management with proven results in +100 properties in Paraguay',
       cta: {
         primary: 'Get Started',
         secondary: 'Discover our services',
@@ -137,12 +137,12 @@ export const translations = {
       items: {
         setup: {
           title: 'Your Property Ready to Earn in 7 Days',
-          description: 'Professional photography, optimized listings, multi-platform setup, and revenue-focused pricing strategy from day one.',
+          description: 'Professional photography, an optimized listing published on Airbnb under our Superhost account, and revenue-focused pricing strategy from day one.',
           features: [
             'HD photo session',
             'Professional copywriting',
             'SEO optimization',
-            'Channel configuration',
+            'Airbnb listing setup',
           ],
         },
         operations: {
@@ -166,7 +166,7 @@ export const translations = {
           ],
         },
         furnishing: {
-          title: 'From Empty Apartment to Booking Success in 2 Weeks',
+          title: 'From Empty Apartment to Confirmed Bookings in 2 Weeks',
           description: 'We furnish and design your property with a style proven to maximize occupancy and command premium rates in the market.',
           features: [
             'Interior design',
@@ -225,7 +225,7 @@ export const translations = {
       readMore: 'Read full article',
       articles: [
         { description: "Standard & Poor's grants Paraguay its second Investment Grade, raising the rating to BBB- for its monetary credibility and inflation control." },
-        { description: "The real estate sector represents 12% of Paraguay's GDP with returns of 5–8%, projecting US$ 1.9 billion in transactions for 2025." },
+        { description: "The real estate sector represents 12% of Paraguay's GDP with returns of 5% to 8%, projecting US$ 1.9 billion in transactions for 2025." },
         { description: 'The rise of foreigners in Paraguay: what real estate solutions are they seeking? Investment opportunities in premium furnished apartments.' },
       ],
       advisory: {
@@ -279,7 +279,7 @@ export const translations = {
         {
           question: 'How does the custom furnishing service work?',
           answer:
-            "If your unit needs to be furnished from scratch or renovated, we offer a custom furnishing service, separate from onboarding. You let us know you're interested, our architect takes measurements of the unit, and we put together a custom quote based on those measurements and the type of furnishing we know works for short-term rentals (Airbnb-ready). If you approve the quote, you pay 50% upfront to start the custom manufacturing process in our factory; installation takes a few weeks and then it's ready to operate.",
+            "If your unit needs to be furnished from scratch or renovated, we offer a custom furnishing service, separate from onboarding. You let us know you're interested, our architect takes measurements of the unit, and we put together a custom quote based on those measurements and the type of furnishing we know works for short-term rentals (Airbnb-ready). If you approve the quote, you pay 50% upfront to start custom manufacturing; installation takes a few weeks and then it's ready to operate.",
         },
         {
           question: 'How do you set the price for my unit?',
@@ -354,7 +354,7 @@ export const translations = {
         email: { question: "What's your email?", placeholder: 'alex@example.com' },
         phone: { question: "What's your WhatsApp number?", subtitle: 'Include country code', placeholder: '+595 991 899050' },
         country: { question: 'Which country are you contacting us from?', placeholder: 'Paraguay' },
-        budget: { question: "What's your approximate budget?", options: ['USD 30,000–50,000', 'USD 50,000–100,000', 'Over USD 100,000'] },
+        budget: { question: "What's your approximate budget?", options: ['USD 30,000 to 50,000', 'USD 50,000 to 100,000', 'Over USD 100,000'] },
         timeframe: { question: 'When are you thinking of investing?', options: ['Immediately', 'Next 3 months', 'Just evaluating'] },
         rentalType: { question: 'What type of rental are you interested in?', subtitle: 'This field is optional', options: ['Short-term rental (Airbnb/Booking)', "I'm not sure"] },
       },
@@ -398,7 +398,7 @@ export const translations = {
         line2: 'tu propiedad hoy?',
         line3: 'Nosotros lo manejamos todo.',
       },
-      subtitle: 'Gestión 100% integral de Airbnb y Booking.com con resultados probados en +100 propiedades en Paraguay',
+      subtitle: 'Gestión 100% integral de Airbnb con resultados probados en +100 propiedades en Paraguay',
       cta: {
         primary: 'Empezá ahora',
         secondary: 'Conocé nuestros servicios',
@@ -515,12 +515,12 @@ export const translations = {
       items: {
         setup: {
           title: 'Tu Propiedad Lista para Generar en 7 Días',
-          description: 'Fotografía profesional, anuncios optimizados, configuración multi-plataforma y estrategia de precios enfocada en ingresos desde el primer día.',
+          description: 'Fotografía profesional, anuncio optimizado y publicado en Airbnb bajo nuestra cuenta Superhost, y estrategia de precios enfocada en ingresos desde el primer día.',
           features: [
             'Sesión fotográfica HD',
             'Copywriting profesional',
             'Optimización SEO',
-            'Configuración de canales',
+            'Publicación en Airbnb',
           ],
         },
         operations: {
@@ -544,7 +544,7 @@ export const translations = {
           ],
         },
         furnishing: {
-          title: 'De Departamento Vacío a Éxito en Booking en 2 Semanas',
+          title: 'De Departamento Vacío a Reservas Confirmadas en 2 Semanas',
           description: 'Amoblamos y diseñamos tu propiedad con un estilo comprobado que maximiza ocupación y permite cobrar tarifas premium en el mercado.',
           features: [
             'Diseño de interiores',
@@ -603,7 +603,7 @@ export const translations = {
       readMore: 'Leer artículo completo',
       articles: [
         { description: "Standard & Poor's otorga a Paraguay su segundo Grado de Inversión, elevando la calificación a BBB- por su credibilidad monetaria y control de inflación." },
-        { description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5-8%, proyectando US$ 1.900 millones en transacciones para 2025.' },
+        { description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5% al 8%, proyectando US$ 1.900 millones en transacciones para 2025.' },
         { description: 'El auge de los extranjeros en Paraguay: ¿qué soluciones inmobiliarias buscan? Oportunidades de inversión en apartamentos premium amoblados.' },
       ],
       advisory: {
@@ -732,7 +732,7 @@ export const translations = {
         email: { question: '¿Cuál es tu email?', placeholder: 'alex@example.com' },
         phone: { question: '¿Cuál es tu número de WhatsApp?', subtitle: 'Incluí el código de país', placeholder: '+595 991 899050' },
         country: { question: '¿Desde qué país nos contactás?', placeholder: 'Paraguay' },
-        budget: { question: '¿Cuál es tu presupuesto aproximado?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Más de USD 100.000'] },
+        budget: { question: '¿Cuál es tu presupuesto aproximado?', options: ['USD 30.000 a 50.000', 'USD 50.000 a 100.000', 'Más de USD 100.000'] },
         timeframe: { question: '¿Cuándo estás pensando invertir?', options: ['De inmediato', 'Próximos 3 meses', 'Solo estoy evaluando'] },
         rentalType: { question: '¿Qué tipo de renta te interesa?', subtitle: 'Este campo es opcional', options: ['Renta corta (Airbnb/Booking)', 'No estoy seguro/a'] },
       },
@@ -776,7 +776,7 @@ export const translations = {
         line2: 'sua propriedade hoje?',
         line3: 'Cuidamos de tudo.',
       },
-      subtitle: 'Gestão 100% integral do Airbnb e Booking.com com resultados comprovados em +100 propriedades no Paraguai',
+      subtitle: 'Gestão 100% integral do Airbnb com resultados comprovados em +100 propriedades no Paraguai',
       cta: {
         primary: 'Comece agora',
         secondary: 'Conheça nossos serviços',
@@ -893,12 +893,12 @@ export const translations = {
       items: {
         setup: {
           title: 'Sua Propriedade Pronta para Gerar em 7 Dias',
-          description: 'Fotografia profissional, anúncios otimizados, configuração multiplataforma e estratégia de preços focada em receita desde o primeiro dia.',
+          description: 'Fotografia profissional, anúncio otimizado e publicado no Airbnb na nossa conta Superhost, e estratégia de preços focada em receita desde o primeiro dia.',
           features: [
             'Sessão fotográfica HD',
             'Copywriting profissional',
             'Otimização SEO',
-            'Configuração de canais',
+            'Publicação no Airbnb',
           ],
         },
         operations: {
@@ -922,7 +922,7 @@ export const translations = {
           ],
         },
         furnishing: {
-          title: 'De Apartamento Vazio a Sucesso no Booking em 2 Semanas',
+          title: 'De Apartamento Vazio a Reservas Confirmadas em 2 Semanas',
           description: 'Mobiliamos e desenhamos sua propriedade com um estilo comprovado que maximiza a ocupação e permite cobrar tarifas premium no mercado.',
           features: [
             'Design de interiores',
@@ -981,7 +981,7 @@ export const translations = {
       readMore: 'Ler artigo completo',
       articles: [
         { description: "A Standard & Poor's concede ao Paraguai seu segundo Grau de Investimento, elevando a classificação para BBB- pela credibilidade monetária e controle de inflação." },
-        { description: 'O setor imobiliário representa 12% do PIB paraguaio com retornos de 5-8%, projetando US$ 1,9 bilhão em transações para 2025.' },
+        { description: 'O setor imobiliário representa 12% do PIB paraguaio com retornos de 5% a 8%, projetando US$ 1,9 bilhão em transações para 2025.' },
         { description: 'A ascensão dos estrangeiros no Paraguai: quais soluções imobiliárias eles buscam? Oportunidades de investimento em apartamentos mobiliados premium.' },
       ],
       advisory: {
@@ -1035,7 +1035,7 @@ export const translations = {
         {
           question: 'Como funciona o serviço de mobiliário sob medida?',
           answer:
-            'Se a sua unidade precisa ser equipada do zero ou renovada, oferecemos um serviço de mobiliário sob medida, independente do onboarding. Você nos avisa que tem interesse, a nossa arquiteta faz as medições da unidade, e montamos um orçamento sob medida conforme essas medições e o tipo de equipamento que sabemos que funciona para aluguel por temporada (pronto para o Airbnb). Se você aprovar o orçamento, paga 50% para iniciar a fabricação sob medida na fábrica; a instalação leva algumas semanas e já fica pronta para operar.',
+            'Se a sua unidade precisa ser equipada do zero ou renovada, oferecemos um serviço de mobiliário sob medida, independente do onboarding. Você nos avisa que tem interesse, a nossa arquiteta faz as medições da unidade, e montamos um orçamento sob medida conforme essas medições e o tipo de equipamento que sabemos que funciona para aluguel por temporada (pronto para o Airbnb). Se você aprovar o orçamento, paga 50% para iniciar a fabricação sob medida em fábrica; a instalação leva algumas semanas e já fica pronta para operar.',
         },
         {
           question: 'Como vocês definem a diária da minha unidade?',
@@ -1110,7 +1110,7 @@ export const translations = {
         email: { question: 'Qual é o seu email?', placeholder: 'alex@example.com' },
         phone: { question: 'Qual é o seu número de WhatsApp?', subtitle: 'Inclua o código do país', placeholder: '+595 991 899050' },
         country: { question: 'De qual país você está nos contatando?', placeholder: 'Paraguai' },
-        budget: { question: 'Qual é o seu orçamento aproximado?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Mais de USD 100.000'] },
+        budget: { question: 'Qual é o seu orçamento aproximado?', options: ['USD 30.000 a 50.000', 'USD 50.000 a 100.000', 'Mais de USD 100.000'] },
         timeframe: { question: 'Quando você está pensando em investir?', options: ['Imediatamente', 'Próximos 3 meses', 'Só estou avaliando'] },
         rentalType: { question: 'Que tipo de aluguel te interessa?', subtitle: 'Este campo é opcional', options: ['Aluguel de curta temporada (Airbnb/Booking)', 'Não tenho certeza'] },
       },
