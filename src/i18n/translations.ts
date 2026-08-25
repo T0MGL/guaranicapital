@@ -354,7 +354,15 @@ export const translations = {
         email: { question: "What's your email?", placeholder: 'alex@example.com' },
         phone: { question: "What's your WhatsApp number?", subtitle: 'Include country code', placeholder: '+595 991 899050' },
         country: { question: 'Which country are you contacting us from?', placeholder: 'Paraguay' },
-        budget: { question: "What's your approximate budget?", options: ['USD 30,000 to 50,000', 'USD 50,000 to 100,000', 'Over USD 100,000'] },
+        budget: {
+          question: "What's your approximate budget?",
+          // Keyed by the canonical value, never by position. See INVESTMENT_BUDGETS.
+          options: {
+            'USD 30.000 a 50.000': 'USD 30,000 to 50,000',
+            'USD 50.000 a 100.000': 'USD 50,000 to 100,000',
+            'Más de USD 100.000': 'Over USD 100,000',
+          },
+        },
         timeframe: { question: 'When are you thinking of investing?', options: ['Immediately', 'Next 3 months', 'Just evaluating'] },
         rentalType: { question: 'What type of rental are you interested in?', subtitle: 'This field is optional', options: ['Short-term rental (Airbnb/Booking)', "I'm not sure"] },
       },
@@ -732,7 +740,14 @@ export const translations = {
         email: { question: '¿Cuál es tu email?', placeholder: 'alex@example.com' },
         phone: { question: '¿Cuál es tu número de WhatsApp?', subtitle: 'Incluí el código de país', placeholder: '+595 991 899050' },
         country: { question: '¿Desde qué país nos contactás?', placeholder: 'Paraguay' },
-        budget: { question: '¿Cuál es tu presupuesto aproximado?', options: ['USD 30.000 a 50.000', 'USD 50.000 a 100.000', 'Más de USD 100.000'] },
+        budget: {
+          question: '¿Cuál es tu presupuesto aproximado?',
+          options: {
+            'USD 30.000 a 50.000': 'USD 30.000 a 50.000',
+            'USD 50.000 a 100.000': 'USD 50.000 a 100.000',
+            'Más de USD 100.000': 'Más de USD 100.000',
+          },
+        },
         timeframe: { question: '¿Cuándo estás pensando invertir?', options: ['De inmediato', 'Próximos 3 meses', 'Solo estoy evaluando'] },
         rentalType: { question: '¿Qué tipo de renta te interesa?', subtitle: 'Este campo es opcional', options: ['Renta corta (Airbnb/Booking)', 'No estoy seguro/a'] },
       },
@@ -1110,7 +1125,14 @@ export const translations = {
         email: { question: 'Qual é o seu email?', placeholder: 'alex@example.com' },
         phone: { question: 'Qual é o seu número de WhatsApp?', subtitle: 'Inclua o código do país', placeholder: '+595 991 899050' },
         country: { question: 'De qual país você está nos contatando?', placeholder: 'Paraguai' },
-        budget: { question: 'Qual é o seu orçamento aproximado?', options: ['USD 30.000 a 50.000', 'USD 50.000 a 100.000', 'Mais de USD 100.000'] },
+        budget: {
+          question: 'Qual é o seu orçamento aproximado?',
+          options: {
+            'USD 30.000 a 50.000': 'USD 30.000 a 50.000',
+            'USD 50.000 a 100.000': 'USD 50.000 a 100.000',
+            'Más de USD 100.000': 'Mais de USD 100.000',
+          },
+        },
         timeframe: { question: 'Quando você está pensando em investir?', options: ['Imediatamente', 'Próximos 3 meses', 'Só estou avaliando'] },
         rentalType: { question: 'Que tipo de aluguel te interessa?', subtitle: 'Este campo é opcional', options: ['Aluguel de curta temporada (Airbnb/Booking)', 'Não tenho certeza'] },
       },
