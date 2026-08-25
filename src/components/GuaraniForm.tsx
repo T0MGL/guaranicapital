@@ -188,7 +188,7 @@ export const GuaraniForm = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Show success immediately — don't block UX on API response
+    // Show success immediately, don't block UX on API response
     setFormState('success');
 
     // Capture current data before any state reset

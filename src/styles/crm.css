@@ -493,33 +493,33 @@
     vertical-align: unset;
   }
 
-  /* Lead name — ancho completo */
+  /* Lead name: ancho completo */
   .crm-table td:nth-child(1) {
     grid-column: 1 / -1;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--crm-border);
   }
 
-  /* Propiedad / Interés — columna izquierda */
+  /* Propiedad / Interés: columna izquierda */
   .crm-table td:nth-child(2) {
     grid-column: 1;
     align-self: center;
   }
 
-  /* Presupuesto — columna derecha */
+  /* Presupuesto: columna derecha */
   .crm-table td:nth-child(3) {
     grid-column: 2;
     text-align: right;
     align-self: center;
   }
 
-  /* Estado — columna izquierda */
+  /* Estado: columna izquierda */
   .crm-table td:nth-child(4) {
     grid-column: 1;
     align-self: center;
   }
 
-  /* Acciones — columna derecha */
+  /* Acciones: columna derecha */
   .crm-table td:nth-child(5) {
     grid-column: 2;
     align-self: center;
@@ -534,7 +534,7 @@
     height: 36px;
   }
 
-  /* Estado vacío — ancho completo */
+  /* Estado vacío: ancho completo */
   .crm-table td[colspan="5"] {
     grid-column: 1 / -1;
     padding: 3rem 0 !important;

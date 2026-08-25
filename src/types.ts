@@ -1,8 +1,8 @@
 export type LeadType = 'INVERSION' | 'ADMINISTRACION';
 
 export type InvestmentBudget =
-  | 'USD 30.000–50.000'
-  | 'USD 50.000–100.000'
+  | 'USD 30.000 a 50.000'
+  | 'USD 50.000 a 100.000'
   | 'Más de USD 100.000';
 
 export type InvestmentTimeframe =
