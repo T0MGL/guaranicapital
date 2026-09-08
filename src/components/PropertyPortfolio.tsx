@@ -121,11 +121,7 @@ const PropertyCard = ({ prop, name, details, index, isInView, reduceMotion }: Pr
       </div>
       <div className="card-footer">
         <p className="card-name">{name}</p>
-        {details ? (
-          <p className="card-details">{details}</p>
-        ) : (
-          <p className="card-location">{prop.location}</p>
-        )}
+        <p className="card-meta">{details || prop.location}</p>
       </div>
     </motion.a>
   );
@@ -265,7 +261,6 @@ export const PropertyPortfolio = () => {
         .portfolio {
           padding: var(--space-3xl) var(--space-lg);
           background: var(--color-base-white);
-          overflow: hidden;
         }
 
         .portfolio-container {
@@ -443,16 +438,10 @@ export const PropertyPortfolio = () => {
           letter-spacing: -0.01em;
         }
 
-        .card-location {
-          font-family: var(--font-body);
-          font-size: 0.725rem;
-          color: var(--color-text-secondary);
-          margin: 0;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-        }
-
-        .card-details {
+        /* One subtitle treatment. A listing with unit details and one with only
+           a city have to read as the same kind of card, otherwise the grid
+           regroups itself typographically along the old two-array split. */
+        .card-meta {
           font-family: var(--font-body);
           font-size: 0.775rem;
           color: var(--color-text-secondary);
