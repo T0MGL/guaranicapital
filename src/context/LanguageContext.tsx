@@ -11,8 +11,18 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const SUPPORTED: Language[] = ['en', 'es', 'pt'];
 
+function readStoredLanguage(): string | null {
+  try {
+    return localStorage.getItem('language');
+  } catch {
+    return null;
+  }
+}
+
 function detectLanguage(): Language {
-  const saved = localStorage.getItem('language');
+  // Storage throws outright in some privacy modes. This runs during the very
+  // first render, so letting it escape would take the whole app down.
+  const saved = readStoredLanguage();
   if (saved && SUPPORTED.includes(saved as Language)) {
     return saved as Language;
   }
@@ -27,7 +37,11 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState<Language>(detectLanguage);
 
   useEffect(() => {
-    localStorage.setItem('language', language);
+    try {
+      localStorage.setItem('language', language);
+    } catch {
+      // Nothing to recover: the choice just does not survive the session.
+    }
     document.documentElement.lang = language;
   }, [language]);
 

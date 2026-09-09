@@ -24,6 +24,13 @@
   z-index: 2;
 }
 
+/* React marks this inert the moment it mounts, which should already stop it
+   receiving pointer events. Stating it in CSS too means the primary CTA is
+   never gated on how well a browser implements inert. */
+#hero-boot[inert] {
+  pointer-events: none;
+}
+
 .hero-video-wrapper {
   position: absolute;
   top: 0;
@@ -130,10 +137,6 @@
   letter-spacing: 0.01em;
 }
 
-.desktop-br {
-  display: block;
-}
-
 /* CTAs */
 .hero-cta {
   display: flex;
@@ -157,6 +160,10 @@
   border-radius: var(--radius-full);
   cursor: pointer;
   text-decoration: none;
+  /* Stated rather than inherited. React renders these as <button>, which takes
+     `normal` from the UA font shorthand, while the static hero renders them as
+     <a>, which would inherit 1.6 from body and stand 6px taller. */
+  line-height: normal;
   transition: box-shadow var(--transition-base), transform 160ms var(--ease-entrance);
   letter-spacing: 0.01em;
 }
@@ -178,6 +185,7 @@
   border-radius: var(--radius-full);
   cursor: pointer;
   text-decoration: none;
+  line-height: normal;
   transition: border-color var(--transition-base), color var(--transition-base),
     background var(--transition-base), transform 160ms var(--ease-entrance);
   letter-spacing: 0.01em;
@@ -209,7 +217,13 @@
   outline-offset: 3px;
 }
 
-/* Stats */
+/* Stats.
+
+   The items carry a hero- prefix because WhyChooseUs ships a global
+   `.stat-label` rule in its own <style> block. React injects that at mount,
+   after this file, so at equal specificity it won for the hero too and painted
+   the labels 14px slate on a near black hero, about 1.3:1 contrast. Prefixing
+   is what keeps the hero's own styles the ones that apply. */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -219,13 +233,13 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.stat-item {
+.hero-stat-item {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.stat-number {
+.hero-stat-number {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 600;
@@ -236,7 +250,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.stat-label {
+.hero-stat-label {
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 400;
@@ -245,7 +259,7 @@
   text-transform: uppercase;
 }
 
-.stat-divider {
+.hero-stat-divider {
   width: 1px;
   height: 36px;
   background: rgba(255, 255, 255, 0.12);
@@ -373,10 +387,6 @@
     padding: 0;
   }
 
-  .desktop-br {
-    display: none;
-  }
-
   .hero-cta {
     flex-direction: column;
     gap: 0.7rem;
@@ -398,20 +408,20 @@
     flex-wrap: nowrap;
   }
 
-  .stat-item {
+  .hero-stat-item {
     min-width: 75px;
   }
 
-  .stat-number {
+  .hero-stat-number {
     font-size: 1.35rem;
   }
 
-  .stat-label {
+  .hero-stat-label {
     font-size: 0.65rem;
     line-height: 1.3;
   }
 
-  .stat-divider {
+  .hero-stat-divider {
     height: 30px;
   }
 
@@ -470,22 +480,22 @@
     justify-content: center;
   }
 
-  .stat-item {
+  .hero-stat-item {
     flex: 0 0 auto;
     text-align: center;
     min-width: 70px;
   }
 
-  .stat-number {
+  .hero-stat-number {
     font-size: 1.15rem;
   }
 
-  .stat-label {
+  .hero-stat-label {
     font-size: 0.6rem;
     line-height: 1.3;
   }
 
-  .stat-divider {
+  .hero-stat-divider {
     display: none;
   }
 

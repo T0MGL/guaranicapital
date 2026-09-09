@@ -6,17 +6,37 @@ import { HeroVideo } from './HeroVideo';
 /*
   This component renders the hero in its resting state, with no entrance of its
   own. The visible entrance already ran in the static hero that ships inside
-  index.html (see hero-boot.html and hero-boot.css markers in vite.config.ts),
-  which paints from the markup instead of waiting for this bundle. By the time
-  React gets here the cascade is over, so animating again would replay it a
-  second late. Styles live in Hero.css, which the build inlines into <head> so
-  both copies of the hero are laid out by the exact same rules.
+  index.html (see hero-boot.html and the markers in vite.config.ts), which
+  paints from the markup instead of waiting for this bundle. By the time React
+  gets here the cascade is over, so animating again would replay it a second
+  late. Styles live in Hero.css, which the build inlines into <head> so both
+  copies of the hero are laid out by the exact same rules.
 */
 
-const useBootHeroHandover = () => {
+type Intent = 'contact' | 'services';
+
+const useBootHeroHandover = (onIntent: (intent: Intent) => void) => {
   useEffect(() => {
     const boot = document.getElementById('hero-boot');
     if (!boot) return;
+
+    // Someone can press a CTA on the static hero before this bundle arrives.
+    // Those anchors point at sections that did not exist yet, so the press was
+    // recorded rather than followed. Honour it now.
+    const intent = window.__heroBootIntent;
+    if (intent) {
+      delete window.__heroBootIntent;
+      onIntent(intent);
+    }
+
+    // A keyboard user can already be inside the static hero. Marking it inert
+    // while it holds focus would blur them to the top of the document, so move
+    // focus onto the equivalent real control first.
+    if (boot.contains(document.activeElement)) {
+      const pressed = boot.querySelector('[data-hb-intent]:focus') as HTMLElement | null;
+      const selector = pressed?.dataset.hbIntent === 'services' ? '.cta-ghost' : '.cta-primary';
+      document.querySelector<HTMLElement>(`#root ${selector}`)?.focus();
+    }
 
     // Two heroes are on the page for a moment. Only one should be reachable.
     boot.setAttribute('aria-hidden', 'true');
@@ -27,35 +47,45 @@ const useBootHeroHandover = () => {
     const remaining = Math.max(0, (info?.settleMs ?? 0) - elapsed);
 
     const timer = window.setTimeout(() => boot.remove(), remaining);
-    return () => window.clearTimeout(timer);
-  }, []);
+    return () => {
+      window.clearTimeout(timer);
+      // Unmounting before the timer fires (a route change inside the settle
+      // window) must not strand a full-viewport layer over the next page.
+      boot.remove();
+    };
+  }, [onIntent]);
 };
 
 const StatItem = ({ number, label }: { number: string; label: string }) => (
-  <div className="stat-item">
-    <span className="stat-number">{number}</span>
-    <span className="stat-label">{label}</span>
+  <div className="hero-stat-item">
+    <span className="hero-stat-number">{number}</span>
+    <span className="hero-stat-label">{label}</span>
   </div>
 );
 
+const scrollToContact = () => {
+  const form = document.getElementById('contact-form');
+  const fallback = document.getElementById('contact');
+  const target = form ?? fallback;
+  if (!target) return;
+  // Center the selection cards in the viewport instead of landing on the heading.
+  const rect = target.getBoundingClientRect();
+  const centerOffset = Math.round((window.innerHeight - rect.height) / 2) * -1;
+  scrollToSection(target, centerOffset);
+};
+
+const scrollToServices = () => {
+  scrollToSection('services', -80);
+};
+
+const runIntent = (intent: Intent) => {
+  if (intent === 'services') scrollToServices();
+  else scrollToContact();
+};
+
 export const Hero = () => {
   const { t } = useLanguage();
-  useBootHeroHandover();
-
-  const scrollToContact = () => {
-    const form = document.getElementById('contact-form');
-    const fallback = document.getElementById('contact');
-    const target = form ?? fallback;
-    if (!target) return;
-    // Center the selection cards in the viewport instead of landing on the heading.
-    const rect = target.getBoundingClientRect();
-    const centerOffset = Math.round((window.innerHeight - rect.height) / 2) * -1;
-    scrollToSection(target, centerOffset);
-  };
-
-  const scrollToServices = () => {
-    scrollToSection('services', -80);
-  };
+  useBootHeroHandover(runIntent);
 
   return (
     <section id="home" className="hero">
@@ -105,12 +135,12 @@ export const Hero = () => {
               number={t.hero.stats.properties.number}
               label={t.hero.stats.properties.label}
             />
-            <div className="stat-divider"></div>
+            <div className="hero-stat-divider"></div>
             <StatItem
               number={t.hero.stats.support.number}
               label={t.hero.stats.support.label}
             />
-            <div className="stat-divider"></div>
+            <div className="hero-stat-divider"></div>
             <StatItem
               number={t.hero.stats.experience.number}
               label={t.hero.stats.experience.label}

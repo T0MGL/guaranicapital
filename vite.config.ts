@@ -16,6 +16,36 @@ const BOOT_MARKUP = 'src/components/hero-boot.html'
 const BOOT_SCRIPT = 'src/components/hero-boot.js'
 const HERO_COPY = 'src/i18n/hero.json'
 
+/* The static hero and the React hero are two hand-written copies of the same
+   markup. Copy and styles are single-sourced, but the structure is not, and a
+   class renamed in Hero.css would leave the first viewport unstyled with
+   nothing to catch it. Each data-hb value is also a path into hero.json, so a
+   renamed copy key would silently stop localising. Both are cheap to assert. */
+function assertHeroBootIsWired(markup: string, css: string, copy: unknown) {
+  const problems: string[] = []
+
+  const classes = new Set(
+    [...markup.matchAll(/class="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/)).filter(Boolean),
+  )
+  for (const name of classes) {
+    if (!css.includes(`.${name}`)) problems.push(`class "${name}" is not defined in Hero.css`)
+  }
+
+  const languages = Object.entries(copy as Record<string, unknown>)
+  for (const [, path] of markup.matchAll(/data-hb(?:-stat)?="([^"]+)"/g)) {
+    for (const [lang, strings] of languages) {
+      const value = path
+        .split('.')
+        .reduce<unknown>((v, k) => (v as Record<string, unknown>)?.[k], strings)
+      if (typeof value !== 'string') problems.push(`hero.json ${lang} has no string at "${path}"`)
+    }
+  }
+
+  if (problems.length) {
+    throw new Error(`hero-boot.html is out of sync:\n  ${problems.join('\n  ')}`)
+  }
+}
+
 function heroCritical(): Plugin {
   const read = (path: string) => readFileSync(resolve(root, path), 'utf8')
   const sources = [...CRITICAL_CSS, BOOT_MARKUP, BOOT_SCRIPT, HERO_COPY]
@@ -32,10 +62,16 @@ function heroCritical(): Plugin {
       order: 'pre',
       async handler(html) {
         const css = CRITICAL_CSS.map(read).join('\n')
-        const script = read(BOOT_SCRIPT).replace(
-          '/*@hero-copy*/ null',
-          () => read(HERO_COPY).trim(),
-        )
+        /* JSX drops the whitespace between elements and a hand-written HTML
+           file keeps it, so collapsing gaps between tags (never inside text)
+           leaves the static tree with the same nodes React builds. Verified not
+           to change layout on its own; it is here so the two trees stay
+           structurally comparable, and it trims ~460 bytes off every response. */
+        const markup = read(BOOT_MARKUP).replace(/>\s+</g, '><')
+        const copy = read(HERO_COPY).trim()
+        const script = read(BOOT_SCRIPT).replace('/*@hero-copy*/ null', () => copy)
+
+        assertHeroBootIsWired(markup, read('src/components/Hero.css'), JSON.parse(copy))
 
         const [inlineCss, inlineScript] = minify
           ? await Promise.all([
@@ -46,7 +82,7 @@ function heroCritical(): Plugin {
 
         return html
           .replace('<!--@hero-critical-css-->', () => `<style>${inlineCss}</style>`)
-          .replace('<!--@hero-boot-->', () => read(BOOT_MARKUP))
+          .replace('<!--@hero-boot-->', () => markup)
           .replace('<!--@hero-boot-script-->', () => `<script>${inlineScript}</script>`)
       },
     },

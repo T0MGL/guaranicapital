@@ -11,9 +11,9 @@
 }
 
 html {
-  /* Reserving the scrollbar keeps the page from reflowing sideways the moment
-     the app mounts and the document gets its real height. */
-  overflow-y: scroll;
+  /* Reserve the scrollbar track so the page does not reflow sideways the
+     moment the app mounts and the document gets its real height. */
+  scrollbar-gutter: stable;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -128,20 +128,6 @@ html.lenis {
   select,
   textarea {
     font-size: 16px !important;
-  }
-}
-
-/* Extra small devices optimizations */
-@media (max-width: 375px) {
-  :root {
-    /* Adjust spacing scale for very small screens */
-    --space-xs: 0.375rem;
-    --space-sm: 0.75rem;
-    --space-md: 1.25rem;
-    --space-lg: 1.75rem;
-    --space-xl: 2.5rem;
-    --space-2xl: 3.5rem;
-    --space-3xl: 5rem;
   }
 }
 

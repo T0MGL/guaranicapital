@@ -8,4 +8,8 @@ interface HeroBootState {
 
 interface Window {
   __heroBoot?: HeroBootState;
+  /* A CTA pressed on the static hero before the bundle arrived. The sections
+     it points at did not exist yet, so the press is parked here for the real
+     hero to act on when it mounts. */
+  __heroBootIntent?: 'contact' | 'services';
 }

@@ -5,6 +5,11 @@
   first paint. Class names are identical to the React hero, which renders the
   same resting state underneath, so removing this layer is visually a no-op.
 
+  Each data-hb value is a path into src/i18n/hero.json and each data-hb-stat is
+  the path to a counter target, so the markup itself is the list of keys and
+  there is no second list to fall out of sync with. The build fails if any
+  class here is missing from Hero.css.
+
   Injected at the @hero-boot marker by the guarani-hero-critical Vite plugin.
 -->
 <div id="hero-boot">
@@ -21,11 +26,11 @@
         </div>
 
         <h1 class="hero-title">
-          <span data-hb="line1">¿Cuánto podría generar</span>
+          <span data-hb="title.line1">¿Cuánto podría generar</span>
           <br />
-          <span class="title-light" data-hb="line2">tu propiedad hoy?</span>
+          <span class="title-light" data-hb="title.line2">tu propiedad hoy?</span>
           <br />
-          <span data-hb="line3">Nosotros lo manejamos todo.</span>
+          <span data-hb="title.line3">Nosotros lo manejamos todo.</span>
         </h1>
 
         <p class="hero-subtitle" data-hb="subtitle">
@@ -33,29 +38,29 @@
         </p>
 
         <div class="hero-cta">
-          <a class="cta-primary" href="#contact-form" data-hb="ctaPrimary">
+          <a class="cta-primary" href="#contact-form" data-hb="cta.primary" data-hb-intent="contact">
             Empezá ahora
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </a>
-          <a class="cta-ghost" href="#services" data-hb="ctaSecondary">Conocé nuestros servicios</a>
+          <a class="cta-ghost" href="#services" data-hb="cta.secondary" data-hb-intent="services">Conocé nuestros servicios</a>
         </div>
 
         <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-number" data-hb-stat="properties">+100</span>
-            <span class="stat-label" data-hb="statPropertiesLabel">Propiedades gestionadas</span>
+          <div class="hero-stat-item">
+            <span class="hero-stat-number" data-hb-stat="stats.properties.number">+100</span>
+            <span class="hero-stat-label" data-hb="stats.properties.label">Propiedades gestionadas</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-hb-stat="support">24/7</span>
-            <span class="stat-label" data-hb="statSupportLabel">Atención a huéspedes</span>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-number" data-hb-stat="stats.support.number">24/7</span>
+            <span class="hero-stat-label" data-hb="stats.support.label">Atención a huéspedes</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-hb-stat="experience">+9</span>
-            <span class="stat-label" data-hb="statExperienceLabel">Años de experiencia</span>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-number" data-hb-stat="stats.experience.number">+9</span>
+            <span class="hero-stat-label" data-hb="stats.experience.label">Años de experiencia</span>
           </div>
         </div>
       </div>
