@@ -225,7 +225,7 @@ export const translations = {
         line1: 'What we charge,',
         line2: 'and what we do not.',
       },
-      subtitle: 'The two management charges, on the page, before you talk to anyone.',
+      subtitle: 'Our fee and the setup charge, on the page, before you talk to anyone.',
       terms: {
         commission: {
           amount: '15%',
@@ -255,6 +255,11 @@ export const translations = {
           title: 'A Superhost account, with access for you',
           body:
             'Your unit is published on our Superhost account, and we can enable co-host access so you see bookings, calendar and reviews whenever you like.',
+        },
+        {
+          title: 'Furnishing is quoted separately',
+          body:
+            'If the unit has to be furnished from scratch, that is its own service, priced after our architect measures the unit. It is never folded into the two charges above.',
         },
       ],
     },
@@ -627,7 +632,7 @@ export const translations = {
         line1: 'Lo que cobramos,',
         line2: 'y lo que no.',
       },
-      subtitle: 'Los dos cargos de la administración, en la página, antes de que hables con nadie.',
+      subtitle: 'La comisión y la puesta en marcha, en la página, antes de que hables con nadie.',
       terms: {
         commission: {
           amount: '15%',
@@ -657,7 +662,12 @@ export const translations = {
         {
           title: 'Cuenta Superhost, y acceso para vos',
           body:
-            'Tu unidad se publica en nuestra cuenta Superhost, y te habilitamos el acceso de co-anfitrión para que veas reservas, calendario y valoraciones cuando quieras.',
+            'Tu unidad se publica en nuestra cuenta Superhost, y si lo querés te habilitamos el acceso de co-anfitrión para ver reservas, calendario y valoraciones cuando quieras.',
+        },
+        {
+          title: 'El amoblamiento se cotiza aparte',
+          body:
+            'Si la unidad hay que equiparla desde cero, eso es un servicio propio, con presupuesto después de que nuestra arquitecta la mida. Nunca entra dentro de los dos cargos de arriba.',
         },
       ],
     },
@@ -1029,7 +1039,7 @@ export const translations = {
         line1: 'O que cobramos,',
         line2: 'e o que não.',
       },
-      subtitle: 'As duas cobranças da administração, na página, antes de você falar com alguém.',
+      subtitle: 'A comissão e a implantação, na página, antes de você falar com alguém.',
       terms: {
         commission: {
           amount: '15%',
@@ -1059,7 +1069,12 @@ export const translations = {
         {
           title: 'Conta Superhost, com acesso para você',
           body:
-            'Sua unidade é publicada na nossa conta Superhost, e liberamos o acesso de coanfitrião para que você veja reservas, calendário e avaliações quando quiser.',
+            'Sua unidade é publicada na nossa conta Superhost, e se você quiser liberamos o acesso de coanfitrião para ver reservas, calendário e avaliações quando quiser.',
+        },
+        {
+          title: 'O mobiliário é orçado à parte',
+          body:
+            'Se a unidade precisa ser equipada do zero, isso é um serviço próprio, orçado depois que a nossa arquiteta faz as medições. Nunca entra dentro das duas cobranças acima.',
         },
       ],
     },

@@ -191,7 +191,7 @@ export const Navbar = () => {
 
         .navbar-menu.desktop {
           display: none;
-          gap: var(--space-md);
+          gap: var(--space-sm);
         }
 
         .nav-link {
@@ -206,6 +206,8 @@ export const Navbar = () => {
           padding: 0;
           letter-spacing: 0.03em;
           text-transform: uppercase;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .nav-link:hover {
@@ -319,6 +321,12 @@ export const Navbar = () => {
 
           .mobile-language-selector {
             display: none;
+          }
+        }
+
+        @media (min-width: 900px) {
+          .navbar-menu.desktop {
+            gap: var(--space-md);
           }
         }
 

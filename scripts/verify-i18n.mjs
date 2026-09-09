@@ -115,6 +115,15 @@ const snippet = (html, needle) => {
   return `@${at}: ...${html.slice(Math.max(0, at - 20), at + needle.length + 20).replace(/\s+/g, ' ')}...`
 }
 
+const LD_JSON = /<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g
+
+/* Every FAQ question and answer exists twice in these documents: once in the
+   rendered accordion, once inside the FAQ schema. A probe run against the raw
+   response therefore passes even with the accordion deleted, which is the one
+   failure the probe was added to catch. Content checks run against this copy,
+   schema checks against the original. */
+const withoutStructuredData = (html) => html.replace(LD_JSON, '')
+
 const documentFor = async (url) => {
   try {
     const response = await fetch(`${base}${url}`)
@@ -155,13 +164,19 @@ for (const [language, expected] of Object.entries(EXPECT)) {
     html.match(/aria-label="[^"]*"/)?.[0] ?? 'no aria-label',
   )
 
+  const rendered = withoutStructuredData(html)
+
   for (const probe of expected.probes) {
-    check(`${language} body copy in raw HTML`, html.includes(probe), snippet(html, probe) || `"${probe}" missing`)
+    check(
+      `${language} body copy in raw HTML`,
+      rendered.includes(probe),
+      snippet(rendered, probe) || `"${probe}" missing`,
+    )
   }
 
   for (const [other, meta] of Object.entries(EXPECT)) {
     if (other === language) continue
-    const leaked = meta.probes.filter((probe) => html.includes(probe))
+    const leaked = meta.probes.filter((probe) => rendered.includes(probe))
     check(`no ${other} body copy`, leaked.length === 0, leaked.join(' | '))
   }
 
@@ -169,7 +184,7 @@ for (const [language, expected] of Object.entries(EXPECT)) {
      means it existed only for a visitor with a browser and never for the
      crawler it was written for. Parsing it here, per document, is what makes
      that regression impossible to reintroduce quietly. */
-  const blocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+  const blocks = [...html.matchAll(LD_JSON)];
   const faqBlocks = blocks.filter((block) => block[1].includes('"FAQPage"'));
   check(`exactly one FAQPage block`, faqBlocks.length === 1, `found ${faqBlocks.length}`);
 
@@ -188,7 +203,16 @@ for (const [language, expected] of Object.entries(EXPECT)) {
         `got "${schema.inLanguage}"`,
       );
       const questions = (schema.mainEntity ?? []).map((entry) => entry.name);
-      check(`FAQPage carries every question`, questions.length === 14, `got ${questions.length}`);
+      /* Counted off the accordion rather than hardcoded, so the schema and the
+         page cannot drift apart and adding a question does not fail a good
+         build. Zero on either side fails, which is what deleting the accordion
+         looks like. */
+      const onScreen = [...rendered.matchAll(/<span class="faq-question-text">/g)].length;
+      check(
+        'FAQPage has one entry per question on screen',
+        onScreen > 0 && questions.length === onScreen,
+        `schema ${questions.length}, accordion ${onScreen}`,
+      );
       check(
         `FAQPage is written in ${language}`,
         questions[0] === expected.firstQuestion,
@@ -201,7 +225,7 @@ for (const [language, expected] of Object.entries(EXPECT)) {
       );
       /* The answers are what an answer engine quotes, so they have to be the
          ones the same document shows on screen, not another language's. */
-      const orphan = questions.filter((question) => !html.includes(question));
+      const orphan = questions.filter((question) => !rendered.includes(question));
       check('every FAQPage question is also in the served copy', orphan.length === 0, orphan.join(' | '));
     }
   }
@@ -213,9 +237,10 @@ for (const { url, language } of DEEP_LINKS) {
   if (html === null) continue
   const declared = html.match(/<html lang="([^"]*)"/)?.[1]
   check(`deep link serves the ${language} document`, declared === language, `html lang "${declared}"`)
+  const rendered = withoutStructuredData(html)
   check(
     `deep link carries ${language} body copy`,
-    EXPECT[language].probes.every((probe) => html.includes(probe)),
+    EXPECT[language].probes.every((probe) => rendered.includes(probe)),
   )
 }
 

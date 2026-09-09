@@ -95,17 +95,21 @@ const CONDITIONS_CSS = {
           margin: var(--space-xl) auto 0;
         }
 
+        .conditions-note {
+          display: grid;
+          gap: var(--space-xs);
+        }
+
         .note-title {
           font-family: var(--font-display);
           font-size: 1.0625rem;
           font-weight: 600;
           line-height: 1.4;
           color: var(--color-text-primary);
-          margin-bottom: var(--space-xs);
         }
 
         .note-body {
-          max-width: 52ch;
+          max-width: 60ch;
           font-size: 1rem;
           line-height: 1.7;
           color: var(--color-text-secondary);
@@ -126,13 +130,18 @@ const CONDITIONS_CSS = {
           }
 
           .conditions-notes {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            column-gap: var(--space-2xl);
+            gap: 0;
+          }
+
+          .conditions-note {
+            grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
+            align-items: baseline;
+            column-gap: var(--space-xl);
+            padding: var(--space-lg) var(--space-2xl);
           }
 
           .conditions-note + .conditions-note {
-            padding-left: var(--space-2xl);
-            border-left: 1px solid var(--color-border);
+            border-top: 1px solid var(--color-border);
           }
         }
 
@@ -150,15 +159,18 @@ const CONDITIONS_CSS = {
 
         @media (prefers-reduced-motion: no-preference) {
           @supports (animation-timeline: view()) {
-            .conditions-panel,
-            .conditions-notes {
+            .conditions-panel {
               animation: conditions-settle 1s var(--ease-entrance) both;
               animation-timeline: view();
               animation-range: entry 5% cover 25%;
             }
 
+            /* The notes trail the sheet by a beat, so the number is read
+               first and the caveats arrive after it. */
             .conditions-notes {
-              animation-range: entry 5% cover 32%;
+              animation: conditions-settle 1s var(--ease-entrance) both;
+              animation-timeline: view();
+              animation-range: entry 5% cover 34%;
             }
           }
         }
@@ -220,7 +232,7 @@ export const Conditions = () => {
             <div className="term-body">
               <p className="term-basis">{setup.basis}</p>
               <p className="term-detail">{setup.detail}</p>
-              <ul className="term-includes">
+              <ul className="term-includes" role="list">
                 {setup.includes.map((item) => (
                   <li key={item}>{item}</li>
                 ))}

@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
+import { useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
 /* React escapes the text child of <script> and <style> exactly as it escapes
@@ -29,6 +29,26 @@ const FAQ_CSS = {
           text-align: center;
           max-width: 800px;
           margin: 0 auto var(--space-2xl);
+        }
+
+        /* Driven by scroll rather than mounted from JavaScript, so the heading
+           is painted by the prerendered HTML instead of arriving at opacity 0
+           and waiting for the bundle. */
+        @keyframes faq-header-settle {
+          from {
+            opacity: 0;
+            transform: translateY(24px);
+          }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          @supports (animation-timeline: view()) {
+            .faq-header {
+              animation: faq-header-settle 1s var(--ease-entrance) both;
+              animation-timeline: view();
+              animation-range: entry 5% cover 25%;
+            }
+          }
         }
 
         .faq-list {
@@ -171,8 +191,6 @@ const chevron = (
 
 export const FAQ = () => {
   const { t, language } = useLanguage();
-  const headerRef = useRef(null);
-  const isInView = useInView(headerRef, { once: true, amount: 0.2 });
   const prefersReducedMotion = useReducedMotion();
   const [openItems, setOpenItems] = useState<number[]>([]);
 
@@ -206,13 +224,7 @@ export const FAQ = () => {
     <section id="faq" className="faq">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />
       <div className="faq-container">
-        <motion.div
-          ref={headerRef}
-          className="faq-header"
-          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: prefersReducedMotion ? 0 : 40 }}
-          transition={{ duration: 0.8 }}
-        >
+        <div className="faq-header">
           <div className="section-label">{t.faq.label}</div>
           <h2 className="section-title">
             {t.faq.title.line1}{' '}
@@ -220,12 +232,11 @@ export const FAQ = () => {
             {t.faq.title.line2}
           </h2>
           <p className="section-subtitle">{t.faq.subtitle}</p>
-        </motion.div>
+        </div>
 
         <div className="faq-list">
           {items.map((item, index) => {
             const isOpen = openItems.includes(index);
-            const panelId = `faq-panel-${index}`;
             const buttonId = `faq-question-${index}`;
 
             return (
@@ -236,7 +247,6 @@ export const FAQ = () => {
                     id={buttonId}
                     className="faq-question"
                     aria-expanded={isOpen}
-                    aria-controls={panelId}
                     onClick={() => toggle(index)}
                   >
                     <span className="faq-question-text">{item.question}</span>
@@ -254,7 +264,6 @@ export const FAQ = () => {
                   {isOpen && (
                     <motion.div
                       key="panel"
-                      id={panelId}
                       className="faq-panel"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
