@@ -1,16 +1,21 @@
 /*
   Runs inline, before the app bundle, against the static hero in index.html.
-  Four jobs: pick the language, localise the baked Spanish copy in place, run
-  the stat counter, and remember a CTA press so React can act on it the moment
-  it mounts. Everything here is dependency free and synchronous so the hero is
-  correct on its very first paint.
+  Three jobs: run the stat counter, remember a CTA press so React can act on it
+  the moment it mounts, and take the hero down on any route that is not a
+  landing page. Everything here is dependency free and synchronous so the hero
+  is correct on its very first paint.
+
+  It does not pick a language. There is one document per language and the copy
+  in this markup was already written in that language by the build, so there is
+  nothing left to detect and nothing to swap. The detector that used to live
+  here read localStorage and navigator.language, which is how a link to the
+  English site could open in Spanish.
 
   Injected at the @hero-boot-script marker by the guarani-hero-critical Vite
-  plugin, which also substitutes the copy for @hero-copy.
+  plugin.
 */
 (function () {
-  var COPY = /*@hero-copy*/ null;
-  var BAKED = 'es';
+  var DEFAULT_LANG = 'es';
   var COUNT_MS = 1200;
   /* The counter is the last thing still moving, so once it lands the React
      hero can take over without anything visibly resetting. */
@@ -20,56 +25,20 @@
   var reduced =
     window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function detectLanguage() {
-    try {
-      var saved = localStorage.getItem('language');
-      if (saved === 'en' || saved === 'es' || saved === 'pt') return saved;
-    } catch (err) {
-      /* Storage is unavailable in some privacy modes. Fall through to the browser. */
-    }
-    var browser = (navigator.language || '').split('-')[0].toLowerCase();
-    if (browser === 'es') return 'es';
-    if (browser === 'pt') return 'pt';
-    return 'en';
-  }
-
-  function resolve(source, path) {
-    var parts = path.split('.');
-    var value = source;
-    for (var i = 0; i < parts.length && value != null; i++) value = value[parts[i]];
-    return typeof value === 'string' ? value : null;
-  }
-
-  var lang = detectLanguage();
-  document.documentElement.lang = lang;
-
   var root = document.getElementById('hero-boot');
   if (!root) return;
 
-  /* index.html is served for every SPA route, so the static hero would paint
-     over /crm as well, and nothing there would ever take it down. Only the
-     landing page owns it. */
-  if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') {
+  /* index.html is served for every SPA route under a language, so the static
+     hero would paint over /crm as well and nothing there would ever take it
+     down. Only the landing page owns it, and each language has its own: /,
+     /en/ and /pt/. The prefix is derived from the language this document
+     declares, which is the same rule basePath() applies in src/i18n/locales.ts.
+     Keep the two in step if the URL scheme ever changes. */
+  var lang = document.documentElement.lang;
+  var landing = lang && lang !== DEFAULT_LANG ? '/' + lang : '/';
+  if ((location.pathname.replace(/\/+$/, '') || '/') !== landing) {
     root.remove();
     return;
-  }
-
-  var copy = COPY && COPY[lang];
-
-  if (copy && lang !== BAKED) {
-    var nodes = root.querySelectorAll('[data-hb]');
-    for (var i = 0; i < nodes.length; i++) {
-      var node = nodes[i];
-      var text = resolve(copy, node.getAttribute('data-hb'));
-      if (text === null) continue;
-      /* The primary CTA carries an arrow after its label, so replace the text
-         node rather than the whole subtree. */
-      if (node.firstChild && node.firstChild.nodeType === 3) {
-        node.firstChild.nodeValue = node.hasAttribute('data-hb-intent') ? text + ' ' : text;
-      } else {
-        node.textContent = text;
-      }
-    }
   }
 
   /* The sections these point at do not exist until React renders them, so a
@@ -103,13 +72,12 @@
       parts[1] + (decimals ? current.toFixed(decimals) : Math.floor(current)) + parts[3];
   }
 
-  var counters = copy ? root.querySelectorAll('[data-hb-stat]') : [];
+  var counters = root.querySelectorAll('[data-hb-stat]');
   for (var s = 0; s < counters.length; s++) {
-    var counter = counters[s];
-    var target = resolve(copy, counter.getAttribute('data-hb-stat'));
-    if (target === null) continue;
-    counter.textContent = target;
-    if (reduced) continue;
+    /* The rendered value is the target. It is in the markup already, in this
+       document's language, so the counter has no copy of its own to consult. */
+    var target = counters[s].textContent.trim();
+    if (!target || reduced) continue;
     (function (el, value) {
       var start = 0;
       render(el, value, 0);
@@ -120,7 +88,7 @@
         if (progress < 1) requestAnimationFrame(step);
         else el.textContent = value;
       });
-    })(counter, target);
+    })(counters[s], target);
   }
 
   window.__heroBoot = {

@@ -1,6 +1,10 @@
 import heroCopy from './hero.json';
 
-export type Language = 'en' | 'es' | 'pt';
+/* The set of languages is the URL scheme's business, not the copy's: adding a
+   language means adding a route, a document and an hreflang entry, all of
+   which live in locales.ts. Re-exported here because every consumer of a
+   translation already imports from this module. */
+export type { Language } from './locales';
 
 export const translations = {
   en: {

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, type Plugin, type ViteDevServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import { transform } from 'esbuild'
 
@@ -49,6 +49,20 @@ function assertHeroBootIsWired(markup: string, css: string, copy: unknown) {
     }
   }
 
+  /* The build writes each language's copy into this markup by replacing the
+     text that follows an element's opening tag, which is also the node the
+     inline boot script reads a counter target from. Markup that opened with a
+     child element instead would leave that line in Spanish on /en/ and /pt/,
+     and nothing downstream would notice: the page would simply be half
+     translated. Checked here, independently of the code that depends on it. */
+  for (const tag of markup.matchAll(/<[a-z]+\b[^>]*\bdata-hb(?:-stat)?="([^"]+)"[^>]*>/g)) {
+    const after = markup.slice(tag.index + tag[0].length)
+    const end = after.indexOf('<')
+    if (!after.slice(0, end === -1 ? undefined : end).trim()) {
+      problems.push(`"${tag[1]}" has no text node for the build to localise`)
+    }
+  }
+
   if (problems.length) {
     throw new Error(`hero-boot.html is out of sync:\n  ${problems.join('\n  ')}`)
   }
@@ -76,10 +90,9 @@ function heroCritical(): Plugin {
            to change layout on its own; it is here so the two trees stay
            structurally comparable, and it trims ~460 bytes off every response. */
         const markup = read(BOOT_MARKUP).replace(/>\s+</g, '><')
-        const copy = read(HERO_COPY).trim()
-        const script = read(BOOT_SCRIPT).replace('/*@hero-copy*/ null', () => copy)
+        const script = read(BOOT_SCRIPT)
 
-        assertHeroBootIsWired(markup, read('src/components/Hero.css'), JSON.parse(copy))
+        assertHeroBootIsWired(markup, read('src/components/Hero.css'), JSON.parse(read(HERO_COPY)))
 
         const [inlineCss, inlineScript] = minify
           ? await Promise.all([
@@ -107,8 +120,68 @@ function heroCritical(): Plugin {
   }
 }
 
+type LocaleModules = {
+  languageForPath: (pathname: string) => string
+  localeDocument: (html: string, language: string) => string
+}
+
+/* Production ships three real HTML files, one per language, built by
+   scripts/prerender.mjs. The dev server has one template and Vite's SPA
+   fallback would hand the Spanish document to /en/ and /pt/, so the same
+   per language transform runs here per request. Without it the address bar and
+   the copy on screen disagree in dev only, which is the worst place for them
+   to disagree. */
+function localeDocuments(): Plugin {
+  const loadLocaleModules = async (server: ViteDevServer): Promise<LocaleModules> => {
+    const [locales, document] = await Promise.all([
+      server.ssrLoadModule('/src/i18n/locales.ts'),
+      server.ssrLoadModule('/src/i18n/document.ts'),
+    ])
+    return {
+      languageForPath: locales.languageForPath as LocaleModules['languageForPath'],
+      localeDocument: document.localeDocument as LocaleModules['localeDocument'],
+    }
+  }
+
+  return {
+    name: 'guarani-locale-documents',
+    apply: 'serve',
+
+    /* Registered without the usual post-hook wrapper so it runs ahead of
+       Vite's own index.html middleware, which is the thing being replaced. */
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = (req.url ?? '/').split('?')[0]
+        const wantsDocument =
+          req.method === 'GET' &&
+          req.headers.accept?.includes('text/html') === true &&
+          !/\.[a-z0-9]+$/i.test(url)
+
+        if (!wantsDocument) {
+          next()
+          return
+        }
+
+        void (async () => {
+          try {
+            const template = readFileSync(resolve(root, 'index.html'), 'utf8')
+            const [html, modules] = await Promise.all([
+              server.transformIndexHtml(url, template, req.originalUrl),
+              loadLocaleModules(server),
+            ])
+            res.setHeader('Content-Type', 'text/html')
+            res.end(modules.localeDocument(html, modules.languageForPath(url)))
+          } catch (error) {
+            next(error)
+          }
+        })()
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react(), heroCritical()],
+  plugins: [react(), heroCritical(), localeDocuments()],
   server: {
     port: 3000,
     open: true,

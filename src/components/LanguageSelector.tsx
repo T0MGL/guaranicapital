@@ -1,7 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { Language } from '../i18n/translations';
+import { pathFor, type Language } from '../i18n/locales';
+
+/*
+  Each option is a real link to that language's URL, not a state setter. The
+  language lives in the URL and in the document it serves, so switching is a
+  navigation: it is crawlable, it can be middle clicked or copied, and back and
+  forward move between languages the way a visitor expects. A setter here would
+  have put the app back in the state where the address bar and the copy on
+  screen could disagree.
+
+  The hrefs are relative on purpose. They have to keep working on localhost and
+  on preview deployments, and a same origin link never reaches the apex, which
+  is served by Hostinger and 301s every path to the www root.
+*/
 
 const languages: Record<Language, { name: string; flag: string }> = {
   en: { name: 'English', flag: '🇬🇧' },
@@ -9,45 +23,65 @@ const languages: Record<Language, { name: string; flag: string }> = {
   pt: { name: 'Português', flag: '🇧🇷' },
 };
 
+/* Object.keys drops the key type, but the record above is Record<Language, ...>
+   so it is exhaustive by construction: a new language cannot be added to the
+   site without appearing here, and the declaration order is the display order. */
+const ORDER = Object.keys(languages) as Language[];
+
 interface LanguageSelectorProps {
   isScrolled?: boolean;
 }
 
 export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) => {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
+  const { pathname, search, hash } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const selectorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (selectorRef.current && !selectorRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
 
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    setIsOpen(false);
-  };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
 
   const currentLanguage = languages[language];
+
+  // useLocation strips the router basename, so this is the same route in
+  // whichever language, not a path that already carries a prefix.
+  const hrefFor = (target: Language) => `${pathFor(target, pathname)}${search}${hash}`;
 
   return (
     <div className="language-selector" ref={selectorRef}>
       <motion.button
+        type="button"
         className={`language-button ${isScrolled ? 'scrolled' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls="language-dropdown"
+        aria-label={`Idioma: ${currentLanguage.name}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span className="flag">{currentLanguage.flag}</span>
+        <span className="flag" aria-hidden="true">{currentLanguage.flag}</span>
         <span className="language-code">{language.toUpperCase()}</span>
         <motion.span
           className="chevron"
+          aria-hidden="true"
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
@@ -59,22 +93,28 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
         {isOpen && (
           <motion.div
             className="language-dropdown"
+            id="language-dropdown"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {Object.entries(languages).map(([code, { name, flag }]) => (
-              <motion.button
+            {ORDER.map((code) => (
+              <motion.a
                 key={code}
+                href={hrefFor(code)}
+                hrefLang={code}
+                lang={code}
+                rel="alternate"
+                aria-current={language === code ? 'true' : undefined}
                 className={`language-option ${language === code ? 'active' : ''}`}
-                onClick={() => handleLanguageChange(code as Language)}
+                onClick={() => setIsOpen(false)}
                 whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="flag">{flag}</span>
-                <span className="language-name">{name}</span>
-              </motion.button>
+                <span className="flag" aria-hidden="true">{languages[code].flag}</span>
+                <span className="language-name">{languages[code].name}</span>
+              </motion.a>
             ))}
           </motion.div>
         )}
@@ -158,6 +198,7 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
           background: transparent;
           border: none;
           text-align: left;
+          text-decoration: none;
           cursor: pointer;
           transition: all 0.2s ease;
           font-family: var(--font-body);
