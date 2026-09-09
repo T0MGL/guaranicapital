@@ -31,19 +31,26 @@ const ALTERNATES = [
   `<link rel="alternate" hreflang="x-default" href="${ORIGIN}/" />`,
 ]
 
-/* Two probes each, both from sections that render below the first viewport, so
-   a hero-only prerender would not satisfy them. Spanish and Portuguese differ
-   here by an accent ("tecnología" against "tecnologia"), which is what lets the
-   wrong document fail the check instead of passing on a shared prefix. */
+/* Probes from sections that render below the first viewport, so a hero-only
+   prerender would not satisfy them. Spanish and Portuguese differ here by an
+   accent ("tecnología" against "tecnologia"), which is what lets the wrong
+   document fail the check instead of passing on a shared prefix. The last two
+   in each set are the commission section and the FAQ: both are prose a visitor
+   only ever sees after the bundle runs unless the prerender put them in the
+   response, which is the whole point of publishing the number. */
 const EXPECT = {
   es: {
     url: '/',
     lang: 'es',
     canonical: `${ORIGIN}/`,
     switcherLabel: 'aria-label="Idioma: Español"',
+    firstQuestion: '¿Qué incluye el servicio de administración?',
     probes: [
       'Combinamos tecnología, procesos rigurosos y conocimiento local',
       'Todo lo que necesitás para ganar',
+      'de la facturación neta de cada reserva confirmada',
+      'La limpieza entre estadías la paga el huésped',
+      '¿Cuál es la comisión de gestión?',
     ],
   },
   en: {
@@ -51,9 +58,13 @@ const EXPECT = {
     lang: 'en',
     canonical: `${ORIGIN}/en/`,
     switcherLabel: 'aria-label="Language: English"',
+    firstQuestion: 'What does the management service include?',
     probes: [
       'We combine technology, rigorous processes and local knowledge',
       'Everything you need to earn',
+      'of the net billing of each confirmed reservation',
+      'Cleaning between stays is paid by the guest',
+      'What is your management fee?',
     ],
   },
   pt: {
@@ -61,9 +72,13 @@ const EXPECT = {
     lang: 'pt',
     canonical: `${ORIGIN}/pt/`,
     switcherLabel: 'aria-label="Idioma: Português"',
+    firstQuestion: 'O que inclui o serviço de administração?',
     probes: [
       'Combinamos tecnologia, processos rigorosos e conhecimento local',
       'Tudo o que você precisa para ganhar',
+      'do faturamento líquido de cada reserva confirmada',
+      'A limpeza entre estadias é paga pelo hóspede',
+      'Qual é a comissão de gestão?',
     ],
   },
 }
@@ -148,6 +163,47 @@ for (const [language, expected] of Object.entries(EXPECT)) {
     if (other === language) continue
     const leaked = meta.probes.filter((probe) => html.includes(probe))
     check(`no ${other} body copy`, leaked.length === 0, leaked.join(' | '))
+  }
+
+  /* The FAQ schema used to be appended to document.head from an effect, which
+     means it existed only for a visitor with a browser and never for the
+     crawler it was written for. Parsing it here, per document, is what makes
+     that regression impossible to reintroduce quietly. */
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+  const faqBlocks = blocks.filter((block) => block[1].includes('"FAQPage"'));
+  check(`exactly one FAQPage block`, faqBlocks.length === 1, `found ${faqBlocks.length}`);
+
+  if (faqBlocks.length === 1) {
+    let schema = null;
+    try {
+      schema = JSON.parse(faqBlocks[0][1]);
+    } catch (error) {
+      check('FAQPage JSON parses', false, error.message);
+    }
+    if (schema) {
+      check('FAQPage JSON parses', true);
+      check(
+        `FAQPage inLanguage is "${expected.lang}"`,
+        schema.inLanguage === expected.lang,
+        `got "${schema.inLanguage}"`,
+      );
+      const questions = (schema.mainEntity ?? []).map((entry) => entry.name);
+      check(`FAQPage carries every question`, questions.length === 14, `got ${questions.length}`);
+      check(
+        `FAQPage is written in ${language}`,
+        questions[0] === expected.firstQuestion,
+        `got "${questions[0]}"`,
+      );
+      const answers = (schema.mainEntity ?? []).map((entry) => entry.acceptedAnswer?.text ?? '');
+      check(
+        'every FAQPage answer is present and non empty',
+        answers.length === questions.length && answers.every((text) => text.length > 40),
+      );
+      /* The answers are what an answer engine quotes, so they have to be the
+         ones the same document shows on screen, not another language's. */
+      const orphan = questions.filter((question) => !html.includes(question));
+      check('every FAQPage question is also in the served copy', orphan.length === 0, orphan.join(' | '));
+    }
   }
 }
 

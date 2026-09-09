@@ -2,6 +2,7 @@ import { Hero } from '../components/Hero';
 import { WhyChooseUs } from '../components/WhyChooseUs';
 import { PropertyPortfolio } from '../components/PropertyPortfolio';
 import { Services } from '../components/Services';
+import { Conditions } from '../components/Conditions';
 import { TeamSection } from '../components/TeamSection';
 import { NewsInsights } from '../components/NewsInsights';
 import { FAQ } from '../components/FAQ';
@@ -17,6 +18,7 @@ export function Home() {
       <WhyChooseUs />
       <PropertyPortfolio />
       <Services />
+      <Conditions />
       <TeamSection />
       <NewsInsights />
       <FAQ />

@@ -218,6 +218,47 @@ export const translations = {
       },
     },
 
+    // Conditions
+    conditions: {
+      label: 'Terms',
+      title: {
+        line1: 'What we charge,',
+        line2: 'and what we do not.',
+      },
+      subtitle: 'The two management charges, on the page, before you talk to anyone.',
+      terms: {
+        commission: {
+          amount: '15%',
+          basis: 'of the net billing of each confirmed reservation',
+          detail:
+            'It comes out of your monthly settlement. No separate management invoice ever reaches you.',
+        },
+        setup: {
+          amount: 'USD 150',
+          basis: 'onboarding, paid once',
+          detail: 'Paid before the unit goes live, and it covers what it takes to publish it:',
+          includes: [
+            'Initial deep clean',
+            'Preparing the property for listing',
+            'Inventory of furniture and equipment',
+            'Professional photography',
+          ],
+        },
+      },
+      notes: [
+        {
+          title: 'Recurring cleaning is never billed to you',
+          body:
+            'Cleaning between stays is paid by the guest. None of it lands on your settlement.',
+        },
+        {
+          title: 'A Superhost account, with access for you',
+          body:
+            'Your unit is published on our Superhost account, and we can enable co-host access so you see bookings, calendar and reviews whenever you like.',
+        },
+      ],
+    },
+
     // FAQ
     faq: {
       label: 'Frequently asked questions',
@@ -579,6 +620,48 @@ export const translations = {
       },
     },
 
+    // Conditions
+    conditions: {
+      label: 'Condiciones',
+      title: {
+        line1: 'Lo que cobramos,',
+        line2: 'y lo que no.',
+      },
+      subtitle: 'Los dos cargos de la administración, en la página, antes de que hables con nadie.',
+      terms: {
+        commission: {
+          amount: '15%',
+          basis: 'de la facturación neta de cada reserva confirmada',
+          detail:
+            'Sale de tu liquidación mensual. Nunca te llega una factura aparte por la gestión.',
+        },
+        setup: {
+          amount: 'USD 150',
+          basis: 'de puesta en marcha, una sola vez',
+          detail:
+            'Se paga antes de que la unidad salga publicada, y cubre lo que hace falta para publicarla:',
+          includes: [
+            'Limpieza profunda inicial',
+            'Preparación del inmueble para su publicación',
+            'Inventario de mobiliario y equipamiento',
+            'Fotografía profesional',
+          ],
+        },
+      },
+      notes: [
+        {
+          title: 'La limpieza recurrente no te la facturamos',
+          body:
+            'La limpieza entre estadías la paga el huésped. Nada de eso cae en tu liquidación.',
+        },
+        {
+          title: 'Cuenta Superhost, y acceso para vos',
+          body:
+            'Tu unidad se publica en nuestra cuenta Superhost, y te habilitamos el acceso de co-anfitrión para que veas reservas, calendario y valoraciones cuando quieras.',
+        },
+      ],
+    },
+
     // FAQ
     faq: {
       label: 'Preguntas frecuentes',
@@ -937,6 +1020,48 @@ export const translations = {
         ctaText: 'Fale conosco hoje e orientamos você sobre as melhores oportunidades de investimento em Assunção.',
         button: 'Fale conosco hoje',
       },
+    },
+
+    // Conditions
+    conditions: {
+      label: 'Condições',
+      title: {
+        line1: 'O que cobramos,',
+        line2: 'e o que não.',
+      },
+      subtitle: 'As duas cobranças da administração, na página, antes de você falar com alguém.',
+      terms: {
+        commission: {
+          amount: '15%',
+          basis: 'do faturamento líquido de cada reserva confirmada',
+          detail:
+            'Sai do seu repasse mensal. Nenhuma fatura à parte pela gestão chega até você.',
+        },
+        setup: {
+          amount: 'USD 150',
+          basis: 'de implantação, uma única vez',
+          detail:
+            'É pago antes de a unidade ir ao ar, e cobre o que é preciso para publicá-la:',
+          includes: [
+            'Limpeza profunda inicial',
+            'Preparação do imóvel para o anúncio',
+            'Inventário do mobiliário e dos equipamentos',
+            'Fotografia profissional',
+          ],
+        },
+      },
+      notes: [
+        {
+          title: 'A limpeza recorrente não é cobrada de você',
+          body:
+            'A limpeza entre estadias é paga pelo hóspede. Nada disso entra no seu repasse.',
+        },
+        {
+          title: 'Conta Superhost, com acesso para você',
+          body:
+            'Sua unidade é publicada na nossa conta Superhost, e liberamos o acesso de coanfitrião para que você veja reservas, calendário e avaliações quando quiser.',
+        },
+      ],
     },
 
     // FAQ
