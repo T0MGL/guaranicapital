@@ -254,10 +254,11 @@
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 400;
-  /* 0.45 was the incumbent value, but it only ever rendered once the class
-     collision below was fixed, and measured against the actual frames behind
-     this row across the whole loop it lands at 4.46:1, just under the 4.5:1 AA
-     floor for text this size. 0.6 measures 6.92:1 and reads the same. */
+  /* 0.45 was the incumbent value, but it only started rendering once these
+     classes were prefixed (see the note above .hero-stats). Measured against
+     the actual frames behind this row across the whole loop it lands at
+     4.46:1, under the 4.5:1 AA floor for text this size. 0.6 measures 6.92:1
+     and carries the same restraint. */
   color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.05em;
   text-transform: uppercase;
