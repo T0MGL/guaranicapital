@@ -33,15 +33,21 @@ const CONTENT_TYPES = {
   '.png': 'image/png',
   '.txt': 'text/plain; charset=utf-8',
   '.webm': 'video/webm',
+  '.webmanifest': 'application/manifest+json',
   '.webp': 'image/webp',
   '.woff2': 'font/woff2',
   '.xml': 'application/xml',
 }
 
 /* Vercel source syntax: `:name` is one path segment, `:name*` is any number of
-   them, and anything else is a regular expression anchored at both ends. */
+   them, and anything else is a regular expression anchored at both ends. A
+   trailing `/:name*` matches the bare prefix too, so `/en/:path*` covers `/en`,
+   which is the behaviour the redundant looking `/en` rewrite is there to
+   guarantee on Vercel's own matcher. */
 const toRegExp = (source) =>
-  new RegExp(`^${source.replace(/:[a-zA-Z]+\*/g, '.*').replace(/:[a-zA-Z]+/g, '[^/]+')}$`)
+  new RegExp(
+    `^${source.replace(/\/:[a-zA-Z]+\*/g, '(?:/.*)?').replace(/:[a-zA-Z]+/g, '[^/]+')}$`,
+  )
 
 const rewrites = (config.rewrites ?? []).map((rule) => ({
   matches: toRegExp(rule.source),
@@ -66,7 +72,15 @@ const readFileFor = async (pathname) => {
 }
 
 createServer(async (req, res) => {
-  const pathname = decodeURIComponent((req.url ?? '/').split('?')[0])
+  let pathname
+  try {
+    pathname = decodeURIComponent((req.url ?? '/').split('?')[0])
+  } catch {
+    // A malformed percent escape throws, and an uncaught throw in here takes
+    // the harness down in the middle of a verification run.
+    res.writeHead(400).end('bad request')
+    return
+  }
 
   for (const rule of headerRules) {
     if (!rule.matches.test(pathname)) continue
@@ -86,6 +100,8 @@ createServer(async (req, res) => {
 
   res.setHeader('Content-Type', CONTENT_TYPES[extname(file.target)] ?? 'application/octet-stream')
   res.writeHead(200).end(file.body)
-}).listen(port, () => {
+// Loopback only. This is a verification harness, not something to publish to
+// whatever network the machine happens to be on.
+}).listen(port, '127.0.0.1', () => {
   console.log(`serving ${dist} with vercel.json rewrites on http://localhost:${port}`)
 })

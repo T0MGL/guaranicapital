@@ -16,6 +16,10 @@
     npm run build
     npm run serve:dist &
     npm run verify:i18n -- http://localhost:4173
+    kill %1
+
+  Do not skip the kill. An orphan holding a fixed port is what sabotages the
+  next run in this repo.
 */
 
 const ORIGIN = 'https://www.guaranicapital.com'
@@ -70,6 +74,11 @@ const EXPECT = {
 const DEEP_LINKS = [
   { url: '/en/anything', language: 'en' },
   { url: '/pt/anything/deeper', language: 'pt' },
+  /* The bare prefix, with no trailing slash. It resolves through the directory
+     index rather than a rewrite, so it is the one shape a rewrite change cannot
+     be assumed to cover. */
+  { url: '/en', language: 'en' },
+  { url: '/pt', language: 'pt' },
 ]
 
 const base = (process.argv[2] ?? '').replace(/\/$/, '')
