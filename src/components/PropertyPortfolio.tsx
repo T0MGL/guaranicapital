@@ -1,5 +1,5 @@
-import { AnimatePresence, motion, useInView } from 'framer-motion';
-import { useRef, useState, useEffect, MouseEvent } from 'react';
+import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef, useState, MouseEvent } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface PropertyMeta {
@@ -13,10 +13,12 @@ interface PropertyCardProps {
   prop: PropertyMeta;
   name: string;
   details: string;
-  widthPercent: number;
+  index: number;
+  isInView: boolean;
+  reduceMotion: boolean;
 }
 
-const PropertyCard = ({ prop, name, details, widthPercent }: PropertyCardProps) => {
+const PropertyCard = ({ prop, name, details, index, isInView, reduceMotion }: PropertyCardProps) => {
   const [imgIndex, setImgIndex] = useState(0);
   const total = prop.images.length;
   const hasMultiple = total > 1;
@@ -36,13 +38,21 @@ const PropertyCard = ({ prop, name, details, widthPercent }: PropertyCardProps) 
     setImgIndex((prev) => (prev + 1) % total);
   };
 
+  const rest = { opacity: 0, y: reduceMotion ? 0 : 16 };
+
   return (
-    <a
+    <motion.a
       href={prop.airbnbUrl}
       target="_blank"
       rel="noopener noreferrer"
       className="gallery-card"
-      style={{ width: `${widthPercent}%` }}
+      initial={rest}
+      animate={isInView ? { opacity: 1, y: 0 } : rest}
+      transition={{
+        duration: 0.55,
+        delay: reduceMotion ? 0 : index * 0.05,
+        ease: [0.23, 1, 0.32, 1],
+      }}
     >
       <div className="card-image-box">
         <AnimatePresence initial={false} mode="popLayout">
@@ -51,7 +61,8 @@ const PropertyCard = ({ prop, name, details, widthPercent }: PropertyCardProps) 
             src={prop.images[imgIndex]}
             alt={`${name} ${imgIndex + 1}/${total}`}
             className="card-img"
-            loading={imgIndex === 0 ? 'lazy' : 'eager'}
+            loading="lazy"
+            decoding="async"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -110,109 +121,80 @@ const PropertyCard = ({ prop, name, details, widthPercent }: PropertyCardProps) 
       </div>
       <div className="card-footer">
         <p className="card-name">{name}</p>
-        {details ? (
-          <p className="card-details">{details}</p>
-        ) : (
-          <p className="card-location">{prop.location}</p>
-        )}
+        <p className="card-meta">{details || prop.location}</p>
       </div>
-    </a>
+    </motion.a>
   );
 };
+
+const properties: PropertyMeta[] = [
+  {
+    id: 1,
+    location: 'Asunción',
+    airbnbUrl: 'https://www.airbnb.com/rooms/1417165514634453334?guests=1&adults=1&s=67&unique_share_id=deaa0f70-ad23-4e7e-af37-961dfa40a9b4',
+    images: [
+      '/properties/1/1.webp',
+      '/properties/1/2.webp',
+      '/properties/1/3.webp',
+    ],
+  },
+  {
+    id: 2,
+    location: 'Asunción',
+    airbnbUrl: 'https://www.airbnb.com/rooms/1629236974528724403?guests=1&adults=1&s=67&unique_share_id=06aef2a2-874c-4019-8630-fbe794fee849',
+    images: [
+      '/properties/2/1.webp',
+      '/properties/2/2.webp',
+      '/properties/2/3.webp',
+    ],
+  },
+  {
+    id: 3,
+    location: 'Asunción',
+    airbnbUrl: 'https://www.airbnb.com/rooms/1271130534389738919?guests=1&adults=1&s=67&unique_share_id=3344b8c8-9375-4cde-8a1b-af4a39a35f61',
+    images: [
+      '/properties/3/1.webp',
+      '/properties/3/2.webp',
+      '/properties/3/3.webp',
+    ],
+  },
+  {
+    id: 4,
+    location: 'Asunción',
+    airbnbUrl: 'https://www.airbnb.com.ar/rooms/1719902712077092729',
+    images: [
+      '/properties/4/1.webp',
+      '/properties/4/2.webp',
+      '/properties/4/3.webp',
+    ],
+  },
+  {
+    id: 5,
+    location: 'Asunción',
+    airbnbUrl: 'https://www.airbnb.com.ar/rooms/1685387749969005483',
+    images: [
+      '/properties/5/1.webp',
+      '/properties/5/2.webp',
+      '/properties/5/3.webp',
+    ],
+  },
+  {
+    id: 6,
+    location: 'Asunción',
+    airbnbUrl: 'https://www.airbnb.com.ar/rooms/1654548701933626473',
+    images: [
+      '/properties/6/1.webp',
+      '/properties/6/2.webp',
+      '/properties/6/3.webp',
+    ],
+  },
+];
 
 export const PropertyPortfolio = () => {
   const { t } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [offset, setOffset] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(3);
-
-  const originalProperties: PropertyMeta[] = [
-    {
-      id: 1,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.com/rooms/1417165514634453334?guests=1&adults=1&s=67&unique_share_id=deaa0f70-ad23-4e7e-af37-961dfa40a9b4',
-      images: [
-        '/properties/1/1.webp',
-        '/properties/1/2.webp',
-        '/properties/1/3.webp',
-      ],
-    },
-    {
-      id: 2,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.com/rooms/1629236974528724403?guests=1&adults=1&s=67&unique_share_id=06aef2a2-874c-4019-8630-fbe794fee849',
-      images: [
-        '/properties/2/1.webp',
-        '/properties/2/2.webp',
-        '/properties/2/3.webp',
-      ],
-    },
-    {
-      id: 3,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.com/rooms/1271130534389738919?guests=1&adults=1&s=67&unique_share_id=3344b8c8-9375-4cde-8a1b-af4a39a35f61',
-      images: [
-        '/properties/3/1.webp',
-        '/properties/3/2.webp',
-        '/properties/3/3.webp',
-      ],
-    },
-  ];
-
-  const newProperties: PropertyMeta[] = [
-    {
-      id: 4,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1719902712077092729',
-      images: [
-        '/properties/4/1.webp',
-        '/properties/4/2.webp',
-        '/properties/4/3.webp',
-      ],
-    },
-    {
-      id: 5,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1685387749969005483',
-      images: [
-        '/properties/5/1.webp',
-        '/properties/5/2.webp',
-        '/properties/5/3.webp',
-      ],
-    },
-    {
-      id: 6,
-      location: 'Asunción',
-      airbnbUrl: 'https://www.airbnb.com.ar/rooms/1654548701933626473',
-      images: [
-        '/properties/6/1.webp',
-        '/properties/6/2.webp',
-        '/properties/6/3.webp',
-      ],
-    },
-  ];
-
-  useEffect(() => {
-    const update = () => {
-      if (window.innerWidth < 640) setVisibleCount(1);
-      else if (window.innerWidth < 1024) setVisibleCount(2);
-      else setVisibleCount(3);
-    };
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
-
-  const N = originalProperties.length;
-  const maxOffset = Math.max(0, N - visibleCount);
-
-  useEffect(() => {
-    setOffset((prev) => Math.min(prev, maxOffset));
-  }, [maxOffset]);
-
-  const handleNext = () => setOffset((prev) => Math.min(prev + 1, maxOffset));
-  const handlePrev = () => setOffset((prev) => Math.max(prev - 1, 0));
+  const reduceMotion = useReducedMotion() ?? false;
 
   return (
     <section id="portfolio" className="portfolio">
@@ -233,90 +215,19 @@ export const PropertyPortfolio = () => {
           <p className="section-subtitle">{t.portfolio.subtitle}</p>
         </motion.div>
 
-        <motion.div
-          className="gallery-section"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          <div className="gallery-viewport">
-            <motion.div
-              className="gallery-track"
-              animate={{ x: `${-offset * (100 / N)}%` }}
-              transition={{ type: 'spring', stiffness: 320, damping: 38, mass: 0.9 }}
-              style={{ width: `${(N / visibleCount) * 100}%` }}
-            >
-              {originalProperties.map((prop, index) => (
-                <PropertyCard
-                  key={prop.id}
-                  prop={prop}
-                  name={t.portfolio.properties[index].name}
-                  details={t.portfolio.properties[index].details}
-                  widthPercent={100 / N}
-                />
-              ))}
-            </motion.div>
-          </div>
-
-          <div className="gallery-nav">
-            <div className="nav-progress">
-              {Array.from({ length: maxOffset + 1 }).map((_, i) => (
-                <button
-                  key={i}
-                  className={`progress-pip ${i === offset ? 'active' : ''}`}
-                  onClick={() => setOffset(i)}
-                  aria-label={`Go to position ${i + 1}`}
-                />
-              ))}
-            </div>
-            <div className="nav-arrows">
-              <button
-                className="nav-arrow"
-                onClick={handlePrev}
-                disabled={offset === 0}
-                aria-label="Previous"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M19 12H5M5 12l7 7M5 12l7-7"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button
-                className="nav-arrow"
-                onClick={handleNext}
-                disabled={offset === maxOffset}
-                aria-label="Next"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M5 12h14M13 5l7 7-7 7"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div className="gallery-secondary">
-            {newProperties.map((prop, index) => (
-              <PropertyCard
-                key={prop.id}
-                prop={prop}
-                name={t.portfolio.properties[index + originalProperties.length].name}
-                details={t.portfolio.properties[index + originalProperties.length].details}
-                widthPercent={100 / visibleCount}
-              />
-            ))}
-          </div>
-        </motion.div>
+        <div className="gallery-grid">
+          {properties.map((prop, index) => (
+            <PropertyCard
+              key={prop.id}
+              prop={prop}
+              name={t.portfolio.properties[index].name}
+              details={t.portfolio.properties[index].details}
+              index={index}
+              isInView={isInView}
+              reduceMotion={reduceMotion}
+            />
+          ))}
+        </div>
 
         <motion.div
           className="profile-cta"
@@ -350,7 +261,6 @@ export const PropertyPortfolio = () => {
         .portfolio {
           padding: var(--space-3xl) var(--space-lg);
           background: var(--color-base-white);
-          overflow: hidden;
         }
 
         .portfolio-container {
@@ -364,25 +274,21 @@ export const PropertyPortfolio = () => {
           margin: 0 auto var(--space-3xl);
         }
 
-        /* Gallery */
-        .gallery-section {
-          margin-bottom: var(--space-xl);
-        }
-
-        .gallery-viewport {
-          overflow: hidden;
-        }
-
-        .gallery-track {
-          display: flex;
+        /* Every property sits in the same grid. Column count is the only thing
+           that changes across breakpoints, so a card is identical wherever it
+           lands and a partial last row keeps its column width. */
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          column-gap: var(--space-md);
+          row-gap: var(--space-lg);
+          align-items: start;
         }
 
         .gallery-card {
-          flex: none;
-          padding: 0 10px;
+          display: block;
           text-decoration: none;
           color: inherit;
-          display: block;
           cursor: pointer;
         }
 
@@ -409,8 +315,10 @@ export const PropertyPortfolio = () => {
           transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .gallery-card:hover .card-img {
-          transform: scale(1.045);
+        @media (hover: hover) and (pointer: fine) {
+          .gallery-card:hover .card-img {
+            transform: scale(1.045);
+          }
         }
 
         .card-arrow {
@@ -443,7 +351,8 @@ export const PropertyPortfolio = () => {
           right: 12px;
         }
 
-        .gallery-card:hover .card-arrow {
+        .gallery-card:hover .card-arrow,
+        .card-arrow:focus-visible {
           opacity: 1;
         }
 
@@ -508,9 +417,11 @@ export const PropertyPortfolio = () => {
           transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
-        .gallery-card:hover .card-hover-icon {
-          opacity: 1;
-          transform: scale(1);
+        @media (hover: hover) and (pointer: fine) {
+          .gallery-card:hover .card-hover-icon {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
 
         .card-footer {
@@ -527,103 +438,15 @@ export const PropertyPortfolio = () => {
           letter-spacing: -0.01em;
         }
 
-        .card-location {
-          font-family: var(--font-body);
-          font-size: 0.725rem;
-          color: var(--color-text-secondary);
-          margin: 0;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-        }
-
-        .card-details {
+        /* One subtitle treatment. A listing with unit details and one with only
+           a city have to read as the same kind of card, otherwise the grid
+           regroups itself typographically along the old two-array split. */
+        .card-meta {
           font-family: var(--font-body);
           font-size: 0.775rem;
           color: var(--color-text-secondary);
           margin: 0;
           line-height: 1.5;
-        }
-
-        /* Navigation */
-        .gallery-nav {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 16px;
-          margin-top: 24px;
-        }
-
-        .nav-progress {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .progress-pip {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: var(--color-gray-300);
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .progress-pip.active {
-          width: 18px;
-          border-radius: 3px;
-          background: var(--color-text-primary);
-        }
-
-        .progress-pip:hover:not(.active) {
-          background: var(--color-gray-400);
-        }
-
-        .nav-arrows {
-          display: flex;
-          gap: 8px;
-        }
-
-        .nav-arrow {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: 1px solid var(--color-border);
-          background: transparent;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          color: var(--color-text-primary);
-          transition: all 0.2s ease;
-          padding: 0;
-        }
-
-        .nav-arrow:hover:not(:disabled) {
-          border-color: var(--color-text-primary);
-          background: var(--color-text-primary);
-          color: white;
-        }
-
-        .nav-arrow:disabled {
-          opacity: 0.22;
-          cursor: not-allowed;
-        }
-
-        /* Secondary listings (new properties, always visible, no carousel).
-           Cards are sized via the same 100 / visibleCount logic as the
-           carousel above (widthPercent prop), so a card here is always
-           pixel-identical to a card in group 1 at the same breakpoint.
-           Keep this row's item count a multiple of visibleCount at the
-           3-up breakpoint, or a partial row will leave a gap on flex. */
-        .gallery-secondary {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: flex-start;
-          column-gap: 0;
-          row-gap: var(--space-lg);
-          margin-top: var(--space-xl);
         }
 
         /* Profile CTA */
@@ -646,7 +469,7 @@ export const PropertyPortfolio = () => {
           border-radius: var(--radius-full);
           text-decoration: none;
           cursor: pointer;
-          transition: all 0.25s ease;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
@@ -654,6 +477,10 @@ export const PropertyPortfolio = () => {
           border-color: var(--color-primary);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
           transform: translateY(-1px);
+        }
+
+        .profile-button:active {
+          transform: scale(0.985);
         }
 
         .profile-button-label {
@@ -668,7 +495,7 @@ export const PropertyPortfolio = () => {
           height: 24px;
           background: var(--color-gray-100);
           border-radius: 50%;
-          transition: all 0.25s ease;
+          transition: background 0.25s ease, transform 0.25s ease;
         }
 
         .profile-button-icon svg {
@@ -685,6 +512,12 @@ export const PropertyPortfolio = () => {
           color: white;
         }
 
+        @media (max-width: 1024px) {
+          .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
         @media (max-width: 768px) {
           .portfolio {
             padding: var(--space-2xl) var(--space-md);
@@ -694,16 +527,15 @@ export const PropertyPortfolio = () => {
             margin-bottom: var(--space-2xl);
           }
 
-          .gallery-card {
-            padding: 0 6px;
-          }
-
-          .gallery-nav {
-            justify-content: center;
-          }
-
           .profile-button {
             font-size: 0.875rem;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .gallery-grid {
+            grid-template-columns: 1fr;
+            row-gap: var(--space-lg);
           }
         }
 
