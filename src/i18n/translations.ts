@@ -225,7 +225,7 @@ export const translations = {
         line1: 'What we charge,',
         line2: 'and what we do not.',
       },
-      subtitle: 'Our fee and the setup charge, on the page, before you talk to anyone.',
+      subtitle: 'Our fee and the onboarding charge, on the page, before you talk to anyone.',
       terms: {
         commission: {
           amount: '15%',
@@ -662,7 +662,7 @@ export const translations = {
         {
           title: 'Cuenta Superhost, y acceso para vos',
           body:
-            'Tu unidad se publica en nuestra cuenta Superhost, y si lo querés te habilitamos el acceso de co-anfitrión para ver reservas, calendario y valoraciones cuando quieras.',
+            'Tu unidad se publica en nuestra cuenta Superhost, y si lo querés te habilitamos el acceso de co-anfitrión para ver reservas, calendario y valoraciones.',
         },
         {
           title: 'El amoblamiento se cotiza aparte',
@@ -1069,7 +1069,7 @@ export const translations = {
         {
           title: 'Conta Superhost, com acesso para você',
           body:
-            'Sua unidade é publicada na nossa conta Superhost, e se você quiser liberamos o acesso de coanfitrião para ver reservas, calendário e avaliações quando quiser.',
+            'Sua unidade é publicada na nossa conta Superhost, e se você quiser liberamos o acesso de coanfitrião para ver reservas, calendário e avaliações.',
         },
         {
           title: 'O mobiliário é orçado à parte',

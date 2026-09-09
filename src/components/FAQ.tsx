@@ -265,6 +265,8 @@ export const FAQ = () => {
                     <motion.div
                       key="panel"
                       className="faq-panel"
+                      role="region"
+                      aria-labelledby={buttonId}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
