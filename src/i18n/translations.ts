@@ -15,6 +15,7 @@ export const translations = {
       services: 'Services',
       team: 'Team',
       contact: 'Contact',
+      language: 'Language',
     },
 
     // Hero Section
@@ -284,6 +285,7 @@ export const translations = {
       services: 'Servicios',
       team: 'Equipo',
       contact: 'Contacto',
+      language: 'Idioma',
     },
 
     // Hero Section
@@ -553,6 +555,7 @@ export const translations = {
       services: 'Serviços',
       team: 'Equipe',
       contact: 'Contato',
+      language: 'Idioma',
     },
 
     // Hero Section

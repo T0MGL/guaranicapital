@@ -55,11 +55,24 @@ function assertHeroBootIsWired(markup: string, css: string, copy: unknown) {
      child element instead would leave that line in Spanish on /en/ and /pt/,
      and nothing downstream would notice: the page would simply be half
      translated. Checked here, independently of the code that depends on it. */
-  for (const tag of markup.matchAll(/<[a-z]+\b[^>]*\bdata-hb(?:-stat)?="([^"]+)"[^>]*>/g)) {
-    const after = markup.slice(tag.index + tag[0].length)
-    const end = after.indexOf('<')
-    if (!after.slice(0, end === -1 ? undefined : end).trim()) {
-      problems.push(`"${tag[1]}" has no text node for the build to localise`)
+  for (const tag of markup.matchAll(/<([a-z]+)\b[^>]*\bdata-hb(?:-stat)?="([^"]+)"[^>]*>/g)) {
+    const [open, name, key] = tag
+    const inner = markup.slice(tag.index + open.length)
+    const close = inner.indexOf(`</${name}>`)
+    const content = close === -1 ? inner : inner.slice(0, close)
+    const slot = content.slice(0, content.indexOf('<') === -1 ? undefined : content.indexOf('<'))
+
+    if (!slot.trim()) {
+      problems.push(`"${key}" has no text node for the build to localise`)
+      continue
+    }
+    /* Only that first text node is rewritten. Copy sitting after a child
+       element, `Foo <b>bar</b>`, would keep half the line in Spanish on /en/
+       and /pt/ and throw nothing, which is the one way this could fail
+       quietly. The primary CTA's trailing arrow is fine: it is an svg with no
+       text of its own. */
+    if (content.slice(slot.length).replace(/<[^>]*>/g, '').trim()) {
+      problems.push(`"${key}" has copy after a child element that the build cannot reach`)
     }
   }
 
@@ -122,7 +135,12 @@ function heroCritical(): Plugin {
 
 type LocaleModules = {
   languageForPath: (pathname: string) => string
-  localeDocument: (html: string, language: string) => string
+  localeDocument: (
+    html: string,
+    language: string,
+    appHtml?: string,
+    routePath?: string,
+  ) => string
 }
 
 /* Production ships three real HTML files, one per language, built by

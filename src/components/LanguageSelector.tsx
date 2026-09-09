@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
@@ -33,10 +33,15 @@ interface LanguageSelectorProps {
 }
 
 export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const { pathname, search, hash } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const selectorRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  /* The navbar mounts this twice, once in the actions row and once inside the
+     mobile menu, so a literal id would put two of them in the document and
+     point both triggers at the same dropdown. */
+  const dropdownId = useId();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -48,7 +53,11 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsOpen(false);
+      if (event.key !== 'Escape') return;
+      setIsOpen(false);
+      // Closing while focus is on an option would otherwise drop the keyboard
+      // user at the top of the document.
+      triggerRef.current?.focus();
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -68,12 +77,13 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
   return (
     <div className="language-selector" ref={selectorRef}>
       <motion.button
+        ref={triggerRef}
         type="button"
         className={`language-button ${isScrolled ? 'scrolled' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
-        aria-controls="language-dropdown"
-        aria-label={`Idioma: ${currentLanguage.name}`}
+        aria-controls={dropdownId}
+        aria-label={`${t.navbar.language}: ${currentLanguage.name}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -93,7 +103,7 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
         {isOpen && (
           <motion.div
             className="language-dropdown"
-            id="language-dropdown"
+            id={dropdownId}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -106,7 +116,7 @@ export const LanguageSelector = ({ isScrolled = false }: LanguageSelectorProps) 
                 hrefLang={code}
                 lang={code}
                 rel="alternate"
-                aria-current={language === code ? 'true' : undefined}
+                aria-current={language === code ? 'page' : undefined}
                 className={`language-option ${language === code ? 'active' : ''}`}
                 onClick={() => setIsOpen(false)}
                 whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}

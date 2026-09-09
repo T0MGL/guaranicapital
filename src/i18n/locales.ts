@@ -33,7 +33,12 @@ export const basePath = (language: Language) =>
    canonical, the sitemap and the hreflang set. */
 export const pathFor = (language: Language, routePath = '/') => {
   const base = language === DEFAULT_LANGUAGE ? '' : `/${language}`;
-  return routePath === '/' ? `${base}/` : `${base}${routePath}`;
+  /* The switcher builds its hrefs from the current pathname, which the visitor
+     controls. Two leading slashes make a protocol relative URL, so
+     guaranicapital.com//evil.com would turn the Spanish option into a link off
+     the site. Collapsing runs of slashes is what stops that being a question. */
+  const path = routePath.replace(/\/{2,}/g, '/');
+  return path === '/' ? `${base}/` : `${base}${path}`;
 };
 
 /* The inverse of pathFor: the route a document URL resolves to once its
@@ -101,5 +106,7 @@ export const meta: Record<Language, LanguageMeta> = {
 };
 
 /* Staff route: a lead pipeline holding names and phone numbers. Listed here so
-   robots.txt, the sitemap and the noindex headers cannot fall out of step. */
+   robots.txt and the sitemap cannot fall out of step. The noindex headers are
+   hand written in vercel.json and do not read this, so a route added here needs
+   an entry added there too. */
 export const PRIVATE_ROUTES = ['/crm'] as const;

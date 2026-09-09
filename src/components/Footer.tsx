@@ -453,7 +453,11 @@ export const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-copyright-group">
             <p className="footer-copyright">
-              © {currentYear} Guaraní Capital. {t.footer.rights}
+              {/* Prerendered at build time, recomputed on the client, so the
+                  two disagree from 1 January until the next deploy. React
+                  patches the text; this stops it calling that a hydration
+                  failure and discarding the tree. */}
+              <span suppressHydrationWarning>© {currentYear}</span> Guaraní Capital. {t.footer.rights}
             </p>
             <span className="divider">•</span>
             <a

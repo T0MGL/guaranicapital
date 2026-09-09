@@ -154,9 +154,11 @@ export const localeDocument = (
     /* Which route this markup is. Only the landing page is prerendered, so a
        deep link like /en/crm is served this document and the client has to
        render from scratch instead of hydrating someone else's page. */
+    /* A replacer function, not a string: `$&` and friends inside the rendered
+       copy would otherwise be read as substitution patterns. */
     out = out.replace(
       ROOT_TAG,
-      `<div id="root" data-prerendered="${routePath}">${appHtml}</div>`,
+      () => `<div id="root" data-prerendered="${routePath}">${appHtml}</div>`,
     );
   }
 

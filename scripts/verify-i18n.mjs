@@ -8,7 +8,14 @@
   is checking passes whatever that code happens to do, including serving the
   Spanish page at /en/, which is the exact regression this guards against.
 
-  Usage: npm run verify:i18n -- http://localhost:4173
+  The target has to be a server that applies vercel.json, because the deep link
+  checks below are checks on those rewrites. `vite preview` is not one: its HTML
+  fallback sends /en/anything to /index.html, the Spanish document, and the
+  checks would fail on a healthy build. Use a Vercel deployment, or locally:
+
+    npm run build
+    npm run serve:dist &
+    npm run verify:i18n -- http://localhost:4173
 */
 
 const ORIGIN = 'https://www.guaranicapital.com'
@@ -29,6 +36,7 @@ const EXPECT = {
     url: '/',
     lang: 'es',
     canonical: `${ORIGIN}/`,
+    switcherLabel: 'aria-label="Idioma: Español"',
     probes: [
       'Combinamos tecnología, procesos rigurosos y conocimiento local',
       'Todo lo que necesitás para ganar',
@@ -38,6 +46,7 @@ const EXPECT = {
     url: '/en/',
     lang: 'en',
     canonical: `${ORIGIN}/en/`,
+    switcherLabel: 'aria-label="Language: English"',
     probes: [
       'We combine technology, rigorous processes and local knowledge',
       'Everything you need to earn',
@@ -47,6 +56,7 @@ const EXPECT = {
     url: '/pt/',
     lang: 'pt',
     canonical: `${ORIGIN}/pt/`,
+    switcherLabel: 'aria-label="Idioma: Português"',
     probes: [
       'Combinamos tecnologia, processos rigorosos e conhecimento local',
       'Tudo o que você precisa para ganhar',
@@ -82,14 +92,23 @@ const snippet = (html, needle) => {
 }
 
 const documentFor = async (url) => {
-  const response = await fetch(`${base}${url}`)
-  if (!response.ok) throw new Error(`${url} responded ${response.status}`)
-  return response.text()
+  try {
+    const response = await fetch(`${base}${url}`)
+    if (!response.ok) {
+      check(`${url} responds 200`, false, `got ${response.status}`)
+      return null
+    }
+    return await response.text()
+  } catch (error) {
+    check(`${url} is reachable`, false, error.message)
+    return null
+  }
 }
 
 for (const [language, expected] of Object.entries(EXPECT)) {
-  const html = await documentFor(expected.url)
   console.log(`\n# ${expected.url}`)
+  const html = await documentFor(expected.url)
+  if (html === null) continue
 
   const declared = html.match(/<html lang="([^"]*)"/)?.[1]
   check(`html lang is "${expected.lang}"`, declared === expected.lang, `got "${declared}"`)
@@ -104,6 +123,14 @@ for (const [language, expected] of Object.entries(EXPECT)) {
     check(`hreflang ${alternate.match(/hreflang="([^"]*)"/)[1]}`, html.includes(alternate), alternate)
   }
 
+  /* The switcher's accessible name is the one string that used to be hardcoded
+     Spanish on every document, which no body copy probe would have caught. */
+  check(
+    `switcher label is in ${language}`,
+    html.includes(expected.switcherLabel),
+    html.match(/aria-label="[^"]*"/)?.[0] ?? 'no aria-label',
+  )
+
   for (const probe of expected.probes) {
     check(`${language} body copy in raw HTML`, html.includes(probe), snippet(html, probe) || `"${probe}" missing`)
   }
@@ -116,8 +143,9 @@ for (const [language, expected] of Object.entries(EXPECT)) {
 }
 
 for (const { url, language } of DEEP_LINKS) {
-  const html = await documentFor(url)
   console.log(`\n# ${url}`)
+  const html = await documentFor(url)
+  if (html === null) continue
   const declared = html.match(/<html lang="([^"]*)"/)?.[1]
   check(`deep link serves the ${language} document`, declared === language, `html lang "${declared}"`)
   check(
