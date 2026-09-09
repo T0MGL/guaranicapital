@@ -10,6 +10,7 @@ interface Window {
   __heroBoot?: HeroBootState;
   /* A CTA pressed on the static hero before the bundle arrived. The sections
      it points at did not exist yet, so the press is parked here for the real
-     hero to act on when it mounts. */
-  __heroBootIntent?: 'contact' | 'services';
+     hero to act on when it mounts. Stamped so a press that predates a very
+     late bundle is dropped rather than scrolling the page unprompted. */
+  __heroBootIntent?: { target: 'contact' | 'services'; at: number };
 }

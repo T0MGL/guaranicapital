@@ -15,6 +15,10 @@ import { HeroVideo } from './HeroVideo';
 
 type Intent = 'contact' | 'services';
 
+// Long enough to cover a slow bundle, short enough that the press is still the
+// thing the visitor is waiting on rather than something they have forgotten.
+const INTENT_MAX_AGE_MS = 10_000;
+
 const useBootHeroHandover = (onIntent: (intent: Intent) => void) => {
   useEffect(() => {
     const boot = document.getElementById('hero-boot');
@@ -22,11 +26,11 @@ const useBootHeroHandover = (onIntent: (intent: Intent) => void) => {
 
     // Someone can press a CTA on the static hero before this bundle arrives.
     // Those anchors point at sections that did not exist yet, so the press was
-    // recorded rather than followed. Honour it now.
+    // recorded rather than followed. Honour it now, unless it has gone stale.
     const intent = window.__heroBootIntent;
     if (intent) {
       delete window.__heroBootIntent;
-      onIntent(intent);
+      if (performance.now() - intent.at < INTENT_MAX_AGE_MS) onIntent(intent.target);
     }
 
     // A keyboard user can already be inside the static hero. Marking it inert

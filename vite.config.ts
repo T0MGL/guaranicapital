@@ -24,11 +24,19 @@ const HERO_COPY = 'src/i18n/hero.json'
 function assertHeroBootIsWired(markup: string, css: string, copy: unknown) {
   const problems: string[] = []
 
+  /* Tokenised, not a substring search. `css.includes('.hero-container')` is
+     also true of `.hero-containerRENAMED`, so a substring test would pass on a
+     rename inside Hero.css, which is the direction that actually happens given
+     that file is the source of truth. Comments are stripped so a name that
+     survives only in prose does not count as defined. */
+  const defined = new Set(
+    [...css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/\.([A-Za-z_][-\w]*)/g)].map((m) => m[1]),
+  )
   const classes = new Set(
     [...markup.matchAll(/class="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/)).filter(Boolean),
   )
   for (const name of classes) {
-    if (!css.includes(`.${name}`)) problems.push(`class "${name}" is not defined in Hero.css`)
+    if (!defined.has(name)) problems.push(`class "${name}" is not defined in Hero.css`)
   }
 
   const languages = Object.entries(copy as Record<string, unknown>)

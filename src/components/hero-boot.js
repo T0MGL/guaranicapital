@@ -79,7 +79,10 @@
   for (var c = 0; c < ctas.length; c++) {
     ctas[c].addEventListener('click', function (event) {
       event.preventDefault();
-      window.__heroBootIntent = this.getAttribute('data-hb-intent');
+      window.__heroBootIntent = {
+        target: this.getAttribute('data-hb-intent'),
+        at: performance.now(),
+      };
     });
   }
 
