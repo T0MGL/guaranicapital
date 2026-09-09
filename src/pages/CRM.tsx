@@ -304,7 +304,7 @@ function CRMDashboard({ onLogout }: { onLogout: () => void }) {
                 <header className="crm-top-header">
                     <div className="crm-brand">
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-                            <Logo width={40} height={40} />
+                            <Logo width={40} />
                             <h1 style={{ fontSize: '1.25rem', fontWeight: '700', letterSpacing: '-0.01em', margin: 0 }}>Guaraní Capital</h1>
                         </div>
                         <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--crm-text-muted)', fontWeight: '500' }}>Panel de Control de Leads</p>

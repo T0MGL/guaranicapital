@@ -37,12 +37,15 @@ export const Navbar = () => {
     { label: t.navbar.contact, id: 'contact' },
   ];
 
+  // The hero now paints from the HTML, so the navbar mounts on top of a page
+  // that is already up. Sliding a full bar in from off-screen at that point
+  // reads as a slam, a fade reads as arriving.
   return (
     <motion.nav
       className={`navbar ${navbarScrolled ? 'scrolled' : ''}`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
     >
       <div className="navbar-container">
         <div className="navbar-logo">
@@ -55,7 +58,7 @@ export const Navbar = () => {
               style={{ display: 'flex', alignItems: 'center' }}
               className="navbar-logo-wrapper"
             >
-              <Logo width={100} height={32} />
+              <Logo width={100} />
             </motion.div>
           </button>
         </div>

@@ -64,7 +64,7 @@ export const Footer = () => {
         <div className="footer-main">
           <div className="footer-brand">
             <div className="footer-logo">
-              <Logo width={100} height={35} />
+              <Logo width={100} />
             </div>
             <p className="footer-tagline">
               {t.footer.tagline}

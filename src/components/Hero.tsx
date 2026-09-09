@@ -1,21 +1,46 @@
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { useCountUpStat } from '../hooks/useCountUp';
 import { scrollToSection } from '../hooks/useLenis';
+import { HeroVideo } from './HeroVideo';
 
-const StatItem = ({ number, label }: { number: string; label: string }) => {
-  const { ref, value } = useCountUpStat(number, 2000);
+/*
+  This component renders the hero in its resting state, with no entrance of its
+  own. The visible entrance already ran in the static hero that ships inside
+  index.html (see hero-boot.html and hero-boot.css markers in vite.config.ts),
+  which paints from the markup instead of waiting for this bundle. By the time
+  React gets here the cascade is over, so animating again would replay it a
+  second late. Styles live in Hero.css, which the build inlines into <head> so
+  both copies of the hero are laid out by the exact same rules.
+*/
 
-  return (
-    <div className="stat-item" ref={ref}>
-      <span className="stat-number">{value}</span>
-      <span className="stat-label">{label}</span>
-    </div>
-  );
+const useBootHeroHandover = () => {
+  useEffect(() => {
+    const boot = document.getElementById('hero-boot');
+    if (!boot) return;
+
+    // Two heroes are on the page for a moment. Only one should be reachable.
+    boot.setAttribute('aria-hidden', 'true');
+    boot.setAttribute('inert', '');
+
+    const info = window.__heroBoot;
+    const elapsed = info ? performance.now() - info.t0 : Number.POSITIVE_INFINITY;
+    const remaining = Math.max(0, (info?.settleMs ?? 0) - elapsed);
+
+    const timer = window.setTimeout(() => boot.remove(), remaining);
+    return () => window.clearTimeout(timer);
+  }, []);
 };
+
+const StatItem = ({ number, label }: { number: string; label: string }) => (
+  <div className="stat-item">
+    <span className="stat-number">{number}</span>
+    <span className="stat-label">{label}</span>
+  </div>
+);
 
 export const Hero = () => {
   const { t } = useLanguage();
+  useBootHeroHandover();
 
   const scrollToContact = () => {
     const form = document.getElementById('contact-form');
@@ -34,73 +59,33 @@ export const Hero = () => {
 
   return (
     <section id="home" className="hero">
-      {/* Video Background */}
       <div className="hero-video-wrapper">
-        <video
-          className="hero-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="https://images.pexels.com/videos/11554614/pexels-photo-11554614.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=720&w=1280"
-        >
-          <source
-            src="https://videos.pexels.com/video-files/11554614/11554614-hd_1280_720_24fps.mp4"
-            type="video/mp4"
-          />
-        </video>
-        <div className="hero-overlay"></div>
+        <HeroVideo />
       </div>
+      <div className="hero-overlay"></div>
 
       <div className="hero-container">
         <div className="hero-content">
-          <motion.div
-            className="hero-eyebrow"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-          >
+          <div className="hero-eyebrow">
             <span className="eyebrow-line"></span>
             <span>{t.hero.eyebrow}</span>
             <span className="eyebrow-line"></span>
-          </motion.div>
+          </div>
 
-          <motion.h1
-            className="hero-title"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
+          <h1 className="hero-title">
             {t.hero.title.line1}
             <br />
             <span className="title-light">{t.hero.title.line2}</span>
             <br />
             {t.hero.title.line3}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            className="hero-subtitle"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-          >
-            {t.hero.subtitle}
-          </motion.p>
+          <p className="hero-subtitle">{t.hero.subtitle}</p>
 
-          <motion.div
-            className="hero-cta"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.8 }}
-          >
-            <motion.button
-              className="cta-primary"
-              onClick={scrollToContact}
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
+          <div className="hero-cta">
+            <button className="cta-primary" onClick={scrollToContact}>
               {t.hero.cta.primary}
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path
                   d="M4 10H16M16 10L11 5M16 10L11 15"
                   stroke="currentColor"
@@ -109,23 +94,13 @@ export const Hero = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </motion.button>
-            <motion.button
-              className="cta-ghost"
-              onClick={scrollToServices}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
+            </button>
+            <button className="cta-ghost" onClick={scrollToServices}>
               {t.hero.cta.secondary}
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
 
-          <motion.div
-            className="hero-stats"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4, duration: 1 }}
-          >
+          <div className="hero-stats">
             <StatItem
               number={t.hero.stats.properties.number}
               label={t.hero.stats.properties.label}
@@ -140,401 +115,13 @@ export const Hero = () => {
               number={t.hero.stats.experience.number}
               label={t.hero.stats.experience.label}
             />
-          </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="scroll-indicator"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-      >
+      <div className="scroll-indicator" aria-hidden="true">
         <div className="scroll-line"></div>
-      </motion.div>
-
-      <style>{`
-        .hero {
-          position: relative;
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          background: #0a0a0a;
-        }
-
-        .hero-video-wrapper {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-        }
-
-        .hero-video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .hero-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.35) 0%,
-            rgba(0, 0, 0, 0.55) 50%,
-            rgba(0, 0, 0, 0.65) 100%
-          );
-        }
-
-        .hero-container {
-          position: relative;
-          z-index: 1;
-          max-width: 1100px;
-          margin: 0 auto;
-          padding: 0 var(--space-lg);
-          text-align: center;
-        }
-
-        .hero-content {
-          max-width: 780px;
-          margin: 0 auto;
-        }
-
-        /* Eyebrow */
-        .hero-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 1rem;
-          font-family: var(--font-body);
-          font-size: 0.8rem;
-          font-weight: 400;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.6);
-          margin-bottom: 1.5rem;
-        }
-
-        .eyebrow-line {
-          display: block;
-          width: 32px;
-          height: 1px;
-          background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Title */
-        .hero-title {
-          font-family: var(--font-display);
-          font-size: clamp(2.4rem, 5vw, 3.6rem);
-          font-weight: 600;
-          line-height: 1.18;
-          color: #ffffff;
-          margin-bottom: 1.2rem;
-          letter-spacing: -0.025em;
-        }
-
-        .title-light {
-          font-weight: 300;
-          color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Subtitle */
-        .hero-subtitle {
-          font-family: var(--font-body);
-          font-size: clamp(0.95rem, 1.6vw, 1.05rem);
-          font-weight: 300;
-          line-height: 1.65;
-          color: rgba(255, 255, 255, 0.6);
-          margin-bottom: 2rem;
-          letter-spacing: 0.01em;
-        }
-
-        .desktop-br {
-          display: block;
-        }
-
-        /* CTAs */
-        .hero-cta {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          align-items: center;
-          margin-bottom: 3rem;
-        }
-
-        .cta-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.6rem;
-          padding: 0.85rem 2rem;
-          font-family: var(--font-body);
-          font-size: 0.9rem;
-          font-weight: 500;
-          color: #0d0d0d;
-          background: #ffffff;
-          border: none;
-          border-radius: var(--radius-full);
-          cursor: pointer;
-          transition: all var(--transition-base);
-          letter-spacing: 0.01em;
-        }
-
-        .cta-primary:hover {
-          box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
-        }
-
-        .cta-ghost {
-          display: inline-flex;
-          align-items: center;
-          padding: 0.85rem 1.8rem;
-          font-family: var(--font-body);
-          font-size: 0.9rem;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.8);
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.25);
-          border-radius: var(--radius-full);
-          cursor: pointer;
-          transition: all var(--transition-base);
-          letter-spacing: 0.01em;
-        }
-
-        .cta-ghost:hover {
-          border-color: rgba(255, 255, 255, 0.5);
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.06);
-        }
-
-        /* Stats */
-        .hero-stats {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 2rem;
-          padding-top: 1.8rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-item {
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-
-        .stat-number {
-          font-family: var(--font-display);
-          font-size: 1.5rem;
-          font-weight: 600;
-          color: #ffffff;
-          letter-spacing: -0.02em;
-        }
-
-        .stat-label {
-          font-family: var(--font-body);
-          font-size: 0.72rem;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.45);
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-        }
-
-        .stat-divider {
-          width: 1px;
-          height: 36px;
-          background: rgba(255, 255, 255, 0.12);
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-          position: absolute;
-          bottom: 2rem;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 1;
-        }
-
-        .scroll-line {
-          width: 1px;
-          height: 48px;
-          background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-          animation: scrollPulse 2.5s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-          0%, 100% { opacity: 0.2; transform: scaleY(0.5); transform-origin: top; }
-          50% { opacity: 0.8; transform: scaleY(1); transform-origin: top; }
-        }
-
-        @media (max-width: 768px) {
-          .hero {
-            min-height: 100svh; /* Use svh for better mobile support */
-            padding-top: 60px; /* Reduced padding for better spacing */
-          }
-
-          .hero-container {
-            padding: 0 var(--space-md);
-          }
-
-          .hero-content {
-            padding: 0;
-          }
-
-          .hero-eyebrow {
-            font-size: 0.7rem;
-            gap: 0.6rem;
-            margin-bottom: 1.2rem;
-          }
-
-          .eyebrow-line {
-            width: 20px;
-          }
-
-          .hero-title {
-            font-size: 1.85rem;
-            line-height: 1.25;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-          }
-
-          .hero-subtitle {
-            font-size: 0.875rem;
-            line-height: 1.55;
-            margin-bottom: 1.5rem;
-            padding: 0;
-          }
-
-          .desktop-br {
-            display: none;
-          }
-
-          .hero-cta {
-            flex-direction: column;
-            gap: 0.7rem;
-            margin-bottom: 1.8rem;
-          }
-
-          .cta-primary,
-          .cta-ghost {
-            width: 100%;
-            justify-content: center;
-            min-height: 48px; /* Better touch target */
-            padding: 0.9rem 1.8rem;
-            font-size: 0.875rem;
-          }
-
-          .hero-stats {
-            gap: 1.5rem;
-            padding-top: 1.5rem;
-            flex-wrap: nowrap;
-          }
-
-          .stat-item {
-            min-width: 75px;
-          }
-
-          .stat-number {
-            font-size: 1.35rem;
-          }
-
-          .stat-label {
-            font-size: 0.65rem;
-            line-height: 1.3;
-          }
-
-          .stat-divider {
-            height: 30px;
-          }
-
-          .scroll-indicator {
-            bottom: 1.2rem;
-          }
-        }
-
-        /* Extra small devices (320px - 375px) */
-        @media (max-width: 375px) {
-          .hero {
-            padding-top: 55px;
-          }
-
-          .hero-container {
-            padding: 0 var(--space-sm);
-          }
-
-          .hero-eyebrow {
-            font-size: 0.65rem;
-            margin-bottom: 1rem;
-            gap: 0.5rem;
-          }
-
-          .eyebrow-line {
-            width: 16px;
-          }
-
-          .hero-title {
-            font-size: 1.65rem;
-            line-height: 1.25;
-            margin-bottom: 0.9rem;
-          }
-
-          .hero-subtitle {
-            font-size: 0.85rem;
-            line-height: 1.55;
-            margin-bottom: 1.3rem;
-          }
-
-          .hero-cta {
-            gap: 0.65rem;
-            margin-bottom: 1.5rem;
-          }
-
-          .cta-primary,
-          .cta-ghost {
-            min-height: 48px;
-            font-size: 0.85rem;
-            padding: 0.85rem 1.5rem;
-          }
-
-          .hero-stats {
-            gap: 1.2rem;
-            padding-top: 1.3rem;
-            justify-content: center;
-          }
-
-          .stat-item {
-            flex: 0 0 auto;
-            text-align: center;
-            min-width: 70px;
-          }
-
-          .stat-number {
-            font-size: 1.15rem;
-          }
-
-          .stat-label {
-            font-size: 0.6rem;
-            line-height: 1.3;
-          }
-
-          .stat-divider {
-            display: none;
-          }
-
-          .scroll-indicator {
-            bottom: 1rem;
-          }
-
-          .scroll-line {
-            height: 40px;
-          }
-        }
-      `}</style>
+      </div>
     </section>
   );
 };

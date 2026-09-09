@@ -1,3 +1,5 @@
+import heroCopy from './hero.json';
+
 export type Language = 'en' | 'es' | 'pt';
 
 export const translations = {
@@ -12,33 +14,7 @@ export const translations = {
     },
 
     // Hero Section
-    hero: {
-      eyebrow: 'Property Management in Paraguay',
-      title: {
-        line1: 'How much could your property',
-        line2: 'be generating right now?',
-        line3: 'We take care of everything.',
-      },
-      subtitle: '100% comprehensive Airbnb and Booking.com management with proven results in +100 properties in Paraguay',
-      cta: {
-        primary: 'Get Started',
-        secondary: 'Discover our services',
-      },
-      stats: {
-        properties: {
-          number: '+100',
-          label: 'Properties managed',
-        },
-        support: {
-          number: '24/7',
-          label: 'Guest support',
-        },
-        experience: {
-          number: '+9',
-          label: 'Years of experience',
-        },
-      },
-    },
+    hero: heroCopy.en,
 
     // Why Choose Us
     whyChooseUs: {
@@ -307,33 +283,7 @@ export const translations = {
     },
 
     // Hero Section
-    hero: {
-      eyebrow: 'Gestión de propiedades en Paraguay',
-      title: {
-        line1: '¿Cuánto podría generar',
-        line2: 'tu propiedad hoy?',
-        line3: 'Nosotros lo manejamos todo.',
-      },
-      subtitle: 'Gestión 100% integral de Airbnb y Booking.com con resultados probados en +100 propiedades en Paraguay',
-      cta: {
-        primary: 'Empezá ahora',
-        secondary: 'Conocé nuestros servicios',
-      },
-      stats: {
-        properties: {
-          number: '+100',
-          label: 'Propiedades gestionadas',
-        },
-        support: {
-          number: '24/7',
-          label: 'Atención a huéspedes',
-        },
-        experience: {
-          number: '+9',
-          label: 'Años de experiencia',
-        },
-      },
-    },
+    hero: heroCopy.es,
 
     // Why Choose Us
     whyChooseUs: {
@@ -602,33 +552,7 @@ export const translations = {
     },
 
     // Hero Section
-    hero: {
-      eyebrow: 'Gestão de propriedades no Paraguai',
-      title: {
-        line1: 'Quanto poderia gerar',
-        line2: 'sua propriedade hoje?',
-        line3: 'Cuidamos de tudo.',
-      },
-      subtitle: 'Gestão 100% integral do Airbnb e Booking.com com resultados comprovados em +100 propriedades no Paraguai',
-      cta: {
-        primary: 'Comece agora',
-        secondary: 'Conheça nossos serviços',
-      },
-      stats: {
-        properties: {
-          number: '+100',
-          label: 'Propriedades gerenciadas',
-        },
-        support: {
-          number: '24/7',
-          label: 'Atendimento aos hóspedes',
-        },
-        experience: {
-          number: '+9',
-          label: 'Anos de experiência',
-        },
-      },
-    },
+    hero: heroCopy.pt,
 
     // Why Choose Us
     whyChooseUs: {

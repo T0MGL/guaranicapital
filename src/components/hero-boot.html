@@ -1,0 +1,68 @@
+<!--
+  Static hero shipped inside index.html so the headline paints from the HTML
+  instead of waiting on the JS bundle. Copy is baked in Spanish, the primary
+  market, and swapped in place by the inline boot script for en and pt before
+  first paint. Class names are identical to the React hero, which renders the
+  same resting state underneath, so removing this layer is visually a no-op.
+
+  Injected at the @hero-boot marker by the guarani-hero-critical Vite plugin.
+-->
+<div id="hero-boot">
+  <section class="hero hero-enter">
+    <div class="hero-video-wrapper"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span data-hb="eyebrow">Gestión de propiedades en Paraguay</span>
+          <span class="eyebrow-line"></span>
+        </div>
+
+        <h1 class="hero-title">
+          <span data-hb="line1">¿Cuánto podría generar</span>
+          <br />
+          <span class="title-light" data-hb="line2">tu propiedad hoy?</span>
+          <br />
+          <span data-hb="line3">Nosotros lo manejamos todo.</span>
+        </h1>
+
+        <p class="hero-subtitle" data-hb="subtitle">
+          Gestión 100% integral de Airbnb y Booking.com con resultados probados en +100 propiedades en Paraguay
+        </p>
+
+        <div class="hero-cta">
+          <a class="cta-primary" href="#contact-form" data-hb="ctaPrimary">
+            Empezá ahora
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="cta-ghost" href="#services" data-hb="ctaSecondary">Conocé nuestros servicios</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number" data-hb-stat="properties">+100</span>
+            <span class="stat-label" data-hb="statPropertiesLabel">Propiedades gestionadas</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" data-hb-stat="support">24/7</span>
+            <span class="stat-label" data-hb="statSupportLabel">Atención a huéspedes</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" data-hb-stat="experience">+9</span>
+            <span class="stat-label" data-hb="statExperienceLabel">Años de experiencia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+</div>

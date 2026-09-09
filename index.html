@@ -41,12 +41,18 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Everything the first viewport needs is on this origin and requested up
+         front. The hero paints from the markup below, not from the bundle. -->
+    <link rel="preload" as="image" href="/hero/hero-poster.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin />
+
+    <!--@hero-critical-css-->
   </head>
   <body>
+    <!--@hero-boot-->
     <div id="root"></div>
+    <!--@hero-boot-script-->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
