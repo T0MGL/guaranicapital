@@ -1,8 +1,26 @@
 {
     "rewrites": [
+        { "source": "/en", "destination": "/en/index.html" },
+        { "source": "/en/:path*", "destination": "/en/index.html" },
+        { "source": "/pt", "destination": "/pt/index.html" },
+        { "source": "/pt/:path*", "destination": "/pt/index.html" },
         {
             "source": "/((?!api/).*)",
             "destination": "/index.html"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/crm",
+            "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+        },
+        {
+            "source": "/en/crm",
+            "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+        },
+        {
+            "source": "/pt/crm",
+            "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
         }
     ]
 }

@@ -1,0 +1,89 @@
+/* Design tokens. Imported by global.css and inlined into <head> by the
+   guarani-hero-critical Vite plugin so the hero paints without waiting for
+   the CSS bundle. Single source of truth: edit here only. */
+
+:root {
+  /* Guaraní Capital Brand Colors - Minimalista */
+  --color-primary: #2C3E50;        /* Azul gris oscuro principal */
+  --color-primary-dark: #1a252f;   /* Azul gris más oscuro */
+  --color-secondary: #34495E;      /* Azul gris medio */
+  --color-accent: #D4AF37;         /* Dorado sutil para acentos */
+  --color-success: #27ae60;        /* Verde sobrio */
+  --color-alert: #e74c3c;          /* Rojo sobrio */
+  --color-base-white: #ffffff;
+  --color-base-dark: #1a1a1a;
+
+  /* Extended Palette - Tonos Neutros */
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #ecf0f1;
+  --color-gray-200: #bdc3c7;
+  --color-gray-300: #95a5a6;
+  --color-gray-600: #7f8c8d;
+  --color-gray-700: #34495e;
+  --color-gray-900: #2c3e50;
+
+  /* Functional Colors */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a5568;
+  --color-text-tertiary: #718096;
+  --color-border: #e2e8f0;
+  --color-border-focus: var(--color-primary);
+
+  /* Neutral Colors */
+  --color-neutral-dark: #1a252f;
+  --color-neutral-light: #f8f9fa;
+
+  /* Typography */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing Scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.12);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Entrance easing. Stronger than the built-in ease-out so the hero cascade
+     reads as intentional rather than as a browser default. */
+  --ease-entrance: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Extra small devices. This lives here rather than in global.css because the
+   hero is laid out from the inlined copy of this file: leaving the override in
+   the bundle would paint the first viewport at the wrong spacing and reflow it
+   once the stylesheet landed. */
+@media (max-width: 375px) {
+  :root {
+    /* Adjust spacing scale for very small screens */
+    --space-xs: 0.375rem;
+    --space-sm: 0.75rem;
+    --space-md: 1.25rem;
+    --space-lg: 1.75rem;
+    --space-xl: 2.5rem;
+    --space-2xl: 3.5rem;
+    --space-3xl: 5rem;
+  }
+}

@@ -1,51 +1,45 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { translations, Language } from '../i18n/translations';
+import { createContext, useContext, useMemo, ReactNode } from 'react';
+import { translations } from '../i18n/translations';
+import { DEFAULT_LANGUAGE, isLanguage, type Language } from '../i18n/locales';
+
+/*
+  The language is decided by the URL and baked into the document that URL
+  serves. This provider reads it and hands it down; it never picks one.
+
+  There is deliberately no setter, no localStorage and no navigator.language.
+  Each of those was a second opinion about what language the visitor is
+  reading, and every one of them could win over an explicit /en/ request: a
+  link to the English site opened in Spanish for anyone whose device had ever
+  used the old switcher. The URL is the state, so switching language is a
+  navigation (see LanguageSelector), and the document that comes back is the
+  only thing that decides.
+*/
 
 interface LanguageContextType {
   language: Language;
-  setLanguage: (lang: Language) => void;
   t: typeof translations.en;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const SUPPORTED: Language[] = ['en', 'es', 'pt'];
+/* <html lang> is written by the build, one document per language, so it is
+   readable on the very first client render and cannot disagree with the copy
+   that is already painted. */
+export const documentLanguage = (): Language => {
+  const declared = document.documentElement.lang;
+  return isLanguage(declared) ? declared : DEFAULT_LANGUAGE;
+};
 
-function detectLanguage(): Language {
-  const saved = localStorage.getItem('language');
-  if (saved && SUPPORTED.includes(saved as Language)) {
-    return saved as Language;
-  }
-  // Fall back to browser language on first visit
-  const browserLang = (navigator.language || '').split('-')[0].toLowerCase();
-  if (browserLang === 'es') return 'es';
-  if (browserLang === 'pt') return 'pt';
-  return 'en';
-}
+export const LanguageProvider = ({
+  language,
+  children,
+}: {
+  language: Language;
+  children: ReactNode;
+}) => {
+  const value = useMemo(() => ({ language, t: translations[language] }), [language]);
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>(detectLanguage);
-
-  useEffect(() => {
-    localStorage.setItem('language', language);
-    document.documentElement.lang = language;
-  }, [language]);
-
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-  };
-
-  const value = {
-    language,
-    setLanguage,
-    t: translations[language],
-  };
-
-  return (
-    <LanguageContext.Provider value={value}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };
 
 export const useLanguage = () => {
