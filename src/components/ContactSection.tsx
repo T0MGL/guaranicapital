@@ -44,13 +44,9 @@ export const ContactSection = () => {
                 rel="noopener noreferrer"
               >
                 <picture>
-                  <source media="(max-width: 768px)" srcSet="/map/office-tall.svg" />
-                  {/* alt vacio a proposito: la direccion vive al lado como texto
-                      real, y asi el nombre accesible del enlace queda siendo
-                      exactamente su etiqueta visible. Sin width ni height: los
-                      dos recortes tienen relacion de aspecto distinta y un par
-                      fijo le pondria la equivocada a uno de los dos. La caja la
-                      define el CSS, asi que no hay salto de layout. */}
+                  <source media="(max-width: 400px)" srcSet="/map/office-tall.svg" />
+                  {/* alt vacio: la direccion de al lado es el texto equivalente, y
+                      asi el nombre del enlace es solo su etiqueta visible. */}
                   <img src="/map/office-wide.svg" alt="" loading="lazy" decoding="async" />
                 </picture>
                 <span className="map-open-label">
@@ -67,19 +63,16 @@ export const ContactSection = () => {
                 </span>
               </a>
               {/* Hermano del enlace, no hijo: un interactivo dentro de otro es
-                  markup invalido. La ODbL pide el aviso de procedencia sobre la
-                  obra derivada y las pautas de la OSMF piden esta forma exacta,
-                  visible y con "OpenStreetMap" enlazado al copyright. Queda en
-                  ingles en los tres idiomas porque es la nota de licencia, no
-                  copy de interfaz, y el lang lo marca asi para que un lector de
-                  pantalla no lo pronuncie en castellano o en portugues. */}
+                  markup invalido. Va en ingles en los tres idiomas porque es el
+                  aviso de la ODbL, no copy: no se traduce. */}
               <p className="map-credit" lang="en">
+                {'© '}
                 <a
                   href="https://www.openstreetmap.org/copyright"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  © OpenStreetMap
+                  OpenStreetMap
                 </a>
                 {' contributors'}
               </p>
@@ -142,7 +135,6 @@ export const ContactSection = () => {
           padding: 0 var(--space-lg) var(--space-3xl);
         }
 
-        /* Sin hover: la tarjeta no es un control, y levantarla prometia un clic que no existe. */
         .location-card {
           display: grid;
           grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -207,6 +199,8 @@ export const ContactSection = () => {
           border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
         }
 
+        /* El img no lleva width ni height porque los dos recortes tienen
+           proporcion distinta: la caja la pone .location-map. */
         .map-open img {
           display: block;
           width: 100%;
@@ -221,6 +215,8 @@ export const ContactSection = () => {
           outline-offset: -3px;
         }
 
+        /* Posicion y tamano de la etiqueta y del aviso alimentan CROPS.reserved
+           en scripts/build-office-map.mjs: si cambian, se regenera el plano. */
         .map-open-label {
           position: absolute;
           left: var(--space-md);
@@ -247,6 +243,7 @@ export const ContactSection = () => {
           border-color: var(--color-gray-200);
         }
 
+        /* Tambien alimenta CROPS.reserved, igual que .map-open-label. */
         .map-credit {
           position: absolute;
           right: var(--space-md);
@@ -266,19 +263,19 @@ export const ContactSection = () => {
         }
 
         .map-credit a {
-          /* A cuerpo 11 el texto solo mide 16px de alto y esta apoyado sobre el
-             enlace que cubre todo el plano: errarle por poco abria las
-             indicaciones. El padding lleva el blanco a 24px y el margen
-             negativo lo devuelve, asi la linea no se mueve. */
+          /* Blanco de 24px sin mover la linea: el enlace esta apoyado sobre el
+             que abre las indicaciones, y errarle por poco las abria. */
           display: inline-block;
           padding: 4px 0;
           margin: -4px 0;
           color: inherit;
-          text-decoration: none;
+          text-decoration: underline;
+          text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+          text-underline-offset: 2px;
         }
 
         .map-credit a:hover {
-          text-decoration: underline;
+          text-decoration-color: currentColor;
         }
 
         .map-credit a:focus-visible {
@@ -326,7 +323,9 @@ export const ContactSection = () => {
           }
 
           .location-card {
-            grid-template-columns: 1fr;
+            /* minmax(0) y no 1fr: el minimo auto dejaria que el ancho minimo
+               que el plano hereda de su min-height ensanche la columna. */
+            grid-template-columns: minmax(0, 1fr);
           }
 
           .location-info {
@@ -334,7 +333,13 @@ export const ContactSection = () => {
           }
 
           .location-map {
-            min-height: 260px;
+            /* Proporcion del recorte office-wide. Con el min-height de 340 el
+               plano sigue a la escala de la columna doble hasta que el ancho
+               pide mas alto que eso. */
+            aspect-ratio: 960 / 560;
+            /* Con aspect-ratio el item deja de estirarse a la columna y toma su
+               ancho de su min-height: el ancho va explicito. */
+            width: 100%;
             /* La grilla colapsa a una columna: el corte pasa a ser horizontal. */
             border-left: 0;
             border-top: 1px solid var(--color-border);
@@ -342,6 +347,15 @@ export const ContactSection = () => {
 
           .map-open {
             border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+          }
+        }
+
+        /* Mismo corte y misma proporcion que el recorte office-tall de
+           scripts/build-office-map.mjs: si cambian aca, cambian alla. */
+        @media (max-width: 400px) {
+          .location-map {
+            min-height: 0;
+            aspect-ratio: 460 / 560;
           }
         }
       `}</style>
