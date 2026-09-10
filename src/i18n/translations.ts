@@ -103,7 +103,7 @@ export const translations = {
       who: {
         title: 'Who we are',
         subtitle: 'A reliable team that delivers excellence.',
-        imageAlt: 'Guaraní Capital team walking through a residential building in Asunción',
+        imageAlt: 'The Guaraní Capital team, fourteen people, on a rooftop terrace with the Asunción skyline behind them',
       },
     },
 
@@ -350,7 +350,7 @@ export const translations = {
     contact: {
       locationLabel: 'Our office',
       address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
-      mapTitle: 'Guaraní Capital location on Google Maps',
+      directionsCta: 'Get directions',
     },
 
     // Form
@@ -510,7 +510,7 @@ export const translations = {
       who: {
         title: 'Quiénes somos',
         subtitle: 'Un equipo confiable que brinda excelencia.',
-        imageAlt: 'Equipo de Guaraní Capital recorriendo un edificio residencial en Asunción',
+        imageAlt: 'El equipo de Guaraní Capital, catorce personas, en una terraza con el skyline de Asunción de fondo',
       },
     },
 
@@ -758,7 +758,7 @@ export const translations = {
     contact: {
       locationLabel: 'Nuestra oficina',
       address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
-      mapTitle: 'Ubicación de Guaraní Capital en Google Maps',
+      directionsCta: 'Cómo llegar',
     },
 
     // Form
@@ -917,7 +917,7 @@ export const translations = {
       who: {
         title: 'Quem somos',
         subtitle: 'Uma equipe confiável que entrega excelência.',
-        imageAlt: 'Equipe da Guaraní Capital percorrendo um edifício residencial em Assunção',
+        imageAlt: 'A equipe da Guaraní Capital, catorze pessoas, em um terraço com o skyline de Assunção ao fundo',
       },
     },
 
@@ -1165,7 +1165,7 @@ export const translations = {
     contact: {
       locationLabel: 'Nosso escritório',
       address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
-      mapTitle: 'Localização da Guaraní Capital no Google Maps',
+      directionsCta: 'Como chegar',
     },
 
     // Form

@@ -75,13 +75,19 @@ export const TeamSection = () => {
           animate={whoInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
+          {/* sizes sale del layout real: .team-who tope 1120px, y debajo de eso
+              el ancho util es el viewport menos el padding lateral de
+              .team-section (--space-lg, --space-md bajo 640px, y el valor
+              reducido de --space-md bajo 375px que fija tokens.css). */}
           <img
-            src="/team/equipo.webp"
+            src="/team/equipo-1280.webp"
+            srcSet="/team/equipo-768.webp 768w, /team/equipo-1280.webp 1280w, /team/equipo-1920.webp 1920w"
+            sizes="(min-width: 1184px) 1120px, (min-width: 641px) calc(100vw - 4rem), (min-width: 376px) calc(100vw - 3rem), calc(100vw - 2.5rem)"
             alt={t.team.who.imageAlt}
             className="team-who-image"
             loading="lazy"
             width={1920}
-            height={1072}
+            height={1080}
           />
           <figcaption className="team-who-copy">
             <p className="team-who-title">{t.team.who.title}</p>
@@ -206,39 +212,33 @@ export const TeamSection = () => {
           max-width: 56ch;
         }
 
-        /* Who we are */
+        /* Who we are. Misma superficie que .founders-block, gray-50 con borde,
+           para que el bloque no invente un tratamiento propio en la seccion. */
         .team-who {
-          position: relative;
           margin: 0 auto;
           max-width: 1120px;
           border-radius: var(--radius-lg);
           overflow: hidden;
-          background: var(--color-gray-100);
+          background: var(--color-gray-50);
+          border: 1px solid var(--color-border);
         }
 
+        /* El archivo esta autorado en 16:9 exacto, asi que cover no recorta a
+           nadie del grupo en ningun breakpoint. */
         .team-who-image {
           width: 100%;
           height: auto;
-          aspect-ratio: 16 / 8;
+          aspect-ratio: 16 / 9;
           object-fit: cover;
           display: block;
-          transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .team-who:hover .team-who-image {
-          transform: scale(1.03);
-        }
-
+        /* Banda solida bajo la foto, no overlay: los pies del equipo llegan al
+           borde inferior del encuadre y el degradado caia sobre ellos. Ademas
+           el contraste deja de depender de los pixeles de la foto. */
         .team-who-copy {
-          position: absolute;
-          inset: auto 0 0 0;
-          padding: clamp(1.5rem, 4vw, 2.75rem);
-          background: linear-gradient(
-            to top,
-            rgba(15, 20, 25, 0.72) 0%,
-            rgba(15, 20, 25, 0.35) 55%,
-            transparent 100%
-          );
+          padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 4vw, 2.75rem);
+          border-top: 1px solid var(--color-border);
         }
 
         .team-who-title {
@@ -247,7 +247,7 @@ export const TeamSection = () => {
           font-weight: 600;
           letter-spacing: -0.02em;
           line-height: 1.15;
-          color: #ffffff;
+          color: var(--color-text-primary);
           margin: 0 0 6px;
         }
 
@@ -256,8 +256,18 @@ export const TeamSection = () => {
           font-size: clamp(0.9375rem, 1.6vw, 1.125rem);
           font-weight: 400;
           line-height: 1.5;
-          color: rgba(255, 255, 255, 0.85);
+          color: var(--color-text-secondary);
           margin: 0;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .team-who-image {
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          }
+
+          .team-who:hover .team-who-image {
+            transform: scale(1.03);
+          }
         }
 
         @media (max-width: 900px) {
@@ -271,10 +281,6 @@ export const TeamSection = () => {
             max-width: 400px;
             width: 100%;
             margin: 0 auto;
-          }
-
-          .team-who-image {
-            aspect-ratio: 4 / 3;
           }
         }
 
@@ -294,10 +300,6 @@ export const TeamSection = () => {
 
           .founders-photo-wrapper {
             max-width: 100%;
-          }
-
-          .team-who-image {
-            aspect-ratio: 3 / 4;
           }
         }
       `}</style>

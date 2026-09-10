@@ -15,6 +15,7 @@ import { readFile, stat } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { extname, join, normalize, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { gzipSync } from 'node:zlib'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const dist = resolve(root, process.argv[2] ?? 'dist')
@@ -31,6 +32,7 @@ const CONTENT_TYPES = {
   '.json': 'application/json',
   '.mp4': 'video/mp4',
   '.png': 'image/png',
+  '.svg': 'image/svg+xml',
   '.txt': 'text/plain; charset=utf-8',
   '.webm': 'video/webm',
   '.webmanifest': 'application/manifest+json',
@@ -58,6 +60,17 @@ const headerRules = (config.headers ?? []).map((rule) => ({
   matches: toRegExp(rule.source),
   headers: rule.headers,
 }))
+
+const COMPRESSIBLE = new Set(['.css', '.html', '.js', '.json', '.svg', '.txt', '.webmanifest', '.xml'])
+
+// `gzip;q=0` is an explicit refusal, not an offer, so the weight has to be read.
+const acceptsGzip = (header = '') =>
+  header.split(',').some((part) => {
+    const [coding, ...params] = part.trim().split(';')
+    if (coding.trim().toLowerCase() !== 'gzip') return false
+    const q = params.map((param) => param.trim()).find((param) => param.startsWith('q='))
+    return q === undefined || Number(q.slice(2)) > 0
+  })
 
 const readFileFor = async (pathname) => {
   const target = join(dist, normalize(pathname))
@@ -99,6 +112,19 @@ createServer(async (req, res) => {
   }
 
   res.setHeader('Content-Type', CONTENT_TYPES[extname(file.target)] ?? 'application/octet-stream')
+
+  /* Vercel compresses text before sending it. Serving it raw here would make
+     every size measured off the network the size of the file on disk, not the
+     size of the transfer, which is the number that matters for an SVG. */
+  if (COMPRESSIBLE.has(extname(file.target))) {
+    res.setHeader('Vary', 'Accept-Encoding')
+    if (acceptsGzip(req.headers['accept-encoding'])) {
+      res.setHeader('Content-Encoding', 'gzip')
+      res.writeHead(200).end(gzipSync(file.body))
+      return
+    }
+  }
+
   res.writeHead(200).end(file.body)
 // Loopback only. This is a verification harness, not something to publish to
 // whatever network the machine happens to be on.

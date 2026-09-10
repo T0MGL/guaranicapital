@@ -1,12 +1,11 @@
 import { GuaraniForm } from './GuaraniForm';
 import { useLanguage } from '../context/LanguageContext';
 
-// Embed por query: no requiere API key y geocodifica a la oficina real (-25.27796, -57.56659).
-const MAP_EMBED_URL =
-  'https://www.google.com/maps?q=Cecilio+Da+Silva+Lovera+1257,+Asunci%C3%B3n,+Paraguay&output=embed&z=16';
-
-const MAP_LINK_URL =
-  'https://www.google.com/maps/search/?api=1&query=Cecilio+Da+Silva+Lovera+1257,+Asunci%C3%B3n,+Paraguay';
+/* Lo que el visitante quiere de este bloque es llegar, no mirar un mapa: el
+   plano ya esta en la tarjeta, asi que el unico control abre las indicaciones
+   con la oficina puesta como destino. */
+const DIRECTIONS_URL =
+  'https://www.google.com/maps/dir/?api=1&destination=Cecilio+Da+Silva+Lovera+1257%2C+Asunci%C3%B3n%2C+Paraguay';
 
 export const ContactSection = () => {
   const { t } = useLanguage();
@@ -33,32 +32,50 @@ export const ContactSection = () => {
             <div className="location-info">
               <p className="location-label">{t.contact.locationLabel}</p>
               <p className="location-address">{t.contact.address}</p>
-              <a
-                href={MAP_LINK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="location-link"
-              >
-                Google Maps
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M7 17L17 7M17 7H7M17 7v10"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
             </div>
             <div className="location-map">
-              <iframe
-                src={MAP_EMBED_URL}
-                title={t.contact.mapTitle}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
+              {/* El plano lo dibuja scripts/build-office-map.mjs sobre datos de
+                  OpenStreetMap y viaja versionado como SVG, asi que la seccion
+                  no le pide un byte a un tercero. */}
+              <a
+                className="map-open"
+                href={DIRECTIONS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <picture>
+                  <source media="(max-width: 400px)" srcSet="/map/office-tall.svg" />
+                  {/* alt vacio: la direccion de al lado es el texto equivalente, y
+                      asi el nombre del enlace es solo su etiqueta visible. */}
+                  <img src="/map/office-wide.svg" alt="" loading="lazy" decoding="async" />
+                </picture>
+                <span className="map-open-label">
+                  {t.contact.directionsCta}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path
+                      d="M7 17L17 7M17 7H7M17 7v10"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </a>
+              {/* Hermano del enlace, no hijo: un interactivo dentro de otro es
+                  markup invalido. Va en ingles en los tres idiomas porque es el
+                  aviso de la ODbL, no copy: no se traduce. */}
+              <p className="map-credit" lang="en">
+                {'© '}
+                <a
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OpenStreetMap
+                </a>
+                {' contributors'}
+              </p>
             </div>
           </div>
         </div>
@@ -126,12 +143,6 @@ export const ContactSection = () => {
           background: rgba(255, 255, 255, 0.94);
           overflow: hidden;
           box-shadow: var(--shadow-md);
-          transition: transform 200ms ease-out, box-shadow 200ms ease-out;
-        }
-
-        .location-card:hover {
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-lg);
         }
 
         .location-info {
@@ -163,46 +174,147 @@ export const ContactSection = () => {
           max-width: 20ch;
         }
 
-        .location-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          margin-top: 8px;
-          font-family: var(--font-body);
-          font-size: 0.9375rem;
-          font-weight: 500;
-          color: var(--color-primary);
-          text-decoration: none;
-          transition: color var(--transition-base);
-          width: fit-content;
-        }
-
-        .location-link svg {
-          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .location-link:hover {
-          color: var(--color-primary-dark);
-        }
-
-        .location-link:hover svg {
-          transform: translate(2px, -2px);
-        }
-
-        .location-link:focus-visible {
-          outline: 2px solid var(--color-primary-dark);
-          outline-offset: 3px;
-        }
-
         .location-map {
+          position: relative;
           min-height: 340px;
+          /* Que la etiqueta y el aviso choquen depende del ancho del plano, no
+             del de la ventana: en desktop el plano es poco mas de la mitad de
+             la tarjeta. Por eso el umbral se consulta contra este contenedor. */
+          container-type: inline-size;
+          container-name: map;
+          /* El plano trae tierra propia (#e9ecf0), asi que la tarjeta deja de
+             ser blanco sobre blanco y el corte entre las dos mitades pide una
+             linea de pelo. */
+          border-left: 1px solid var(--color-border);
         }
 
-        .location-map iframe {
+        .map-open {
+          position: absolute;
+          inset: 0;
+          display: block;
+          overflow: hidden;
+          /* Las esquinas de la tarjeta que le tocan al plano. Sin esto el anillo
+             de foco es un rectangulo y la tarjeta, que recorta, se come sus
+             puntas. */
+          border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        }
+
+        /* El img no lleva width ni height porque los dos recortes tienen
+           proporcion distinta: la caja la pone .location-map. */
+        .map-open img {
           display: block;
           width: 100%;
           height: 100%;
-          border: 0;
+          object-fit: cover;
+        }
+
+        .map-open:focus-visible {
+          /* Hacia adentro: el enlace va al ras del borde de la tarjeta, que
+             recorta con overflow hidden lo que se dibuje por fuera. */
+          outline: 2px solid var(--color-primary-dark);
+          outline-offset: -3px;
+        }
+
+        /* Posicion y tamano de la etiqueta y del aviso alimentan CROPS.reserved
+           en scripts/build-office-map.mjs: si cambian, se regenera el plano. */
+        .map-open-label {
+          position: absolute;
+          left: var(--space-md);
+          bottom: var(--space-md);
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 0.5rem 0.9375rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-full);
+          background: var(--color-base-white);
+          box-shadow: var(--shadow-md);
+          font-family: var(--font-body);
+          font-size: 0.9375rem;
+          font-weight: 500;
+          white-space: nowrap;
+          color: var(--color-primary);
+          transition: color 200ms ease, border-color 200ms ease;
+        }
+
+        .map-open:hover .map-open-label,
+        .map-open:focus-visible .map-open-label {
+          color: var(--color-primary-dark);
+          border-color: var(--color-gray-200);
+        }
+
+        /* Tambien alimenta CROPS.reserved, igual que .map-open-label. */
+        .map-credit {
+          position: absolute;
+          right: var(--space-md);
+          bottom: var(--space-md);
+          /* Por encima del enlace, que ocupa el plano entero: debajo, el aviso
+             seria texto muerto y su enlace no se podria pulsar. */
+          z-index: 2;
+          margin: 0;
+          padding: 2px 7px;
+          border-radius: var(--radius-sm);
+          background: rgba(255, 255, 255, 0.82);
+          font-family: var(--font-body);
+          font-size: 0.6875rem;
+          line-height: 1.5;
+          white-space: nowrap;
+          color: var(--color-text-secondary);
+        }
+
+        .map-credit a {
+          /* Blanco de 24px sin mover la linea: el enlace esta apoyado sobre el
+             que abre las indicaciones, y errarle por poco las abria. */
+          display: inline-block;
+          padding: 4px 0;
+          margin: -4px 0;
+          color: inherit;
+          text-decoration: underline;
+          text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+          text-underline-offset: 2px;
+        }
+
+        .map-credit a:hover {
+          text-decoration-color: currentColor;
+        }
+
+        .map-credit a:focus-visible {
+          outline: 2px solid var(--color-primary-dark);
+          outline-offset: 2px;
+          border-radius: 2px;
+        }
+
+        /* Debajo de este ancho las dos piezas no entran en la misma linea, asi
+           que la etiqueta sube una fila. El umbral sale de medir la peor
+           combinacion: la etiqueta inglesa contra el aviso completo. */
+        @container map (max-width: 440px) {
+          .map-open-label {
+            bottom: calc(var(--space-md) + 1.875rem);
+          }
+        }
+
+        /* Solo el desplazamiento entra aca. El cambio de color y de borde queda
+           afuera: con movimiento reducido la etiqueta responde igual. */
+        @media (prefers-reduced-motion: no-preference) {
+          .map-open-label {
+            transition: color 200ms ease, border-color 200ms ease,
+              transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1);
+          }
+
+          .map-open:focus-visible .map-open-label {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+          }
+        }
+
+        /* En tactil el hover queda pegado despues del tap: el visitante vuelve
+           de la pestana de indicaciones y la etiqueta sigue levantada. */
+        @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+          .map-open:hover .map-open-label {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+          }
         }
 
         @media (max-width: 768px) {
@@ -211,7 +323,9 @@ export const ContactSection = () => {
           }
 
           .location-card {
-            grid-template-columns: 1fr;
+            /* minmax(0) y no 1fr: el minimo auto dejaria que el ancho minimo
+               que el plano hereda de su min-height ensanche la columna. */
+            grid-template-columns: minmax(0, 1fr);
           }
 
           .location-info {
@@ -219,7 +333,29 @@ export const ContactSection = () => {
           }
 
           .location-map {
-            min-height: 260px;
+            /* Proporcion del recorte office-wide. Con el min-height de 340 el
+               plano sigue a la escala de la columna doble hasta que el ancho
+               pide mas alto que eso. */
+            aspect-ratio: 960 / 560;
+            /* Con aspect-ratio el item deja de estirarse a la columna y toma su
+               ancho de su min-height: el ancho va explicito. */
+            width: 100%;
+            /* La grilla colapsa a una columna: el corte pasa a ser horizontal. */
+            border-left: 0;
+            border-top: 1px solid var(--color-border);
+          }
+
+          .map-open {
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+          }
+        }
+
+        /* Mismo corte y misma proporcion que el recorte office-tall de
+           scripts/build-office-map.mjs: si cambian aca, cambian alla. */
+        @media (max-width: 400px) {
+          .location-map {
+            min-height: 0;
+            aspect-ratio: 460 / 560;
           }
         }
       `}</style>
