@@ -142,6 +142,7 @@ export const ContactSection = () => {
           padding: 0 var(--space-lg) var(--space-3xl);
         }
 
+        /* Sin hover: la tarjeta no es un control, y levantarla prometia un clic que no existe. */
         .location-card {
           display: grid;
           grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -150,12 +151,6 @@ export const ContactSection = () => {
           background: rgba(255, 255, 255, 0.94);
           overflow: hidden;
           box-shadow: var(--shadow-md);
-          transition: transform 200ms ease-out, box-shadow 200ms ease-out;
-        }
-
-        .location-card:hover {
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-lg);
         }
 
         .location-info {
