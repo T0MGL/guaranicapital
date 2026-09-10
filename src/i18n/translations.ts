@@ -103,7 +103,7 @@ export const translations = {
       who: {
         title: 'Who we are',
         subtitle: 'A reliable team that delivers excellence.',
-        imageAlt: 'Guaraní Capital team walking through a residential building in Asunción',
+        imageAlt: 'The Guaraní Capital team, fourteen people, on the office rooftop terrace with the Asunción skyline behind them',
       },
     },
 
@@ -512,7 +512,7 @@ export const translations = {
       who: {
         title: 'Quiénes somos',
         subtitle: 'Un equipo confiable que brinda excelencia.',
-        imageAlt: 'Equipo de Guaraní Capital recorriendo un edificio residencial en Asunción',
+        imageAlt: 'El equipo de Guaraní Capital, catorce personas, en la terraza de la oficina con el skyline de Asunción de fondo',
       },
     },
 
@@ -921,7 +921,7 @@ export const translations = {
       who: {
         title: 'Quem somos',
         subtitle: 'Uma equipe confiável que entrega excelência.',
-        imageAlt: 'Equipe da Guaraní Capital percorrendo um edifício residencial em Assunção',
+        imageAlt: 'A equipe da Guaraní Capital, catorze pessoas, no terraço do escritório com o skyline de Assunção ao fundo',
       },
     },
 
