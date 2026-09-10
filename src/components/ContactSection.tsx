@@ -113,7 +113,10 @@ export const ContactSection = () => {
                     {/* El realce cuelga por debajo del centro del plato porque
                         el bloque de texto tambien: el pin ocupa la parte de
                         arriba. Centrado y redondo dejaba la linea de ayuda
-                        sobre la avenida de x=21. */}
+                        sobre la avenida de x=21. La meseta hasta el 65% cubre
+                        las dos lineas de texto enteras antes de empezar a caer:
+                        sacar ese stop arranca el degradado en el centro y le
+                        saca el fondo a la linea de ayuda. */}
                     <radialGradient id="mapFacadePlanFade">
                       <stop offset="0" stopColor="#ffffff" stopOpacity="0.97" />
                       <stop offset="0.65" stopColor="#ffffff" stopOpacity="0.95" />
