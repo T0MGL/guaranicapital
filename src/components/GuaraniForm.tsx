@@ -7,10 +7,21 @@ import { useFormState } from '../context/FormStateContext';
 import { useLanguage } from '../context/LanguageContext';
 import { createLead } from '../lib/api';
 import { scrollToSection } from '../hooks/useLenis';
-import type { LeadType, FormStep as FormStepType } from '../types';
+import { INVESTMENT_BUDGETS } from '../types';
+import type {
+  FormChoice,
+  InvestmentBudget,
+  LeadType,
+  FormStep as FormStepType,
+} from '../types';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[\d\s+()-]+$/;
+
+// Every choice step except budget stores the visitor's translated label, so the same
+// answer in two languages reaches the CRM as two different strings. Known, reported.
+const translatedChoices = (labels: readonly string[]): FormChoice[] =>
+  labels.map((label) => ({ value: label, label }));
 
 export const GuaraniForm = () => {
   const { formState, setFormState } = useFormState();
@@ -20,6 +31,14 @@ export const GuaraniForm = () => {
   const formContainerRef = useRef<HTMLDivElement>(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, string>>({});
+
+  // Budget is the one answer the sheet groups on, so the visitor's language picks
+  // the label while the stored value stays the canonical Spanish one. Annotating the
+  // lookup is what forces every locale to carry a label for each canonical value.
+  const budgetLabels: Record<InvestmentBudget, string> = f.investment.budget.options;
+  const budgetChoices: readonly FormChoice<InvestmentBudget>[] = INVESTMENT_BUDGETS.map(
+    (value) => ({ value, label: budgetLabels[value] })
+  );
 
   const investmentSteps: FormStepType[] = [
     {
@@ -60,14 +79,14 @@ export const GuaraniForm = () => {
       question: f.investment.budget.question,
       type: 'choice',
       required: true,
-      options: f.investment.budget.options,
+      options: budgetChoices,
     },
     {
       id: 'timeframe',
       question: f.investment.timeframe.question,
       type: 'choice',
       required: true,
-      options: f.investment.timeframe.options,
+      options: translatedChoices(f.investment.timeframe.options),
     },
     {
       id: 'rentalType',
@@ -75,7 +94,7 @@ export const GuaraniForm = () => {
       subtitle: f.investment.rentalType.subtitle,
       type: 'choice',
       required: false,
-      options: f.investment.rentalType.options,
+      options: translatedChoices(f.investment.rentalType.options),
     },
   ];
 
@@ -118,28 +137,28 @@ export const GuaraniForm = () => {
       question: f.management.propertyType.question,
       type: 'choice',
       required: true,
-      options: f.management.propertyType.options,
+      options: translatedChoices(f.management.propertyType.options),
     },
     {
       id: 'furnished',
       question: f.management.furnished.question,
       type: 'choice',
       required: true,
-      options: f.management.furnished.options,
+      options: translatedChoices(f.management.furnished.options),
     },
     {
       id: 'published',
       question: f.management.published.question,
       type: 'choice',
       required: true,
-      options: f.management.published.options,
+      options: translatedChoices(f.management.published.options),
     },
     {
       id: 'startDate',
       question: f.management.startDate.question,
       type: 'choice',
       required: true,
-      options: f.management.startDate.options,
+      options: translatedChoices(f.management.startDate.options),
     },
     {
       id: 'photosLink',
@@ -188,7 +207,7 @@ export const GuaraniForm = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Show success immediately — don't block UX on API response
+    // Show success immediately, don't block UX on API response
     setFormState('success');
 
     // Capture current data before any state reset

@@ -78,9 +78,9 @@ export const meta: Record<Language, LanguageMeta> = {
     ogLocale: 'es_PY',
     title: 'Guaraní Capital · Gestión profesional de Airbnb en Paraguay',
     description:
-      'Gestión integral de Airbnb y Booking.com en Paraguay. Soporte 24/7 y +100 propiedades activas en Asunción. Convertí tu propiedad en ingreso pasivo sin tener que hacer nada.',
+      'Gestión integral de Airbnb en Paraguay. Soporte 24/7 y +100 propiedades activas en Asunción. Convertí tu propiedad en ingreso pasivo sin tener que hacer nada.',
     twitterDescription:
-      'Gestión integral de Airbnb y Booking.com en Paraguay. Soporte 24/7 y +100 propiedades activas en Asunción.',
+      'Gestión integral de Airbnb en Paraguay. Soporte 24/7 y +100 propiedades activas en Asunción.',
     imageAlt: 'Departamento en Asunción gestionado por Guaraní Capital en Airbnb',
   },
   en: {
@@ -88,9 +88,9 @@ export const meta: Record<Language, LanguageMeta> = {
     ogLocale: 'en_US',
     title: 'Guaraní Capital · Airbnb Property Management in Paraguay',
     description:
-      'Full service Airbnb and Booking.com management in Paraguay. 24/7 guest support and 100+ active listings in Asunción. Turn your apartment into passive income without lifting a finger.',
+      'Full service Airbnb management in Paraguay. 24/7 guest support and 100+ active listings in Asunción. Turn your apartment into passive income without lifting a finger.',
     twitterDescription:
-      'Full service Airbnb and Booking.com management in Paraguay. 24/7 guest support and 100+ active listings in Asunción.',
+      'Full service Airbnb management in Paraguay. 24/7 guest support and 100+ active listings in Asunción.',
     imageAlt: 'Apartment in Asunción managed by Guaraní Capital on Airbnb',
   },
   pt: {
@@ -98,9 +98,9 @@ export const meta: Record<Language, LanguageMeta> = {
     ogLocale: 'pt_BR',
     title: 'Guaraní Capital · Gestão de Airbnb no Paraguai',
     description:
-      'Gestão completa de Airbnb e Booking.com no Paraguai. Atendimento 24/7 e mais de 100 imóveis ativos em Assunção. Seu imóvel virando renda passiva sem você precisar fazer nada.',
+      'Gestão completa de Airbnb no Paraguai. Atendimento 24/7 e mais de 100 imóveis ativos em Assunção. Seu imóvel virando renda passiva sem você precisar fazer nada.',
     twitterDescription:
-      'Gestão completa de Airbnb e Booking.com no Paraguai. Atendimento 24/7 e mais de 100 imóveis ativos em Assunção.',
+      'Gestão completa de Airbnb no Paraguai. Atendimento 24/7 e mais de 100 imóveis ativos em Assunção.',
     imageAlt: 'Apartamento em Assunção gerenciado pela Guaraní Capital no Airbnb',
   },
 };

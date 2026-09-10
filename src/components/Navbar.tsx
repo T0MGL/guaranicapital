@@ -34,6 +34,7 @@ export const Navbar = () => {
     { label: t.navbar.about, id: 'about' },
     { label: t.navbar.services, id: 'services' },
     { label: t.navbar.team, id: 'team' },
+    { label: t.navbar.faq, id: 'faq' },
     { label: t.navbar.contact, id: 'contact' },
   ];
 
@@ -190,7 +191,7 @@ export const Navbar = () => {
 
         .navbar-menu.desktop {
           display: none;
-          gap: var(--space-lg);
+          gap: var(--space-sm);
         }
 
         .nav-link {
@@ -205,6 +206,8 @@ export const Navbar = () => {
           padding: 0;
           letter-spacing: 0.03em;
           text-transform: uppercase;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .nav-link:hover {
@@ -318,6 +321,18 @@ export const Navbar = () => {
 
           .mobile-language-selector {
             display: none;
+          }
+        }
+
+        @media (min-width: 900px) {
+          .navbar-menu.desktop {
+            gap: var(--space-md);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .navbar-menu.desktop {
+            gap: var(--space-lg);
           }
         }
 

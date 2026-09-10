@@ -14,6 +14,7 @@ export const translations = {
       about: 'About',
       services: 'Services',
       team: 'Team',
+      faq: 'FAQ',
       contact: 'Contact',
       language: 'Language',
     },
@@ -117,12 +118,12 @@ export const translations = {
       items: {
         setup: {
           title: 'Your Property Ready to Earn in 7 Days',
-          description: 'Professional photography, optimized listings, multi-platform setup, and revenue-focused pricing strategy from day one.',
+          description: 'Professional photography, an optimized listing published on Airbnb under our Superhost account, and revenue-focused pricing strategy from day one.',
           features: [
             'HD photo session',
             'Professional copywriting',
             'SEO optimization',
-            'Channel configuration',
+            'Airbnb listing setup',
           ],
         },
         operations: {
@@ -146,7 +147,7 @@ export const translations = {
           ],
         },
         furnishing: {
-          title: 'From Empty Apartment to Booking Success in 2 Weeks',
+          title: 'From Empty Apartment to Confirmed Bookings in 2 Weeks',
           description: 'We furnish and design your property with a style proven to maximize occupancy and command premium rates in the market.',
           features: [
             'Interior design',
@@ -205,7 +206,7 @@ export const translations = {
       readMore: 'Read full article',
       articles: [
         { description: "Standard & Poor's grants Paraguay its second Investment Grade, raising the rating to BBB- for its monetary credibility and inflation control." },
-        { description: "The real estate sector represents 12% of Paraguay's GDP with returns of 5–8%, projecting US$ 1.9 billion in transactions for 2025." },
+        { description: "The real estate sector represents 12% of Paraguay's GDP with returns of 5% to 8%, projecting US$ 1.9 billion in transactions for 2025." },
         { description: 'The rise of foreigners in Paraguay: what real estate solutions are they seeking? Investment opportunities in premium furnished apartments.' },
       ],
       advisory: {
@@ -215,6 +216,134 @@ export const translations = {
         ctaText: 'Write to us today and we will advise you on the best investment opportunities in Asunción.',
         button: 'Write to us today',
       },
+    },
+
+    // Conditions
+    conditions: {
+      label: 'Terms',
+      title: {
+        line1: 'What we charge,',
+        line2: 'and what we do not.',
+      },
+      subtitle: 'Our fee and the onboarding charge, on the page, before you talk to anyone.',
+      terms: {
+        commission: {
+          amount: '15%',
+          basis: 'of the net billing of each confirmed reservation',
+          detail:
+            'It comes out of your monthly settlement. No separate management invoice ever reaches you.',
+        },
+        setup: {
+          amount: 'USD 150',
+          basis: 'onboarding, paid once',
+          detail: 'Paid before the unit goes live, and it covers what it takes to publish it:',
+          includes: [
+            'Initial deep clean',
+            'Preparing the property for listing',
+            'Inventory of furniture and equipment',
+            'Professional photography',
+          ],
+        },
+      },
+      notes: [
+        {
+          title: 'Recurring cleaning is never billed to you',
+          body:
+            'Cleaning between stays is paid by the guest. None of it lands on your settlement.',
+        },
+        {
+          title: 'A Superhost account, with access for you',
+          body:
+            'Your unit is published on our Superhost account, and we can enable co-host access so you see bookings, calendar and reviews whenever you like.',
+        },
+        {
+          title: 'Furnishing is quoted separately',
+          body:
+            'If the unit has to be furnished from scratch, that is its own service, priced after our architect measures the unit. It is never folded into the two charges above.',
+        },
+      ],
+    },
+
+    // FAQ
+    faq: {
+      label: 'Frequently asked questions',
+      title: {
+        line1: 'How we work,',
+        line2: 'no fine print',
+      },
+      subtitle: 'Fees, settlements, contract, and day-to-day operation. Straight answers to what owners ask us most.',
+      items: [
+        {
+          question: 'What does the management service include?',
+          answer:
+            'We handle property promotion, booking management, guest communication, platform management, cleaning coordination, quality control, and follow-up before, during, and after each stay.',
+        },
+        {
+          question: 'Which platform do you list my property on?',
+          answer:
+            'We work exclusively through Airbnb, under our Superhost-status account. When it makes commercial sense, we may also use other digital platforms or our own contact network.',
+        },
+        {
+          question: 'Is the Airbnb account under my name?',
+          answer:
+            "The listing is uploaded to our own Airbnb account (Superhost status), where we manage our entire property portfolio. If you'd like, we can give you co-host access so you can see bookings, calendar, and reviews.",
+        },
+        {
+          question: 'What is your management fee?',
+          answer:
+            "15% of the net billing of each confirmed reservation. It is deducted directly from your monthly settlement, you don't need to pay it separately.",
+        },
+        {
+          question: 'What does that fee cover?',
+          answer:
+            'Listing publication, booking management, guest communication, operational coordination, quality control, the monthly settlement, and restocking basic supplies. It does not include cleaning between stays, which is paid by the guest.',
+        },
+        {
+          question: 'How much does onboarding cost?',
+          answer:
+            'USD 150, paid by the owner. It includes an initial deep clean, preparing the property for listing, an inventory of furniture and equipment, and professional photography.',
+        },
+        {
+          question: 'How does the custom furnishing service work?',
+          answer:
+            "If your unit needs to be furnished from scratch or renovated, we offer a custom furnishing service, separate from onboarding. You let us know you're interested, our architect takes measurements of the unit, and we put together a custom quote based on those measurements and the type of furnishing we know works for short-term rentals (Airbnb-ready). If you approve the quote, you pay 50% upfront to start custom manufacturing; installation takes a few weeks and then it's ready to operate.",
+        },
+        {
+          question: 'How do you set the price for my unit?',
+          answer:
+            'We use dynamic pricing: the rate is constantly adjusted based on demand, season, and occupancy, to ensure the highest possible occupancy. At the start of a listing, the rate is usually lower, to generate the first bookings and reviews.',
+        },
+        {
+          question: 'What occupancy rate can I expect?',
+          answer:
+            'We aim to maximize occupancy for every unit, and we generally achieve rates of around 90%. Actual occupancy depends on location, season, and the condition of the unit, so it can vary case by case.',
+        },
+        {
+          question: 'When and in what currency do I get paid?',
+          answer:
+            "Between the 1st and 5th of the following month (possibly extending to the 10th due to Airbnb's payment processing times). You can choose to be paid in guaraníes or in US dollars (USD).",
+        },
+        {
+          question: 'Will I be able to see my bookings and income in real time?',
+          answer:
+            'Yes. We give you co-host access on Airbnb or access to our owner portal, where you can check bookings, the calendar, income, and financial statements whenever you like.',
+        },
+        {
+          question: 'Can I use my own apartment?',
+          answer:
+            'Yes. You can block dates for personal use directly on the management platform, letting us know with reasonable notice.',
+        },
+        {
+          question: 'How long is the contract, and can I exit early?',
+          answer:
+            "The contract is for one (1) year, automatically renewing. Either party may terminate it at any time with 30 days' notice.",
+        },
+        {
+          question: 'Do you guarantee occupancy or income levels?',
+          answer:
+            "No. Results depend on external factors such as market demand, seasonality, location, and the condition of the property. We work to maximize the performance of every unit, but we don't offer guaranteed figures.",
+        },
+      ],
     },
 
     // Contact
@@ -252,7 +381,15 @@ export const translations = {
         email: { question: "What's your email?", placeholder: 'alex@example.com' },
         phone: { question: "What's your WhatsApp number?", subtitle: 'Include country code', placeholder: '+595 991 899050' },
         country: { question: 'Which country are you contacting us from?', placeholder: 'Paraguay' },
-        budget: { question: "What's your approximate budget?", options: ['USD 30,000–50,000', 'USD 50,000–100,000', 'Over USD 100,000'] },
+        budget: {
+          question: "What's your approximate budget?",
+          // Keyed by the canonical value, never by position. See INVESTMENT_BUDGETS.
+          options: {
+            'USD 30.000 a 50.000': 'USD 30,000 to 50,000',
+            'USD 50.000 a 100.000': 'USD 50,000 to 100,000',
+            'Más de USD 100.000': 'Over USD 100,000',
+          },
+        },
         timeframe: { question: 'When are you thinking of investing?', options: ['Immediately', 'Next 3 months', 'Just evaluating'] },
         rentalType: { question: 'What type of rental are you interested in?', subtitle: 'This field is optional', options: ['Short-term rental (Airbnb/Booking)', "I'm not sure"] },
       },
@@ -284,6 +421,7 @@ export const translations = {
       about: 'Nosotros',
       services: 'Servicios',
       team: 'Equipo',
+      faq: 'FAQ',
       contact: 'Contacto',
       language: 'Idioma',
     },
@@ -387,12 +525,12 @@ export const translations = {
       items: {
         setup: {
           title: 'Tu Propiedad Lista para Generar en 7 Días',
-          description: 'Fotografía profesional, anuncios optimizados, configuración multi-plataforma y estrategia de precios enfocada en ingresos desde el primer día.',
+          description: 'Fotografía profesional, anuncio optimizado y publicado en Airbnb bajo nuestra cuenta Superhost, y estrategia de precios enfocada en ingresos desde el primer día.',
           features: [
             'Sesión fotográfica HD',
             'Copywriting profesional',
             'Optimización SEO',
-            'Configuración de canales',
+            'Publicación en Airbnb',
           ],
         },
         operations: {
@@ -416,7 +554,7 @@ export const translations = {
           ],
         },
         furnishing: {
-          title: 'De Departamento Vacío a Éxito en Booking en 2 Semanas',
+          title: 'De Departamento Vacío a Reservas Confirmadas en 2 Semanas',
           description: 'Amoblamos y diseñamos tu propiedad con un estilo comprobado que maximiza ocupación y permite cobrar tarifas premium en el mercado.',
           features: [
             'Diseño de interiores',
@@ -475,7 +613,7 @@ export const translations = {
       readMore: 'Leer artículo completo',
       articles: [
         { description: "Standard & Poor's otorga a Paraguay su segundo Grado de Inversión, elevando la calificación a BBB- por su credibilidad monetaria y control de inflación." },
-        { description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5-8%, proyectando US$ 1.900 millones en transacciones para 2025.' },
+        { description: 'El sector inmobiliario representa el 12% del PIB paraguayo con retornos del 5% al 8%, proyectando US$ 1.900 millones en transacciones para 2025.' },
         { description: 'El auge de los extranjeros en Paraguay: ¿qué soluciones inmobiliarias buscan? Oportunidades de inversión en apartamentos premium amoblados.' },
       ],
       advisory: {
@@ -485,6 +623,135 @@ export const translations = {
         ctaText: 'Escribinos hoy y te asesoramos sobre las mejores oportunidades de inversión en Asunción.',
         button: 'Escribinos hoy',
       },
+    },
+
+    // Conditions
+    conditions: {
+      label: 'Condiciones',
+      title: {
+        line1: 'Lo que cobramos,',
+        line2: 'y lo que no.',
+      },
+      subtitle: 'La comisión y la puesta en marcha, en la página, antes de que hables con nadie.',
+      terms: {
+        commission: {
+          amount: '15%',
+          basis: 'de la facturación neta de cada reserva confirmada',
+          detail:
+            'Sale de tu liquidación mensual. Nunca te llega una factura aparte por la gestión.',
+        },
+        setup: {
+          amount: 'USD 150',
+          basis: 'de puesta en marcha, una sola vez',
+          detail:
+            'Se paga antes de que la unidad salga publicada, y cubre lo que hace falta para publicarla:',
+          includes: [
+            'Limpieza profunda inicial',
+            'Preparación del inmueble para su publicación',
+            'Inventario de mobiliario y equipamiento',
+            'Fotografía profesional',
+          ],
+        },
+      },
+      notes: [
+        {
+          title: 'La limpieza recurrente no te la facturamos',
+          body:
+            'La limpieza entre estadías la paga el huésped. Nada de eso cae en tu liquidación.',
+        },
+        {
+          title: 'Cuenta Superhost, y acceso para vos',
+          body:
+            'Tu unidad se publica en nuestra cuenta Superhost, y si lo querés te habilitamos el acceso de co-anfitrión para ver reservas, calendario y valoraciones.',
+        },
+        {
+          title: 'El amoblamiento se cotiza aparte',
+          body:
+            'Si la unidad hay que equiparla desde cero, eso es un servicio propio, con presupuesto después de que nuestra arquitecta la mida. Nunca entra dentro de los dos cargos de arriba.',
+        },
+      ],
+    },
+
+    // FAQ
+    faq: {
+      label: 'Preguntas frecuentes',
+      title: {
+        line1: 'Cómo trabajamos,',
+        line2: 'sin letra chica',
+      },
+      subtitle: 'Comisión, liquidaciones, contrato y operación. Las respuestas concretas a lo que más nos preguntan los propietarios.',
+      items: [
+        {
+          question: '¿Qué incluye el servicio de administración?',
+          answer:
+            'Nos encargamos de la promoción del inmueble, la gestión de reservas, la comunicación con huéspedes, la gestión de plataformas, la coordinación de limpieza, el control de calidad y el seguimiento antes, durante y después de cada estadía.',
+        },
+        {
+          question: '¿En qué plataforma publican mi propiedad?',
+          answer:
+            'Trabajamos exclusivamente con Airbnb, bajo nuestra cuenta con estatus Superhost. Si conviene comercialmente, también podemos usar otras plataformas digitales o nuestra propia red de contactos.',
+        },
+        {
+          question: '¿La cuenta de Airbnb queda a mi nombre?',
+          answer:
+            'El listado se carga en nuestra cuenta de Airbnb (Superhost), donde administramos toda nuestra cartera de propiedades. Si querés, te damos acceso como co-anfitrión (co-host) para que puedas ver reservas, calendario y valoraciones.',
+        },
+        {
+          question: '¿Cuál es la comisión de gestión?',
+          answer:
+            '15% sobre la facturación neta de cada reserva confirmada. Se descuenta directamente de tu liquidación mensual, no tenés que pagarla aparte.',
+        },
+        {
+          question: '¿Qué cubre esa comisión?',
+          answer:
+            'Publicación, gestión de reservas, comunicación con huéspedes, coordinación operativa, control de calidad, liquidación mensual y reposición de insumos básicos. No incluye el costo de limpieza entre estadías, que paga el huésped.',
+        },
+        {
+          question: '¿Cuánto cuesta el onboarding?',
+          answer:
+            'USD 150, a cargo del propietario. Incluye limpieza profunda inicial, preparación del inmueble para su publicación, inventario del mobiliario y equipamiento, y fotografía profesional.',
+        },
+        {
+          question: '¿Cómo funciona el servicio de amoblamiento a medida?',
+          answer:
+            'Si tu unidad necesita equiparse desde cero o renovarse, ofrecemos un servicio de amoblamiento a medida, independiente del onboarding. Nos avisás que te interesa, nuestra arquitecta hace las mediciones de la unidad, y armamos un presupuesto a medida según esas mediciones y el tipo de equipamiento que sabemos que funciona para alquiler temporal (listo para Airbnb). Si aprobás el presupuesto, pagás el 50% para arrancar la fabricación a medida en fábrica; la instalación toma algunas semanas y ya queda lista para operar.',
+        },
+        {
+          question: '¿Cómo definen la tarifa de mi unidad?',
+          answer:
+            'Usamos precios dinámicos: la tarifa se ajusta constantemente según la demanda, la temporada y la ocupación, para asegurar la mayor ocupación posible. Al principio del listado suele ser más baja, para generar las primeras reservas y reseñas.',
+        },
+        {
+          question: '¿Cuál es la tasa de ocupación esperada?',
+          answer:
+            'Buscamos maximizar la ocupación de cada unidad, y en general solemos alcanzar tasas de alrededor del 90%. La ocupación real depende de la ubicación, la temporada y las condiciones de la unidad, por lo que puede variar de un caso a otro.',
+        },
+        {
+          question: '¿Cuándo y en qué moneda recibo mi liquidación?',
+          answer:
+            'Entre los días 1 y 5 del mes siguiente (con posible extensión hasta el día 10 por tiempos de acreditación de Airbnb). Podés elegir cobrar en guaraníes o en dólares (USD).',
+        },
+        {
+          question: '¿Voy a poder ver mis reservas e ingresos en tiempo real?',
+          answer:
+            'Sí. Te damos acceso como co-anfitrión en Airbnb o a través de nuestro portal de propietarios, donde podés consultar reservas, calendario, ingresos y estados financieros cuando quieras.',
+        },
+        {
+          question: '¿Puedo usar mi propio departamento?',
+          answer:
+            'Sí. Podés bloquear fechas para uso personal directamente en la plataforma de gestión, avisándonos con anticipación razonable.',
+        },
+        {
+          question: '¿Por cuánto tiempo es el contrato y puedo salir antes?',
+          answer:
+            'El contrato es de un (1) año, con renovación automática. Cualquiera de las partes puede rescindirlo en cualquier momento con 30 días de preaviso.',
+        },
+        {
+          question: '¿Garantizan un nivel de ocupación o ingresos?',
+          answer:
+            'No. Los resultados dependen de factores externos como la demanda del mercado, la estacionalidad, la ubicación y las condiciones del inmueble. Trabajamos para maximizar el rendimiento de cada unidad, pero no ofrecemos cifras garantizadas.',
+        },
+      ],
     },
 
     // Contact
@@ -522,7 +789,14 @@ export const translations = {
         email: { question: '¿Cuál es tu email?', placeholder: 'alex@example.com' },
         phone: { question: '¿Cuál es tu número de WhatsApp?', subtitle: 'Incluí el código de país', placeholder: '+595 991 899050' },
         country: { question: '¿Desde qué país nos contactás?', placeholder: 'Paraguay' },
-        budget: { question: '¿Cuál es tu presupuesto aproximado?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Más de USD 100.000'] },
+        budget: {
+          question: '¿Cuál es tu presupuesto aproximado?',
+          options: {
+            'USD 30.000 a 50.000': 'USD 30.000 a 50.000',
+            'USD 50.000 a 100.000': 'USD 50.000 a 100.000',
+            'Más de USD 100.000': 'Más de USD 100.000',
+          },
+        },
         timeframe: { question: '¿Cuándo estás pensando invertir?', options: ['De inmediato', 'Próximos 3 meses', 'Solo estoy evaluando'] },
         rentalType: { question: '¿Qué tipo de renta te interesa?', subtitle: 'Este campo es opcional', options: ['Renta corta (Airbnb/Booking)', 'No estoy seguro/a'] },
       },
@@ -554,6 +828,7 @@ export const translations = {
       about: 'Sobre',
       services: 'Serviços',
       team: 'Equipe',
+      faq: 'FAQ',
       contact: 'Contato',
       language: 'Idioma',
     },
@@ -657,12 +932,12 @@ export const translations = {
       items: {
         setup: {
           title: 'Sua Propriedade Pronta para Gerar em 7 Dias',
-          description: 'Fotografia profissional, anúncios otimizados, configuração multiplataforma e estratégia de preços focada em receita desde o primeiro dia.',
+          description: 'Fotografia profissional, anúncio otimizado e publicado no Airbnb na nossa conta Superhost, e estratégia de preços focada em receita desde o primeiro dia.',
           features: [
             'Sessão fotográfica HD',
             'Copywriting profissional',
             'Otimização SEO',
-            'Configuração de canais',
+            'Publicação no Airbnb',
           ],
         },
         operations: {
@@ -686,7 +961,7 @@ export const translations = {
           ],
         },
         furnishing: {
-          title: 'De Apartamento Vazio a Sucesso no Booking em 2 Semanas',
+          title: 'De Apartamento Vazio a Reservas Confirmadas em 2 Semanas',
           description: 'Mobiliamos e desenhamos sua propriedade com um estilo comprovado que maximiza a ocupação e permite cobrar tarifas premium no mercado.',
           features: [
             'Design de interiores',
@@ -745,7 +1020,7 @@ export const translations = {
       readMore: 'Ler artigo completo',
       articles: [
         { description: "A Standard & Poor's concede ao Paraguai seu segundo Grau de Investimento, elevando a classificação para BBB- pela credibilidade monetária e controle de inflação." },
-        { description: 'O setor imobiliário representa 12% do PIB paraguaio com retornos de 5-8%, projetando US$ 1,9 bilhão em transações para 2025.' },
+        { description: 'O setor imobiliário representa 12% do PIB paraguaio com retornos de 5% a 8%, projetando US$ 1,9 bilhão em transações para 2025.' },
         { description: 'A ascensão dos estrangeiros no Paraguai: quais soluções imobiliárias eles buscam? Oportunidades de investimento em apartamentos mobiliados premium.' },
       ],
       advisory: {
@@ -755,6 +1030,135 @@ export const translations = {
         ctaText: 'Fale conosco hoje e orientamos você sobre as melhores oportunidades de investimento em Assunção.',
         button: 'Fale conosco hoje',
       },
+    },
+
+    // Conditions
+    conditions: {
+      label: 'Condições',
+      title: {
+        line1: 'O que cobramos,',
+        line2: 'e o que não.',
+      },
+      subtitle: 'A comissão e a implantação, na página, antes de você falar com alguém.',
+      terms: {
+        commission: {
+          amount: '15%',
+          basis: 'do faturamento líquido de cada reserva confirmada',
+          detail:
+            'Sai do seu repasse mensal. Nenhuma fatura à parte pela gestão chega até você.',
+        },
+        setup: {
+          amount: 'USD 150',
+          basis: 'de implantação, uma única vez',
+          detail:
+            'É pago antes de a unidade ir ao ar, e cobre o que é preciso para publicá-la:',
+          includes: [
+            'Limpeza profunda inicial',
+            'Preparação do imóvel para o anúncio',
+            'Inventário do mobiliário e dos equipamentos',
+            'Fotografia profissional',
+          ],
+        },
+      },
+      notes: [
+        {
+          title: 'A limpeza recorrente não é cobrada de você',
+          body:
+            'A limpeza entre estadias é paga pelo hóspede. Nada disso entra no seu repasse.',
+        },
+        {
+          title: 'Conta Superhost, com acesso para você',
+          body:
+            'Sua unidade é publicada na nossa conta Superhost, e se você quiser liberamos o acesso de coanfitrião para ver reservas, calendário e avaliações.',
+        },
+        {
+          title: 'O mobiliário é orçado à parte',
+          body:
+            'Se a unidade precisa ser equipada do zero, isso é um serviço próprio, orçado depois que a nossa arquiteta faz as medições. Nunca entra dentro das duas cobranças acima.',
+        },
+      ],
+    },
+
+    // FAQ
+    faq: {
+      label: 'Perguntas frequentes',
+      title: {
+        line1: 'Como trabalhamos,',
+        line2: 'sem letras miúdas',
+      },
+      subtitle: 'Comissão, repasses, contrato e operação. As respostas concretas ao que os proprietários mais nos perguntam.',
+      items: [
+        {
+          question: 'O que inclui o serviço de administração?',
+          answer:
+            'Cuidamos da divulgação do imóvel, da gestão de reservas, da comunicação com os hóspedes, da gestão das plataformas, da coordenação da limpeza, do controle de qualidade e do acompanhamento antes, durante e depois de cada estadia.',
+        },
+        {
+          question: 'Em qual plataforma vocês anunciam meu imóvel?',
+          answer:
+            'Trabalhamos exclusivamente com o Airbnb, na nossa conta com status de Superhost. Quando fizer sentido comercialmente, também podemos usar outras plataformas digitais ou a nossa própria rede de contatos.',
+        },
+        {
+          question: 'A conta do Airbnb fica no meu nome?',
+          answer:
+            'O anúncio é publicado na nossa conta do Airbnb (status Superhost), onde administramos toda a nossa carteira de imóveis. Se você quiser, damos acesso como coanfitrião (co-host) para que possa ver reservas, calendário e avaliações.',
+        },
+        {
+          question: 'Qual é a comissão de gestão?',
+          answer:
+            '15% sobre o faturamento líquido de cada reserva confirmada. É descontada diretamente do seu repasse mensal, você não precisa pagar à parte.',
+        },
+        {
+          question: 'O que essa comissão cobre?',
+          answer:
+            'Publicação do anúncio, gestão de reservas, comunicação com os hóspedes, coordenação operacional, controle de qualidade, repasse mensal e reposição de insumos básicos. Não inclui o custo da limpeza entre estadias, que é pago pelo hóspede.',
+        },
+        {
+          question: 'Quanto custa o onboarding?',
+          answer:
+            'USD 150, por conta do proprietário. Inclui limpeza profunda inicial, preparação do imóvel para o anúncio, inventário do mobiliário e dos equipamentos, e fotografia profissional.',
+        },
+        {
+          question: 'Como funciona o serviço de mobiliário sob medida?',
+          answer:
+            'Se a sua unidade precisa ser equipada do zero ou renovada, oferecemos um serviço de mobiliário sob medida, independente do onboarding. Você nos avisa que tem interesse, a nossa arquiteta faz as medições da unidade, e montamos um orçamento sob medida conforme essas medições e o tipo de equipamento que sabemos que funciona para aluguel por temporada (pronto para o Airbnb). Se você aprovar o orçamento, paga 50% para iniciar a fabricação sob medida em fábrica; a instalação leva algumas semanas e já fica pronta para operar.',
+        },
+        {
+          question: 'Como vocês definem a diária da minha unidade?',
+          answer:
+            'Usamos preços dinâmicos: a diária é ajustada constantemente conforme a demanda, a temporada e a ocupação, para garantir a maior ocupação possível. No início do anúncio costuma ser mais baixa, para gerar as primeiras reservas e avaliações.',
+        },
+        {
+          question: 'Qual é a taxa de ocupação esperada?',
+          answer:
+            'Buscamos maximizar a ocupação de cada unidade, e em geral costumamos alcançar taxas em torno de 90%. A ocupação real depende da localização, da temporada e das condições da unidade, por isso pode variar de caso a caso.',
+        },
+        {
+          question: 'Quando e em que moeda recebo o meu repasse?',
+          answer:
+            'Entre os dias 1 e 5 do mês seguinte (com possível extensão até o dia 10 por conta dos prazos de crédito do Airbnb). Você pode escolher receber em guaranis ou em dólares (USD).',
+        },
+        {
+          question: 'Vou poder ver minhas reservas e receitas em tempo real?',
+          answer:
+            'Sim. Damos acesso como coanfitrião no Airbnb ou através do nosso portal de proprietários, onde você pode consultar reservas, calendário, receitas e demonstrativos financeiros quando quiser.',
+        },
+        {
+          question: 'Posso usar o meu próprio apartamento?',
+          answer:
+            'Sim. Você pode bloquear datas para uso pessoal diretamente na plataforma de gestão, avisando com antecedência razoável.',
+        },
+        {
+          question: 'Por quanto tempo é o contrato e posso sair antes?',
+          answer:
+            'O contrato é de um (1) ano, com renovação automática. Qualquer uma das partes pode rescindi-lo a qualquer momento com 30 dias de aviso prévio.',
+        },
+        {
+          question: 'Vocês garantem um nível de ocupação ou de receita?',
+          answer:
+            'Não. Os resultados dependem de fatores externos como a demanda do mercado, a sazonalidade, a localização e as condições do imóvel. Trabalhamos para maximizar o desempenho de cada unidade, mas não oferecemos números garantidos.',
+        },
+      ],
     },
 
     // Contact
@@ -792,7 +1196,14 @@ export const translations = {
         email: { question: 'Qual é o seu email?', placeholder: 'alex@example.com' },
         phone: { question: 'Qual é o seu número de WhatsApp?', subtitle: 'Inclua o código do país', placeholder: '+595 991 899050' },
         country: { question: 'De qual país você está nos contatando?', placeholder: 'Paraguai' },
-        budget: { question: 'Qual é o seu orçamento aproximado?', options: ['USD 30.000–50.000', 'USD 50.000–100.000', 'Mais de USD 100.000'] },
+        budget: {
+          question: 'Qual é o seu orçamento aproximado?',
+          options: {
+            'USD 30.000 a 50.000': 'USD 30.000 a 50.000',
+            'USD 50.000 a 100.000': 'USD 50.000 a 100.000',
+            'Más de USD 100.000': 'Mais de USD 100.000',
+          },
+        },
         timeframe: { question: 'Quando você está pensando em investir?', options: ['Imediatamente', 'Próximos 3 meses', 'Só estou avaliando'] },
         rentalType: { question: 'Que tipo de aluguel te interessa?', subtitle: 'Este campo é opcional', options: ['Aluguel de curta temporada (Airbnb/Booking)', 'Não tenho certeza'] },
       },

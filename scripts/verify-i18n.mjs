@@ -31,19 +31,27 @@ const ALTERNATES = [
   `<link rel="alternate" hreflang="x-default" href="${ORIGIN}/" />`,
 ]
 
-/* Two probes each, both from sections that render below the first viewport, so
-   a hero-only prerender would not satisfy them. Spanish and Portuguese differ
-   here by an accent ("tecnología" against "tecnologia"), which is what lets the
-   wrong document fail the check instead of passing on a shared prefix. */
+/* Probes from sections that render below the first viewport, so a hero-only
+   prerender would not satisfy them. Spanish and Portuguese differ here by an
+   accent ("tecnología" against "tecnologia"), which is what lets the wrong
+   document fail the check instead of passing on a shared prefix. The last two
+   in each set are the commission section and the FAQ: both are prose a visitor
+   only ever sees after the bundle runs unless the prerender put them in the
+   response, which is the whole point of publishing the number. */
 const EXPECT = {
   es: {
     url: '/',
     lang: 'es',
     canonical: `${ORIGIN}/`,
     switcherLabel: 'aria-label="Idioma: Español"',
+    firstQuestion: '¿Qué incluye el servicio de administración?',
     probes: [
       'Combinamos tecnología, procesos rigurosos y conocimiento local',
       'Todo lo que necesitás para ganar',
+      'de la facturación neta de cada reserva confirmada',
+      'La limpieza entre estadías la paga el huésped',
+      'El amoblamiento se cotiza aparte',
+      '¿Cuál es la comisión de gestión?',
     ],
   },
   en: {
@@ -51,9 +59,14 @@ const EXPECT = {
     lang: 'en',
     canonical: `${ORIGIN}/en/`,
     switcherLabel: 'aria-label="Language: English"',
+    firstQuestion: 'What does the management service include?',
     probes: [
       'We combine technology, rigorous processes and local knowledge',
       'Everything you need to earn',
+      'of the net billing of each confirmed reservation',
+      'Cleaning between stays is paid by the guest',
+      'Furnishing is quoted separately',
+      'What is your management fee?',
     ],
   },
   pt: {
@@ -61,9 +74,14 @@ const EXPECT = {
     lang: 'pt',
     canonical: `${ORIGIN}/pt/`,
     switcherLabel: 'aria-label="Idioma: Português"',
+    firstQuestion: 'O que inclui o serviço de administração?',
     probes: [
       'Combinamos tecnologia, processos rigorosos e conhecimento local',
       'Tudo o que você precisa para ganhar',
+      'do faturamento líquido de cada reserva confirmada',
+      'A limpeza entre estadias é paga pelo hóspede',
+      'O mobiliário é orçado à parte',
+      'Qual é a comissão de gestão?',
     ],
   },
 }
@@ -99,6 +117,15 @@ const snippet = (html, needle) => {
   if (at === -1) return ''
   return `@${at}: ...${html.slice(Math.max(0, at - 20), at + needle.length + 20).replace(/\s+/g, ' ')}...`
 }
+
+const LD_JSON = /<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g
+
+/* Every FAQ question and answer exists twice in these documents: once in the
+   rendered accordion, once inside the FAQ schema. A probe run against the raw
+   response therefore passes even with the accordion deleted, which is the one
+   failure the probe was added to catch. Content checks run against this copy,
+   schema checks against the original. */
+const withoutStructuredData = (html) => html.replace(LD_JSON, '')
 
 const documentFor = async (url) => {
   try {
@@ -140,14 +167,70 @@ for (const [language, expected] of Object.entries(EXPECT)) {
     html.match(/aria-label="[^"]*"/)?.[0] ?? 'no aria-label',
   )
 
+  const rendered = withoutStructuredData(html)
+
   for (const probe of expected.probes) {
-    check(`${language} body copy in raw HTML`, html.includes(probe), snippet(html, probe) || `"${probe}" missing`)
+    check(
+      `${language} body copy in raw HTML`,
+      rendered.includes(probe),
+      snippet(rendered, probe) || `"${probe}" missing`,
+    )
   }
 
   for (const [other, meta] of Object.entries(EXPECT)) {
     if (other === language) continue
-    const leaked = meta.probes.filter((probe) => html.includes(probe))
+    const leaked = meta.probes.filter((probe) => rendered.includes(probe))
     check(`no ${other} body copy`, leaked.length === 0, leaked.join(' | '))
+  }
+
+  /* The FAQ schema used to be appended to document.head from an effect, which
+     means it existed only for a visitor with a browser and never for the
+     crawler it was written for. Parsing it here, per document, is what makes
+     that regression impossible to reintroduce quietly. */
+  const blocks = [...html.matchAll(LD_JSON)];
+  const faqBlocks = blocks.filter((block) => block[1].includes('"FAQPage"'));
+  check(`exactly one FAQPage block`, faqBlocks.length === 1, `found ${faqBlocks.length}`);
+
+  if (faqBlocks.length === 1) {
+    let schema = null;
+    try {
+      schema = JSON.parse(faqBlocks[0][1]);
+    } catch (error) {
+      check('FAQPage JSON parses', false, error.message);
+    }
+    if (schema) {
+      check('FAQPage JSON parses', true);
+      check(
+        `FAQPage inLanguage is "${expected.lang}"`,
+        schema.inLanguage === expected.lang,
+        `got "${schema.inLanguage}"`,
+      );
+      const questions = (schema.mainEntity ?? []).map((entry) => entry.name);
+      /* Counted off the accordion rather than hardcoded, so the schema and the
+         page cannot drift apart and adding a question does not fail a good
+         build. Zero on either side fails, which is what deleting the accordion
+         looks like. */
+      const onScreen = [...rendered.matchAll(/<span class="faq-question-text">/g)].length;
+      check(
+        'FAQPage has one entry per question on screen',
+        onScreen > 0 && questions.length === onScreen,
+        `schema ${questions.length}, accordion ${onScreen}`,
+      );
+      check(
+        `FAQPage is written in ${language}`,
+        questions[0] === expected.firstQuestion,
+        `got "${questions[0]}"`,
+      );
+      const answers = (schema.mainEntity ?? []).map((entry) => entry.acceptedAnswer?.text ?? '');
+      check(
+        'every FAQPage answer is present and non empty',
+        answers.length === questions.length && answers.every((text) => text.length > 40),
+      );
+      /* The answers are what an answer engine quotes, so they have to be the
+         ones the same document shows on screen, not another language's. */
+      const orphan = questions.filter((question) => !rendered.includes(question));
+      check('every FAQPage question is also in the served copy', orphan.length === 0, orphan.join(' | '));
+    }
   }
 }
 
@@ -157,9 +240,10 @@ for (const { url, language } of DEEP_LINKS) {
   if (html === null) continue
   const declared = html.match(/<html lang="([^"]*)"/)?.[1]
   check(`deep link serves the ${language} document`, declared === language, `html lang "${declared}"`)
+  const rendered = withoutStructuredData(html)
   check(
     `deep link carries ${language} body copy`,
-    EXPECT[language].probes.every((probe) => html.includes(probe)),
+    EXPECT[language].probes.every((probe) => rendered.includes(probe)),
   )
 }
 

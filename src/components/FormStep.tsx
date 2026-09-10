@@ -116,22 +116,22 @@ export const FormStep = ({
             <div className="choice-grid">
               {step.options.map((option) => (
                 <motion.button
-                  key={option}
-                  className={`choice-button ${value === option ? 'active' : ''}`}
+                  key={option.value}
+                  className={`choice-button ${value === option.value ? 'active' : ''}`}
                   onClick={() => {
-                    onChange(option);
+                    onChange(option.value);
                     setTimeout(() => onNext(), 300);
                   }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span className="choice-text">{option}</span>
+                  <span className="choice-text">{option.label}</span>
                   <motion.div
                     className="choice-indicator"
                     initial={false}
                     animate={{
-                      scale: value === option ? 1 : 0,
-                      opacity: value === option ? 1 : 0,
+                      scale: value === option.value ? 1 : 0,
+                      opacity: value === option.value ? 1 : 0,
                     }}
                   />
                 </motion.button>
@@ -147,8 +147,8 @@ export const FormStep = ({
             >
               <option value="">{ui.select}</option>
               {step.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
