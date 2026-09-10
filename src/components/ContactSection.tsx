@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { GuaraniForm } from './GuaraniForm';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -10,6 +11,22 @@ const MAP_LINK_URL =
 
 export const ContactSection = () => {
   const { t } = useLanguage();
+  /* El embed pesa 678 KB en 38 pedidos a seis hosts de Google, medidos en
+     Chrome sobre el build servido. loading="lazy" ya evita cargarlo antes de
+     que la seccion entre en viewport, pero el visitante que baja al formulario
+     lo paga igual sin haber pedido el mapa. Montamos el iframe recien cuando
+     lo activa, asi el que nunca abre el mapa no toca Google. Por eso tampoco
+     hay preconnect ni dns-prefetch: adelantar la conexion en hover anularia
+     justamente lo que esto compra. */
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const mapFrameRef = useRef<HTMLIFrameElement>(null);
+
+  /* El boton se desmonta al activarlo y con el se va el foco del teclado, que
+     volveria al principio del documento. Lo llevamos al mapa recien montado. */
+  useEffect(() => {
+    if (!mapLoaded) return;
+    mapFrameRef.current?.focus();
+  }, [mapLoaded]);
 
   return (
     <section id="contact" className="contact-section">
@@ -52,13 +69,42 @@ export const ContactSection = () => {
               </a>
             </div>
             <div className="location-map">
-              <iframe
-                src={MAP_EMBED_URL}
-                title={t.contact.mapTitle}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
+              {mapLoaded ? (
+                <iframe
+                  ref={mapFrameRef}
+                  src={MAP_EMBED_URL}
+                  title={t.contact.mapTitle}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              ) : (
+                <button
+                  type="button"
+                  data-map-trigger
+                  className="map-facade"
+                  onClick={() => setMapLoaded(true)}
+                >
+                  <span className="map-facade-stack">
+                    <svg
+                      className="map-facade-pin"
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill="currentColor"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M12 2a7 7 0 0 0-7 7c0 5.314 7 12 7 12s7-6.686 7-12a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"
+                      />
+                    </svg>
+                    <span className="map-facade-cta">{t.contact.mapCta}</span>
+                    <span className="map-facade-hint">{t.contact.mapHint}</span>
+                  </span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -203,6 +249,97 @@ export const ContactSection = () => {
           width: 100%;
           height: 100%;
           border: 0;
+        }
+
+        /* Facade del mapa. La trama es una abstraccion propia dibujada en CSS,
+           no una captura del render de Google: la imagen de un mapa ajeno no es
+           nuestra para publicar, y la Static Maps API pide key y facturacion.
+           Las dos avenidas se cruzan abajo a la izquierda, no en el centro: un
+           cruce centrado lee como mira telescopica y ademas parte la linea de
+           ayuda al medio. El realce radial va arriba de todo para que el pin y
+           las dos lineas de texto caigan sobre campo limpio. */
+        .map-facade {
+          --facade-line: var(--color-border);
+          --facade-avenue: var(--color-gray-200);
+
+          display: block;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          border: 0;
+          font: inherit;
+          color: inherit;
+          cursor: pointer;
+          text-align: center;
+          background:
+            radial-gradient(66% 60% at 50% 50%, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 36%, rgba(255, 255, 255, 0) 80%),
+            linear-gradient(var(--facade-avenue), var(--facade-avenue)) 0 79% / 100% 2px no-repeat,
+            linear-gradient(var(--facade-avenue), var(--facade-avenue)) 21% 0 / 2px 100% no-repeat,
+            repeating-linear-gradient(0deg, var(--facade-line) 0 1px, transparent 1px 40px),
+            repeating-linear-gradient(90deg, var(--facade-line) 0 1px, transparent 1px 40px),
+            var(--color-gray-50);
+        }
+
+        .map-facade:hover,
+        .map-facade:focus-visible {
+          --facade-line: var(--color-gray-200);
+          --facade-avenue: var(--color-gray-300);
+        }
+
+        .map-facade:focus-visible {
+          /* Hacia adentro: el boton va al ras del borde de la tarjeta, que
+             recorta con overflow hidden lo que se dibuje por fuera. */
+          outline: 2px solid var(--color-primary-dark);
+          outline-offset: -3px;
+        }
+
+        .map-facade-stack {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          height: 100%;
+          padding: var(--space-lg);
+        }
+
+        .map-facade-pin {
+          color: var(--color-accent);
+        }
+
+        .map-facade-cta {
+          font-family: var(--font-body);
+          font-size: 0.9375rem;
+          font-weight: 500;
+          color: var(--color-primary);
+        }
+
+        .map-facade-hint {
+          font-family: var(--font-body);
+          font-size: 0.8125rem;
+          line-height: 1.5;
+          color: var(--color-text-secondary);
+          /* Da para una sola linea en los tres idiomas: la mas larga es la
+             inglesa con 39 caracteres. Abajo de 320px de ancho corta sola. */
+          max-width: 40ch;
+        }
+
+        /* Con movimiento reducido el hover sigue siendo visible: la trama se
+           refuerza igual, lo unico que se cae es el desplazamiento del pin. */
+        @media (prefers-reduced-motion: no-preference) {
+          .map-facade {
+            transition: background 200ms ease-out;
+          }
+
+          .map-facade-pin {
+            transition: transform 200ms ease-out;
+          }
+
+          .map-facade:hover .map-facade-pin,
+          .map-facade:focus-visible .map-facade-pin {
+            transform: translateY(-2px);
+          }
         }
 
         @media (max-width: 768px) {

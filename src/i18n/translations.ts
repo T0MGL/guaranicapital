@@ -351,6 +351,8 @@ export const translations = {
       locationLabel: 'Our office',
       address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
       mapTitle: 'Guaraní Capital location on Google Maps',
+      mapCta: 'View the map',
+      mapHint: 'Loads from Google Maps when you open it',
     },
 
     // Form
@@ -759,6 +761,8 @@ export const translations = {
       locationLabel: 'Nuestra oficina',
       address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
       mapTitle: 'Ubicación de Guaraní Capital en Google Maps',
+      mapCta: 'Ver el mapa',
+      mapHint: 'Se carga desde Google Maps al abrirlo',
     },
 
     // Form
@@ -1166,6 +1170,8 @@ export const translations = {
       locationLabel: 'Nosso escritório',
       address: 'Cecilio Da Silva Lovera 1257 c, Asunción, Paraguay',
       mapTitle: 'Localização da Guaraní Capital no Google Maps',
+      mapCta: 'Ver o mapa',
+      mapHint: 'Carrega do Google Maps ao abrir',
     },
 
     // Form
