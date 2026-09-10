@@ -15,6 +15,7 @@ import { readFile, stat } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { extname, join, normalize, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { gzipSync } from 'node:zlib'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const dist = resolve(root, process.argv[2] ?? 'dist')
@@ -31,6 +32,7 @@ const CONTENT_TYPES = {
   '.json': 'application/json',
   '.mp4': 'video/mp4',
   '.png': 'image/png',
+  '.svg': 'image/svg+xml',
   '.txt': 'text/plain; charset=utf-8',
   '.webm': 'video/webm',
   '.webmanifest': 'application/manifest+json',
@@ -58,6 +60,8 @@ const headerRules = (config.headers ?? []).map((rule) => ({
   matches: toRegExp(rule.source),
   headers: rule.headers,
 }))
+
+const COMPRESSIBLE = new Set(['.css', '.html', '.js', '.json', '.svg', '.txt', '.webmanifest', '.xml'])
 
 const readFileFor = async (pathname) => {
   const target = join(dist, normalize(pathname))
@@ -99,6 +103,17 @@ createServer(async (req, res) => {
   }
 
   res.setHeader('Content-Type', CONTENT_TYPES[extname(file.target)] ?? 'application/octet-stream')
+
+  /* Vercel comprime texto antes de mandarlo, asi que servirlo en crudo aca
+     miente sobre el peso real de un SVG o de un documento: el numero que se
+     mide en la red seria el del archivo y no el de la transferencia. */
+  if (COMPRESSIBLE.has(extname(file.target)) && /\bgzip\b/.test(req.headers['accept-encoding'] ?? '')) {
+    res.setHeader('Content-Encoding', 'gzip')
+    res.setHeader('Vary', 'Accept-Encoding')
+    res.writeHead(200).end(gzipSync(file.body))
+    return
+  }
+
   res.writeHead(200).end(file.body)
 // Loopback only. This is a verification harness, not something to publish to
 // whatever network the machine happens to be on.

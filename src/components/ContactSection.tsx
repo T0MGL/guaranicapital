@@ -1,32 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
 import { GuaraniForm } from './GuaraniForm';
 import { useLanguage } from '../context/LanguageContext';
 
-// Embed por query: no requiere API key y geocodifica a la oficina real (-25.27796, -57.56659).
-const MAP_EMBED_URL =
-  'https://www.google.com/maps?q=Cecilio+Da+Silva+Lovera+1257,+Asunci%C3%B3n,+Paraguay&output=embed&z=16';
-
-const MAP_LINK_URL =
-  'https://www.google.com/maps/search/?api=1&query=Cecilio+Da+Silva+Lovera+1257,+Asunci%C3%B3n,+Paraguay';
+/* Lo que el visitante quiere de este bloque es llegar, no mirar un mapa: el
+   plano ya esta en la tarjeta, asi que el unico control abre las indicaciones
+   con la oficina puesta como destino. */
+const DIRECTIONS_URL =
+  'https://www.google.com/maps/dir/?api=1&destination=Cecilio+Da+Silva+Lovera+1257%2C+Asunci%C3%B3n%2C+Paraguay';
 
 export const ContactSection = () => {
   const { t } = useLanguage();
-  /* El embed pesa 678 KB en 38 pedidos a seis hosts de Google, medidos en
-     Chrome sobre el build servido. loading="lazy" ya evita cargarlo antes de
-     que la seccion entre en viewport, pero el visitante que baja al formulario
-     lo paga igual sin haber pedido el mapa. Montamos el iframe recien cuando
-     lo activa, asi el que nunca abre el mapa no toca Google. Por eso tampoco
-     hay preconnect ni dns-prefetch: adelantar la conexion en hover anularia
-     justamente lo que esto compra. */
-  const [mapActivated, setMapActivated] = useState(false);
-  const mapFrameRef = useRef<HTMLIFrameElement>(null);
-
-  /* El boton se desmonta al activarlo y con el se va el foco del teclado, que
-     volveria al principio del documento. Lo llevamos al mapa recien montado. */
-  useEffect(() => {
-    if (!mapActivated) return;
-    mapFrameRef.current?.focus();
-  }, [mapActivated]);
 
   return (
     <section id="contact" className="contact-section">
@@ -50,101 +32,57 @@ export const ContactSection = () => {
             <div className="location-info">
               <p className="location-label">{t.contact.locationLabel}</p>
               <p className="location-address">{t.contact.address}</p>
-              <a
-                href={MAP_LINK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="location-link"
-              >
-                Google Maps
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M7 17L17 7M17 7H7M17 7v10"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
             </div>
             <div className="location-map">
-              {mapActivated ? (
-                <iframe
-                  ref={mapFrameRef}
-                  src={MAP_EMBED_URL}
-                  title={t.contact.mapTitle}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-              ) : (
-                <button
-                  type="button"
-                  className="map-facade"
-                  onClick={() => setMapActivated(true)}
-                >
-                  {/* Las calles van irregulares a proposito: una grilla de paso
-                      fijo lee como papel cuadriculado, que es la huella que
-                      esto evita. Las coordenadas son porcentajes del plato. */}
-                  <svg
-                    className="map-facade-plan"
-                    viewBox="0 0 100 100"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <g className="map-facade-plan-line" stroke="currentColor" strokeWidth={1}>
-                      <line x1="8" y1="0" x2="8" y2="100" />
-                      <line x1="39" y1="0" x2="39" y2="100" />
-                      <line x1="47" y1="0" x2="47" y2="100" />
-                      <line x1="64" y1="0" x2="64" y2="100" />
-                      <line x1="81" y1="0" x2="81" y2="100" />
-                      <line x1="92" y1="0" x2="92" y2="100" />
-                      <line x1="0" y1="11" x2="100" y2="11" />
-                      <line x1="0" y1="26" x2="100" y2="26" />
-                      <line x1="0" y1="41" x2="100" y2="41" />
-                      <line x1="0" y1="58" x2="100" y2="58" />
-                    </g>
-                    <g className="map-facade-plan-avenue" stroke="currentColor" strokeWidth={2}>
-                      <line x1="21" y1="0" x2="21" y2="100" />
-                      <line x1="0" y1="79" x2="100" y2="79" />
-                    </g>
-                    {/* El realce cuelga por debajo del centro del plato porque
-                        el bloque de texto tambien: el pin ocupa la parte de
-                        arriba. Centrado y redondo dejaba la linea de ayuda
-                        sobre la avenida de x=21. La meseta hasta el 65% cubre
-                        las dos lineas de texto enteras antes de empezar a caer:
-                        sacar ese stop arranca el degradado en el centro y le
-                        saca el fondo a la linea de ayuda. */}
-                    <radialGradient id="mapFacadePlanFade">
-                      <stop offset="0" stopColor="#ffffff" stopOpacity="0.97" />
-                      <stop offset="0.65" stopColor="#ffffff" stopOpacity="0.95" />
-                      <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-                    </radialGradient>
-                    <ellipse cx="50" cy="56" rx="62" ry="26" fill="url(#mapFacadePlanFade)" />
+              {/* El plano lo dibuja scripts/build-office-map.mjs sobre datos de
+                  OpenStreetMap y viaja versionado como SVG, asi que la seccion
+                  no le pide un byte a un tercero. El embed de Google costaba
+                  678 KB en 38 pedidos a seis hosts. */}
+              <a
+                className="map-open"
+                href={DIRECTIONS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <picture>
+                  <source media="(max-width: 768px)" srcSet="/map/office-tall.svg" />
+                  {/* alt vacio a proposito: la direccion vive al lado como texto
+                      real, y asi el nombre accesible del enlace queda siendo
+                      exactamente su etiqueta visible. Sin width ni height: los
+                      dos recortes tienen relacion de aspecto distinta y un par
+                      fijo le pondria la equivocada a uno de los dos. La caja la
+                      define el CSS, asi que no hay salto de layout. */}
+                  <img src="/map/office-wide.svg" alt="" loading="lazy" decoding="async" />
+                </picture>
+                <span className="map-open-label">
+                  {t.contact.directionsCta}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path
+                      d="M7 17L17 7M17 7H7M17 7v10"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
-                  <span className="map-facade-stack">
-                    <svg
-                      className="map-facade-pin"
-                      width="28"
-                      height="28"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12 2a7 7 0 0 0-7 7c0 5.314 7 12 7 12s7-6.686 7-12a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"
-                      />
-                    </svg>
-                    <span className="map-facade-cta">{t.contact.mapCta}</span>
-                    <span className="map-facade-hint">{t.contact.mapHint}</span>
-                  </span>
-                </button>
-              )}
+                </span>
+              </a>
+              {/* Hermano del enlace, no hijo: un interactivo dentro de otro es
+                  markup invalido. La ODbL pide el aviso de procedencia sobre la
+                  obra derivada y las pautas de la OSMF piden esta forma exacta,
+                  visible y con "OpenStreetMap" enlazado al copyright. Queda en
+                  ingles en los tres idiomas porque es la nota de licencia, no
+                  copy de interfaz. */}
+              <p className="map-credit">
+                <a
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  © OpenStreetMap
+                </a>
+                {' contributors'}
+              </p>
             </div>
           </div>
         </div>
@@ -249,158 +187,122 @@ export const ContactSection = () => {
           max-width: 20ch;
         }
 
-        .location-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          margin-top: 8px;
-          font-family: var(--font-body);
-          font-size: 0.9375rem;
-          font-weight: 500;
-          color: var(--color-primary);
-          text-decoration: none;
-          transition: color var(--transition-base);
-          width: fit-content;
-        }
-
-        .location-link svg {
-          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .location-link:hover {
-          color: var(--color-primary-dark);
-        }
-
-        .location-link:hover svg {
-          transform: translate(2px, -2px);
-        }
-
-        .location-link:focus-visible {
-          outline: 2px solid var(--color-primary-dark);
-          outline-offset: 3px;
-        }
-
         .location-map {
-          min-height: 340px;
-        }
-
-        .location-map iframe {
-          display: block;
-          width: 100%;
-          height: 100%;
-          border: 0;
-        }
-
-        /* Facade del mapa. El plano es una abstraccion propia, no una captura
-           del render de Google: la imagen de un mapa ajeno no es nuestra para
-           publicar, y la Static Maps API pide key y facturacion. Las dos
-           avenidas se cruzan abajo a la izquierda, no en el centro: un cruce
-           centrado lee como mira telescopica y ademas parte la linea de ayuda
-           al medio. El realce radial cierra el svg para que el pin y las dos
-           lineas de texto caigan sobre campo limpio. */
-        .map-facade {
-          --facade-line: var(--color-border);
-          --facade-avenue: var(--color-gray-200);
-
           position: relative;
-          display: block;
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          padding: 0;
-          border: 0;
-          font: inherit;
-          color: inherit;
-          cursor: pointer;
-          text-align: center;
-          background: var(--color-gray-50);
+          min-height: 340px;
+          /* Que la etiqueta y el aviso choquen depende del ancho del plano, no
+             del de la ventana: en desktop el plano es poco mas de la mitad de
+             la tarjeta. Por eso el umbral se consulta contra este contenedor. */
+          container-type: inline-size;
+          container-name: map;
+          /* El plano trae tierra propia (#e9ecf0), asi que la tarjeta deja de
+             ser blanco sobre blanco y el corte entre las dos mitades pide una
+             linea de pelo. */
+          border-left: 1px solid var(--color-border);
         }
 
-        .map-facade-plan {
+        .map-open {
           position: absolute;
           inset: 0;
+          display: block;
+          overflow: hidden;
+        }
+
+        .map-open img {
+          display: block;
           width: 100%;
           height: 100%;
+          object-fit: cover;
         }
 
-        /* preserveAspectRatio none estira los dos ejes por separado, y sin esto
-           el mismo trazo sale con distinto grosor en cada uno. */
-        .map-facade-plan line {
-          vector-effect: non-scaling-stroke;
-        }
-
-        /* El hover sigue moviendo las dos custom properties de siempre: los
-           grupos las leen por currentColor. */
-        .map-facade-plan-line {
-          color: var(--facade-line);
-        }
-
-        .map-facade-plan-avenue {
-          color: var(--facade-avenue);
-        }
-
-        .map-facade:hover,
-        .map-facade:focus-visible {
-          --facade-line: var(--color-gray-200);
-          --facade-avenue: var(--color-gray-300);
-        }
-
-        .map-facade:focus-visible {
-          /* Hacia adentro: el boton va al ras del borde de la tarjeta, que
+        .map-open:focus-visible {
+          /* Hacia adentro: el enlace va al ras del borde de la tarjeta, que
              recorta con overflow hidden lo que se dibuje por fuera. */
           outline: 2px solid var(--color-primary-dark);
           outline-offset: -3px;
         }
 
-        .map-facade-stack {
-          position: relative;
-          display: flex;
-          flex-direction: column;
+        .map-open-label {
+          position: absolute;
+          left: var(--space-md);
+          bottom: var(--space-md);
+          display: inline-flex;
           align-items: center;
-          justify-content: center;
-          gap: 10px;
-          height: 100%;
-          padding: var(--space-lg);
-        }
-
-        .map-facade-pin {
-          color: var(--color-accent);
-        }
-
-        .map-facade-cta {
+          gap: 6px;
+          padding: 0.5rem 0.9375rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-full);
+          background: var(--color-base-white);
+          box-shadow: var(--shadow-md);
           font-family: var(--font-body);
           font-size: 0.9375rem;
           font-weight: 500;
+          white-space: nowrap;
           color: var(--color-primary);
+          transition: color 200ms ease, border-color 200ms ease;
         }
 
-        .map-facade-hint {
+        .map-open:hover .map-open-label,
+        .map-open:focus-visible .map-open-label {
+          color: var(--color-primary-dark);
+          border-color: var(--color-gray-200);
+        }
+
+        .map-credit {
+          position: absolute;
+          right: var(--space-md);
+          bottom: var(--space-md);
+          /* Por encima del enlace, que ocupa el plano entero: debajo, el aviso
+             seria texto muerto y su enlace no se podria pulsar. */
+          z-index: 2;
+          margin: 0;
+          padding: 2px 7px;
+          border-radius: var(--radius-sm);
+          background: rgba(255, 255, 255, 0.82);
           font-family: var(--font-body);
-          font-size: 0.8125rem;
+          font-size: 0.6875rem;
           line-height: 1.5;
+          white-space: nowrap;
           color: var(--color-text-secondary);
-          /* Da para una sola linea en los tres idiomas: la mas larga es la
-             inglesa con 39 caracteres. Abajo de 320px de ancho corta sola. */
-          max-width: 40ch;
         }
 
-        /* Con movimiento reducido el hover sigue siendo visible: la trama se
-           refuerza igual, lo unico que se cae es el desplazamiento del pin. */
+        .map-credit a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        .map-credit a:hover {
+          text-decoration: underline;
+        }
+
+        .map-credit a:focus-visible {
+          outline: 2px solid var(--color-primary-dark);
+          outline-offset: 2px;
+          border-radius: 2px;
+        }
+
+        /* Debajo de este ancho las dos piezas no entran en la misma linea, asi
+           que la etiqueta sube una fila. El umbral sale de medir la peor
+           combinacion: la etiqueta inglesa contra el aviso completo. */
+        @container map (max-width: 440px) {
+          .map-open-label {
+            bottom: calc(var(--space-md) + 1.875rem);
+          }
+        }
+
+        /* Solo el desplazamiento entra aca. El cambio de color y de borde queda
+           afuera: con movimiento reducido la etiqueta responde igual. */
         @media (prefers-reduced-motion: no-preference) {
-          /* Lo que cambia en hover ahora es el color de los dos grupos del
-             plano, no el fondo del boton, asi que la transicion los sigue. */
-          .map-facade-plan-line,
-          .map-facade-plan-avenue {
-            transition: color 200ms ease-out;
+          .map-open-label {
+            transition: color 200ms ease, border-color 200ms ease,
+              transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1);
           }
 
-          .map-facade-pin {
-            transition: transform 200ms ease-out;
-          }
-
-          .map-facade:hover .map-facade-pin,
-          .map-facade:focus-visible .map-facade-pin {
+          .map-open:hover .map-open-label,
+          .map-open:focus-visible .map-open-label {
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
           }
         }
 
@@ -419,6 +321,9 @@ export const ContactSection = () => {
 
           .location-map {
             min-height: 260px;
+            /* La grilla colapsa a una columna: el corte pasa a ser horizontal. */
+            border-left: 0;
+            border-top: 1px solid var(--color-border);
           }
         }
       `}</style>
