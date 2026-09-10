@@ -36,8 +36,7 @@ export const ContactSection = () => {
             <div className="location-map">
               {/* El plano lo dibuja scripts/build-office-map.mjs sobre datos de
                   OpenStreetMap y viaja versionado como SVG, asi que la seccion
-                  no le pide un byte a un tercero. El embed de Google costaba
-                  678 KB en 38 pedidos a seis hosts. */}
+                  no le pide un byte a un tercero. */}
               <a
                 className="map-open"
                 href={DIRECTIONS_URL}
@@ -72,8 +71,9 @@ export const ContactSection = () => {
                   obra derivada y las pautas de la OSMF piden esta forma exacta,
                   visible y con "OpenStreetMap" enlazado al copyright. Queda en
                   ingles en los tres idiomas porque es la nota de licencia, no
-                  copy de interfaz. */}
-              <p className="map-credit">
+                  copy de interfaz, y el lang lo marca asi para que un lector de
+                  pantalla no lo pronuncie en castellano o en portugues. */}
+              <p className="map-credit" lang="en">
                 <a
                   href="https://www.openstreetmap.org/copyright"
                   target="_blank"
@@ -206,6 +206,10 @@ export const ContactSection = () => {
           inset: 0;
           display: block;
           overflow: hidden;
+          /* Las esquinas de la tarjeta que le tocan al plano. Sin esto el anillo
+             de foco es un rectangulo y la tarjeta, que recorta, se come sus
+             puntas. */
+          border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
         }
 
         .map-open img {
@@ -267,6 +271,13 @@ export const ContactSection = () => {
         }
 
         .map-credit a {
+          /* A cuerpo 11 el texto solo mide 16px de alto y esta apoyado sobre el
+             enlace que cubre todo el plano: errarle por poco abria las
+             indicaciones. El padding lleva el blanco a 24px y el margen
+             negativo lo devuelve, asi la linea no se mueve. */
+          display: inline-block;
+          padding: 4px 0;
+          margin: -4px 0;
           color: inherit;
           text-decoration: none;
         }
@@ -299,8 +310,16 @@ export const ContactSection = () => {
               box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1);
           }
 
-          .map-open:hover .map-open-label,
           .map-open:focus-visible .map-open-label {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+          }
+        }
+
+        /* En tactil el hover queda pegado despues del tap: el visitante vuelve
+           de la pestana de indicaciones y la etiqueta sigue levantada. */
+        @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+          .map-open:hover .map-open-label {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
           }
@@ -324,6 +343,10 @@ export const ContactSection = () => {
             /* La grilla colapsa a una columna: el corte pasa a ser horizontal. */
             border-left: 0;
             border-top: 1px solid var(--color-border);
+          }
+
+          .map-open {
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
           }
         }
       `}</style>

@@ -63,6 +63,15 @@ const headerRules = (config.headers ?? []).map((rule) => ({
 
 const COMPRESSIBLE = new Set(['.css', '.html', '.js', '.json', '.svg', '.txt', '.webmanifest', '.xml'])
 
+// `gzip;q=0` is an explicit refusal, not an offer, so the weight has to be read.
+const acceptsGzip = (header = '') =>
+  header.split(',').some((part) => {
+    const [coding, ...params] = part.trim().split(';')
+    if (coding.trim().toLowerCase() !== 'gzip') return false
+    const q = params.map((param) => param.trim()).find((param) => param.startsWith('q='))
+    return q === undefined || Number(q.slice(2)) > 0
+  })
+
 const readFileFor = async (pathname) => {
   const target = join(dist, normalize(pathname))
   if (!target.startsWith(dist)) return null
@@ -104,14 +113,16 @@ createServer(async (req, res) => {
 
   res.setHeader('Content-Type', CONTENT_TYPES[extname(file.target)] ?? 'application/octet-stream')
 
-  /* Vercel comprime texto antes de mandarlo, asi que servirlo en crudo aca
-     miente sobre el peso real de un SVG o de un documento: el numero que se
-     mide en la red seria el del archivo y no el de la transferencia. */
-  if (COMPRESSIBLE.has(extname(file.target)) && /\bgzip\b/.test(req.headers['accept-encoding'] ?? '')) {
-    res.setHeader('Content-Encoding', 'gzip')
+  /* Vercel compresses text before sending it. Serving it raw here would make
+     every size measured off the network the size of the file on disk, not the
+     size of the transfer, which is the number that matters for an SVG. */
+  if (COMPRESSIBLE.has(extname(file.target))) {
     res.setHeader('Vary', 'Accept-Encoding')
-    res.writeHead(200).end(gzipSync(file.body))
-    return
+    if (acceptsGzip(req.headers['accept-encoding'])) {
+      res.setHeader('Content-Encoding', 'gzip')
+      res.writeHead(200).end(gzipSync(file.body))
+      return
+    }
   }
 
   res.writeHead(200).end(file.body)
