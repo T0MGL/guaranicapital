@@ -85,6 +85,43 @@ export const ContactSection = () => {
                   className="map-facade"
                   onClick={() => setMapLoaded(true)}
                 >
+                  {/* Las calles van con posiciones irregulares a proposito: una
+                      grilla de paso fijo lee como papel cuadriculado, que es
+                      justamente la huella que esto evita. El viewBox es
+                      cuadrado y preserveAspectRatio none lo estira al alto real
+                      de la celda, asi que las coordenadas son porcentajes.
+                      vector-effect no se hereda, por eso va linea por linea y
+                      no en el grupo: sin el, ese estiramiento deja los trazos
+                      con distinto grosor en cada eje. */}
+                  <svg
+                    className="map-facade-plan"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <g className="map-facade-plan-line" stroke="currentColor" strokeWidth={1}>
+                      <line x1="8" y1="0" x2="8" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="39" y1="0" x2="39" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="47" y1="0" x2="47" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="64" y1="0" x2="64" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="81" y1="0" x2="81" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="92" y1="0" x2="92" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="11" x2="100" y2="11" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="26" x2="100" y2="26" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="41" x2="100" y2="41" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="58" x2="100" y2="58" vectorEffect="non-scaling-stroke" />
+                    </g>
+                    <g className="map-facade-plan-avenue" stroke="currentColor" strokeWidth={2}>
+                      <line x1="21" y1="0" x2="21" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="0" y1="79" x2="100" y2="79" vectorEffect="non-scaling-stroke" />
+                    </g>
+                    <radialGradient id="mapFacadePlanFade" r="0.75">
+                      <stop offset="0" stopColor="#ffffff" stopOpacity="0.96" />
+                      <stop offset="0.8" stopColor="#ffffff" stopOpacity="0" />
+                    </radialGradient>
+                    <rect width="100" height="100" fill="url(#mapFacadePlanFade)" />
+                  </svg>
                   <span className="map-facade-stack">
                     <svg
                       className="map-facade-pin"
@@ -251,17 +288,18 @@ export const ContactSection = () => {
           border: 0;
         }
 
-        /* Facade del mapa. La trama es una abstraccion propia dibujada en CSS,
-           no una captura del render de Google: la imagen de un mapa ajeno no es
-           nuestra para publicar, y la Static Maps API pide key y facturacion.
-           Las dos avenidas se cruzan abajo a la izquierda, no en el centro: un
-           cruce centrado lee como mira telescopica y ademas parte la linea de
-           ayuda al medio. El realce radial va arriba de todo para que el pin y
-           las dos lineas de texto caigan sobre campo limpio. */
+        /* Facade del mapa. El plano es una abstraccion propia, no una captura
+           del render de Google: la imagen de un mapa ajeno no es nuestra para
+           publicar, y la Static Maps API pide key y facturacion. Las dos
+           avenidas se cruzan abajo a la izquierda, no en el centro: un cruce
+           centrado lee como mira telescopica y ademas parte la linea de ayuda
+           al medio. El realce radial cierra el svg para que el pin y las dos
+           lineas de texto caigan sobre campo limpio. */
         .map-facade {
           --facade-line: var(--color-border);
           --facade-avenue: var(--color-gray-200);
 
+          position: relative;
           display: block;
           width: 100%;
           height: 100%;
@@ -272,13 +310,24 @@ export const ContactSection = () => {
           color: inherit;
           cursor: pointer;
           text-align: center;
-          background:
-            radial-gradient(66% 60% at 50% 50%, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 36%, rgba(255, 255, 255, 0) 80%),
-            linear-gradient(var(--facade-avenue), var(--facade-avenue)) 0 79% / 100% 2px no-repeat,
-            linear-gradient(var(--facade-avenue), var(--facade-avenue)) 21% 0 / 2px 100% no-repeat,
-            repeating-linear-gradient(0deg, var(--facade-line) 0 1px, transparent 1px 40px),
-            repeating-linear-gradient(90deg, var(--facade-line) 0 1px, transparent 1px 40px),
-            var(--color-gray-50);
+          background: var(--color-gray-50);
+        }
+
+        .map-facade-plan {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* El hover sigue moviendo las dos custom properties de siempre: los
+           grupos las leen por currentColor. */
+        .map-facade-plan-line {
+          color: var(--facade-line);
+        }
+
+        .map-facade-plan-avenue {
+          color: var(--facade-avenue);
         }
 
         .map-facade:hover,
@@ -295,6 +344,7 @@ export const ContactSection = () => {
         }
 
         .map-facade-stack {
+          position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -328,8 +378,11 @@ export const ContactSection = () => {
         /* Con movimiento reducido el hover sigue siendo visible: la trama se
            refuerza igual, lo unico que se cae es el desplazamiento del pin. */
         @media (prefers-reduced-motion: no-preference) {
-          .map-facade {
-            transition: background 200ms ease-out;
+          /* Lo que cambia en hover ahora es el color de los dos grupos del
+             plano, no el fondo del boton, asi que la transicion los sigue. */
+          .map-facade-plan-line,
+          .map-facade-plan-avenue {
+            transition: color 200ms ease-out;
           }
 
           .map-facade-pin {
