@@ -116,11 +116,20 @@ export const ContactSection = () => {
                       <line x1="21" y1="0" x2="21" y2="100" vectorEffect="non-scaling-stroke" />
                       <line x1="0" y1="79" x2="100" y2="79" vectorEffect="non-scaling-stroke" />
                     </g>
-                    <radialGradient id="mapFacadePlanFade" r="0.75">
-                      <stop offset="0" stopColor="#ffffff" stopOpacity="0.96" />
-                      <stop offset="0.8" stopColor="#ffffff" stopOpacity="0" />
+                    {/* Elipse, no circulo, y centrada en 56 y no en 50. El
+                        bloque de texto es ancho y bajo, y cuelga por debajo del
+                        centro del plato porque el pin ocupa la parte de arriba:
+                        un realce centrado y redondo deja la linea de ayuda
+                        justo en la caida, cruzando la avenida de x=21. Medido
+                        con el arnes de contraste, eso daba 4,54:1 en mobile con
+                        hover. La meseta al 0,95 hasta el 65% cubre las dos
+                        lineas enteras y recien despues cae. */}
+                    <radialGradient id="mapFacadePlanFade">
+                      <stop offset="0" stopColor="#ffffff" stopOpacity="0.97" />
+                      <stop offset="0.65" stopColor="#ffffff" stopOpacity="0.95" />
+                      <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
                     </radialGradient>
-                    <rect width="100" height="100" fill="url(#mapFacadePlanFade)" />
+                    <ellipse cx="50" cy="56" rx="62" ry="26" fill="url(#mapFacadePlanFade)" />
                   </svg>
                   <span className="map-facade-stack">
                     <svg
