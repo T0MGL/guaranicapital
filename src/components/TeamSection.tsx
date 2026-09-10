@@ -223,9 +223,8 @@ export const TeamSection = () => {
           border: 1px solid var(--color-border);
         }
 
-        /* El archivo esta autorado en 16:9 exacto, asi que cover no recorta en
-           ningun breakpoint. Los antiguos 4/3 y 3/4 amputaban a la gente de las
-           dos puntas del grupo: a 390px de ancho se comian medio equipo. */
+        /* El archivo esta autorado en 16:9 exacto, asi que cover no recorta a
+           nadie del grupo en ningun breakpoint. */
         .team-who-image {
           width: 100%;
           height: auto;

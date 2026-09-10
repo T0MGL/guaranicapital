@@ -18,15 +18,15 @@ export const ContactSection = () => {
      lo activa, asi el que nunca abre el mapa no toca Google. Por eso tampoco
      hay preconnect ni dns-prefetch: adelantar la conexion en hover anularia
      justamente lo que esto compra. */
-  const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapActivated, setMapActivated] = useState(false);
   const mapFrameRef = useRef<HTMLIFrameElement>(null);
 
   /* El boton se desmonta al activarlo y con el se va el foco del teclado, que
      volveria al principio del documento. Lo llevamos al mapa recien montado. */
   useEffect(() => {
-    if (!mapLoaded) return;
+    if (!mapActivated) return;
     mapFrameRef.current?.focus();
-  }, [mapLoaded]);
+  }, [mapActivated]);
 
   return (
     <section id="contact" className="contact-section">
@@ -69,7 +69,7 @@ export const ContactSection = () => {
               </a>
             </div>
             <div className="location-map">
-              {mapLoaded ? (
+              {mapActivated ? (
                 <iframe
                   ref={mapFrameRef}
                   src={MAP_EMBED_URL}
@@ -81,18 +81,12 @@ export const ContactSection = () => {
               ) : (
                 <button
                   type="button"
-                  data-map-trigger
                   className="map-facade"
-                  onClick={() => setMapLoaded(true)}
+                  onClick={() => setMapActivated(true)}
                 >
-                  {/* Las calles van con posiciones irregulares a proposito: una
-                      grilla de paso fijo lee como papel cuadriculado, que es
-                      justamente la huella que esto evita. El viewBox es
-                      cuadrado y preserveAspectRatio none lo estira al alto real
-                      de la celda, asi que las coordenadas son porcentajes.
-                      vector-effect no se hereda, por eso va linea por linea y
-                      no en el grupo: sin el, ese estiramiento deja los trazos
-                      con distinto grosor en cada eje. */}
+                  {/* Las calles van irregulares a proposito: una grilla de paso
+                      fijo lee como papel cuadriculado, que es la huella que
+                      esto evita. Las coordenadas son porcentajes del plato. */}
                   <svg
                     className="map-facade-plan"
                     viewBox="0 0 100 100"
@@ -101,29 +95,25 @@ export const ContactSection = () => {
                     focusable="false"
                   >
                     <g className="map-facade-plan-line" stroke="currentColor" strokeWidth={1}>
-                      <line x1="8" y1="0" x2="8" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="39" y1="0" x2="39" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="47" y1="0" x2="47" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="64" y1="0" x2="64" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="81" y1="0" x2="81" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="92" y1="0" x2="92" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="11" x2="100" y2="11" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="26" x2="100" y2="26" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="41" x2="100" y2="41" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="58" x2="100" y2="58" vectorEffect="non-scaling-stroke" />
+                      <line x1="8" y1="0" x2="8" y2="100" />
+                      <line x1="39" y1="0" x2="39" y2="100" />
+                      <line x1="47" y1="0" x2="47" y2="100" />
+                      <line x1="64" y1="0" x2="64" y2="100" />
+                      <line x1="81" y1="0" x2="81" y2="100" />
+                      <line x1="92" y1="0" x2="92" y2="100" />
+                      <line x1="0" y1="11" x2="100" y2="11" />
+                      <line x1="0" y1="26" x2="100" y2="26" />
+                      <line x1="0" y1="41" x2="100" y2="41" />
+                      <line x1="0" y1="58" x2="100" y2="58" />
                     </g>
                     <g className="map-facade-plan-avenue" stroke="currentColor" strokeWidth={2}>
-                      <line x1="21" y1="0" x2="21" y2="100" vectorEffect="non-scaling-stroke" />
-                      <line x1="0" y1="79" x2="100" y2="79" vectorEffect="non-scaling-stroke" />
+                      <line x1="21" y1="0" x2="21" y2="100" />
+                      <line x1="0" y1="79" x2="100" y2="79" />
                     </g>
-                    {/* Elipse, no circulo, y centrada en 56 y no en 50. El
-                        bloque de texto es ancho y bajo, y cuelga por debajo del
-                        centro del plato porque el pin ocupa la parte de arriba:
-                        un realce centrado y redondo deja la linea de ayuda
-                        justo en la caida, cruzando la avenida de x=21. Medido
-                        con el arnes de contraste, eso daba 4,54:1 en mobile con
-                        hover. La meseta al 0,95 hasta el 65% cubre las dos
-                        lineas enteras y recien despues cae. */}
+                    {/* El realce cuelga por debajo del centro del plato porque
+                        el bloque de texto tambien: el pin ocupa la parte de
+                        arriba. Centrado y redondo dejaba la linea de ayuda
+                        sobre la avenida de x=21. */}
                     <radialGradient id="mapFacadePlanFade">
                       <stop offset="0" stopColor="#ffffff" stopOpacity="0.97" />
                       <stop offset="0.65" stopColor="#ffffff" stopOpacity="0.95" />
@@ -138,6 +128,7 @@ export const ContactSection = () => {
                       height="28"
                       viewBox="0 0 24 24"
                       aria-hidden="true"
+                      focusable="false"
                     >
                       <path
                         fill="currentColor"
@@ -327,6 +318,12 @@ export const ContactSection = () => {
           inset: 0;
           width: 100%;
           height: 100%;
+        }
+
+        /* preserveAspectRatio none estira los dos ejes por separado, y sin esto
+           el mismo trazo sale con distinto grosor en cada uno. */
+        .map-facade-plan line {
+          vector-effect: non-scaling-stroke;
         }
 
         /* El hover sigue moviendo las dos custom properties de siempre: los
