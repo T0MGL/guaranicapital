@@ -247,11 +247,6 @@ export const translations = {
       },
       notes: [
         {
-          title: 'Recurring cleaning is never billed to you',
-          body:
-            'Cleaning between stays is paid by the guest. None of it lands on your settlement.',
-        },
-        {
           title: 'A Superhost account, with access for you',
           body:
             'Your unit is published on our Superhost account, and we can enable co-host access so you see bookings, calendar and reviews whenever you like.',
@@ -296,7 +291,7 @@ export const translations = {
         {
           question: 'What does that fee cover?',
           answer:
-            'Listing publication, booking management, guest communication, operational coordination, quality control, the monthly settlement, and restocking basic supplies. It does not include cleaning between stays, which is paid by the guest.',
+            'Listing publication, booking management, guest communication, operational coordination, quality control, the monthly settlement, and restocking basic supplies. It does not include cleaning between stays.',
         },
         {
           question: 'How much does onboarding cost?',
@@ -655,11 +650,6 @@ export const translations = {
       },
       notes: [
         {
-          title: 'La limpieza recurrente no te la facturamos',
-          body:
-            'La limpieza entre estadías la paga el huésped. Nada de eso cae en tu liquidación.',
-        },
-        {
           title: 'Cuenta Superhost, y acceso para vos',
           body:
             'Tu unidad se publica en nuestra cuenta Superhost, y si lo querés te habilitamos el acceso de co-anfitrión para ver reservas, calendario y valoraciones.',
@@ -704,7 +694,7 @@ export const translations = {
         {
           question: '¿Qué cubre esa comisión?',
           answer:
-            'Publicación, gestión de reservas, comunicación con huéspedes, coordinación operativa, control de calidad, liquidación mensual y reposición de insumos básicos. No incluye el costo de limpieza entre estadías, que paga el huésped.',
+            'Publicación, gestión de reservas, comunicación con huéspedes, coordinación operativa, control de calidad, liquidación mensual y reposición de insumos básicos. No incluye el costo de limpieza entre estadías.',
         },
         {
           question: '¿Cuánto cuesta el onboarding?',
@@ -1062,11 +1052,6 @@ export const translations = {
       },
       notes: [
         {
-          title: 'A limpeza recorrente não é cobrada de você',
-          body:
-            'A limpeza entre estadias é paga pelo hóspede. Nada disso entra no seu repasse.',
-        },
-        {
           title: 'Conta Superhost, com acesso para você',
           body:
             'Sua unidade é publicada na nossa conta Superhost, e se você quiser liberamos o acesso de coanfitrião para ver reservas, calendário e avaliações.',
@@ -1111,7 +1096,7 @@ export const translations = {
         {
           question: 'O que essa comissão cobre?',
           answer:
-            'Publicação do anúncio, gestão de reservas, comunicação com os hóspedes, coordenação operacional, controle de qualidade, repasse mensal e reposição de insumos básicos. Não inclui o custo da limpeza entre estadias, que é pago pelo hóspede.',
+            'Publicação do anúncio, gestão de reservas, comunicação com os hóspedes, coordenação operacional, controle de qualidade, repasse mensal e reposição de insumos básicos. Não inclui o custo da limpeza entre estadias.',
         },
         {
           question: 'Quanto custa o onboarding?',
